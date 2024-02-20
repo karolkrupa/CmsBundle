@@ -13,11 +13,11 @@
             </template>
 
             <template v-slot:title>
-                {{ modalArguments.title }}
+                {{ modalArguments.title|raw }}
             </template>
 
             <template v-slot:text>
-                {{ modalArguments.text }}
+                {{ modalArguments.text|raw }}
             </template>
 
             <template v-slot:buttons="{ close, confirm }">

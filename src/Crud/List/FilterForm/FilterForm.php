@@ -17,6 +17,8 @@ class FilterForm
     protected array $configurations = [];
     protected array $searchFields = [];
 
+    private ?FormInterface $baseForm = null;
+
     public function __construct(
         protected ?string $alias = null
     )
@@ -60,7 +62,11 @@ class FilterForm
 
     public function getForm(FormFactoryInterface $formFactory): ?FormInterface
     {
-        return $this->form ?: $this->getBaseForm($formFactory);
+        if (!$this->form && !$this->baseForm) {
+            $this->baseForm = $this->getBaseForm($formFactory);
+        }
+
+        return $this->form ?: $this->baseForm;
     }
 
     public function getConfigurations(): array
@@ -81,9 +87,6 @@ class FilterForm
     public function getBaseForm(FormFactoryInterface $formFactory): FormInterface
     {
         return $formFactory->createBuilder()
-            ->add('search', TextType::class, [
-                'label' => 'Wyszukaj'
-            ])
             ->getForm();
     }
 }
