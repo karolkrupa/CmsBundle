@@ -89,7 +89,7 @@ function confirm() {
                     </DialogTitle>
 
                     <p class="text-gray-500">
-                      <slot name="content"></slot>
+                      <slot name="text"></slot>
                     </p>
                   </div>
                 </div>
