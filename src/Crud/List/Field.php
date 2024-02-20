@@ -2,6 +2,7 @@
 
 namespace Devster\CmsBundle\Crud\List;
 
+use Devster\CmsBundle\Crud\List\Cell\AbstractCell;
 use Devster\CmsBundle\Crud\List\Cell\TextCell;
 use Devster\CmsBundle\Crud\List\Cell\CellInterface;
 
@@ -20,7 +21,7 @@ class Field extends AbstractField
         $this->value = new $cellType($this->id);
     }
 
-    public function getCell(): TextCell
+    public function getCell(): AbstractCell
     {
         return $this->value;
     }
