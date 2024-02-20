@@ -2,13 +2,13 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/runtime.3baa88b0.js",
-        "/309.d59e5504.js",
-        "/app.fff0ece7.js"
+        "/runtime.js",
+        "/vendors-node_modules_preline_accordion_index_js-node_modules_preline_dropdown_index_js-node_m-1c9b90.js",
+        "/app.js"
       ],
       "css": [
-        "/309.e799656f.css",
-        "/app.f46222fe.css"
+        "/vendors-node_modules_preline_accordion_index_js-node_modules_preline_dropdown_index_js-node_m-1c9b90.css",
+        "/app.css"
       ]
     }
   }

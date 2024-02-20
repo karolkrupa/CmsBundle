@@ -22,7 +22,7 @@ class ListViewHandler
         }
 
         return new Response(
-            $this->listViewRenderer->renderQbData($listView, $qb)
+            $this->listViewRenderer->renderQbData($listView, $qb, $listView->getPagination())
         );
     }
 }

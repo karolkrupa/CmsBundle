@@ -22,8 +22,6 @@ use Twig\Markup;
 
 class ListViewRenderer implements PageRendererInterface
 {
-    protected PaginationSettings $pagination;
-
     public function __construct(
         private readonly Environment        $twig,
         #[TaggedLocator(tag: 'devster.cms.renderer.heading')]
@@ -36,12 +34,6 @@ class ListViewRenderer implements PageRendererInterface
         private readonly FilterFormRenderer $filterFormRenderer
     )
     {
-        $this->pagination = new PaginationSettings();
-    }
-
-    public function pagination(): PaginationSettings
-    {
-        return $this->pagination;
     }
 
     public function render(PageViewInterface $view, mixed $data): string
@@ -53,9 +45,9 @@ class ListViewRenderer implements PageRendererInterface
         return $this->renderIterableData($view, $data);
     }
 
-    public function renderQbData(ListView $view, QueryBuilder $qb)
+    public function renderQbData(ListView $view, QueryBuilder $qb, ?PaginationSettings $paginationSettings = null)
     {
-        $pagination = $this->getPagination($qb);
+        $pagination = $this->getPagination($qb, $paginationSettings);
 
         return $this->renderIterableData($view, $pagination, $pagination);
     }
@@ -119,8 +111,10 @@ class ListViewRenderer implements PageRendererInterface
         ]);
     }
 
-    private function getPagination(QueryBuilder $qb): PaginationInterface
+    private function getPagination(QueryBuilder $qb, ?PaginationSettings $paginationSettings = null): PaginationInterface
     {
+        $paginationSettings = $paginationSettings ?: new PaginationSettings();
+
         $dispatcher = new EventDispatcher();
         $dispatcher->addSubscriber(new PaginationSubscriber());
         $dispatcher->addSubscriber(new SortableSubscriber());
@@ -135,16 +129,16 @@ class ListViewRenderer implements PageRendererInterface
         $pagination = $paginator->paginate(
             $qb,
             $request->get(
-                $this->pagination->pageParam,
+                $paginationSettings->pageParam,
                 1
             ),
-            $this->pagination->itemsPerPage,
+            $paginationSettings->itemsPerPage,
             [
-                'pageParameterName' => $this->pagination->pageParam,
-                'sortFieldParameterName' => $this->pagination->sortParam,
-                'sortDirectionParameterName' => $this->pagination->sortDirectionParam,
-                'defaultSortFieldName' => $this->pagination->defaultSortField,
-                'defaultSortDirection' => $this->pagination->defaultSortFieldDirection
+                'pageParameterName' => $paginationSettings->pageParam,
+                'sortFieldParameterName' => $paginationSettings->sortParam,
+                'sortDirectionParameterName' => $paginationSettings->sortDirectionParam,
+                'defaultSortFieldName' => $paginationSettings->defaultSortField,
+                'defaultSortDirection' => $paginationSettings->defaultSortFieldDirection
             ]
         );
 
@@ -154,7 +148,7 @@ class ListViewRenderer implements PageRendererInterface
                 [
                     ...$data,
                     ...[
-                        'route' => 'app_test_test',
+                        'route' => $this->requestStack->getMainRequest()->attributes->get('_route'),
                         'query' => $request->query->all()
                     ]
                 ]

@@ -4,6 +4,7 @@ namespace Devster\CmsBundle\Crud\List\Cell\Renderer;
 
 use Devster\CmsBundle\Crud\List\Cell\BoolCell;
 use Devster\CmsBundle\Crud\List\Cell\DateCell;
+use Devster\CmsBundle\Crud\List\Cell\TemplateCell;
 use Devster\CmsBundle\Crud\List\Cell\TextCell;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Twig\Environment;
@@ -18,7 +19,7 @@ class CommonCellRenderer
     {
     }
 
-    public function render(TextCell $cell, mixed $data): Markup
+    public function render(TemplateCell $cell, mixed $data): Markup
     {
         $html = $this->twig->render($this->getCellTemplate($cell), [
             'vars' => $cell->getViewVars(),
@@ -28,26 +29,20 @@ class CommonCellRenderer
         return new Markup($html, 'UTF-8');
     }
 
-    private function getCellTemplate(TextCell $cell): string
+    private function getCellTemplate(TemplateCell $cell): string
     {
-        $cellClass = get_class($cell);
+        $template = $cell->getTemplate();
 
-        $map = [
-            TextCell::class => '@DevsterCms/crud/list/cell/text.html.twig',
-            BoolCell::class => '@DevsterCms/crud/list/cell/bool.html.twig',
-            DateCell::class => '@DevsterCms/crud/list/cell/date.html.twig',
-        ];
-
-        if (!isset($map[$cellClass])) {
-            throw new \RuntimeException('Nieznany typ komórki');
+        if (!$template) {
+            throw new \RuntimeException('Brak szablonu komórki');
         }
 
-        return $map[$cellClass];
+        return $template;
     }
 
-    private function getViewValue(TextCell $value, mixed $data): mixed
+    private function getViewValue(TemplateCell $cell, mixed $data): mixed
     {
-        $value = $value->getValue();
+        $value = $cell->getValue();
 
         if ($value instanceof \Closure) {
             return $value($data);

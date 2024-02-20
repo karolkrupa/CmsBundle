@@ -1,5 +1,8 @@
 import './styles/app.scss';
 
+import '@preline/accordion'
+import '@preline/dropdown'
+
 import './js/sidebarToggle'
 
 import './js/filepond'
@@ -9,7 +12,8 @@ import './js/ckeditor'
 import './js/vue'
 
 import Choices from "choices.js";
-import 'choices.js/public/assets/styles/choices.min.css'
+// import 'choices.js/public/assets/styles/choices.min.css'
+
 window.Choices = Choices;
 
 
@@ -47,7 +51,7 @@ for (let button of removeButtons) {
 
         const container = document.getElementById(containerId)
 
-        if(container.children.length) {
+        if (container.children.length) {
             container.children[container.children.length - 1].remove()
 
             container.dataset.index--

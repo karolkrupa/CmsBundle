@@ -4,6 +4,7 @@ namespace Devster\CmsBundle\Crud\List\FilterForm;
 
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -11,14 +12,15 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class FilterFormHandler
 {
     public function __construct(
-        private readonly RequestStack $requestStack
+        private readonly RequestStack         $requestStack,
+        private readonly FormFactoryInterface $formFactory
     )
     {
     }
 
     public function handle(FilterForm $filterForm, QueryBuilder $qb): void
     {
-        $form = $filterForm->getForm();
+        $form = $filterForm->getForm($this->formFactory);
 
         $serachFields = $filterForm->getSearchFields();
         $searchAdded = false;

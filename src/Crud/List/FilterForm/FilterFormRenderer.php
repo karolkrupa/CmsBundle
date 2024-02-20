@@ -2,20 +2,22 @@
 
 namespace Devster\CmsBundle\Crud\List\FilterForm;
 
+use Symfony\Component\Form\FormFactoryInterface;
 use Twig\Environment;
 use Twig\Markup;
 
 class FilterFormRenderer
 {
     public function __construct(
-        private readonly Environment $twig
+        private readonly Environment          $twig,
+        private readonly FormFactoryInterface $formFactory
     )
     {
     }
 
     public function render(FilterForm $filterForm): array
     {
-        $formView = $filterForm->getForm()->createView();
+        $formView = $filterForm->getForm($this->formFactory)->createView();
 
         $html = $this->twig->render(
             '@DevsterCms/crud/list/filter/form.html.twig',

@@ -1,9 +1,11 @@
 {
-  "backend/build/app.css": "/app.f46222fe.css",
-  "backend/build/app.js": "/app.fff0ece7.js",
-  "backend/build/runtime.js": "/runtime.3baa88b0.js",
-  "backend/build/298.ecf763f1.js": "/298.ecf763f1.js",
-  "backend/build/309.e799656f.css": "/309.e799656f.css",
-  "backend/build/309.d59e5504.js": "/309.d59e5504.js",
-  "backend/build/769.061b3fe5.js": "/769.061b3fe5.js"
+  "backend/build/app.css": "/app.css",
+  "backend/build/app.js": "/app.js",
+  "backend/build/runtime.js": "/runtime.js",
+  "backend/build/assets_ckeditor5-40_1_0_build_ckeditor_js.js": "/assets_ckeditor5-40_1_0_build_ckeditor_js.js",
+  "backend/build/vendors-node_modules_preline_accordion_index_js-node_modules_preline_overlay_index_js-node_mo-4a879e.css": "/vendors-node_modules_preline_accordion_index_js-node_modules_preline_overlay_index_js-node_mo-4a879e.css",
+  "backend/build/vendors-node_modules_preline_accordion_index_js-node_modules_preline_overlay_index_js-node_mo-4a879e.js": "/vendors-node_modules_preline_accordion_index_js-node_modules_preline_overlay_index_js-node_mo-4a879e.js",
+  "backend/build/vendors-node_modules_core-js_modules_es_array-buffer_constructor_js-node_modules_core-js_modu-b14369.js": "/vendors-node_modules_core-js_modules_es_array-buffer_constructor_js-node_modules_core-js_modu-b14369.js",
+  "backend/build/vendors-node_modules_preline_accordion_index_js-node_modules_preline_dropdown_index_js-node_m-1c9b90.css": "/vendors-node_modules_preline_accordion_index_js-node_modules_preline_dropdown_index_js-node_m-1c9b90.css",
+  "backend/build/vendors-node_modules_preline_accordion_index_js-node_modules_preline_dropdown_index_js-node_m-1c9b90.js": "/vendors-node_modules_preline_accordion_index_js-node_modules_preline_dropdown_index_js-node_m-1c9b90.js"
 }

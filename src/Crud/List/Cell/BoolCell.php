@@ -7,5 +7,5 @@ namespace Devster\CmsBundle\Crud\List\Cell;
  */
 class BoolCell extends TextCell
 {
-
+    protected ?string $template = '@DevsterCms/crud/list/cell/bool.html.twig';
 }

@@ -2,6 +2,8 @@
 
 namespace Devster\CmsBundle\Crud\List\FilterForm;
 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 
 class FilterForm
@@ -10,7 +12,6 @@ class FilterForm
     {
         return new static($alias);
     }
-
 
     protected ?FormInterface $form = null;
     protected array $configurations = [];
@@ -57,9 +58,9 @@ class FilterForm
         return $this;
     }
 
-    public function getForm(): ?FormInterface
+    public function getForm(FormFactoryInterface $formFactory): ?FormInterface
     {
-        return $this->form;
+        return $this->form ?: $this->getBaseForm($formFactory);
     }
 
     public function getConfigurations(): array
@@ -75,5 +76,14 @@ class FilterForm
     public function getSearchFields(): array
     {
         return $this->searchFields;
+    }
+
+    public function getBaseForm(FormFactoryInterface $formFactory): FormInterface
+    {
+        return $formFactory->createBuilder()
+            ->add('search', TextType::class, [
+                'label' => 'Wyszukaj'
+            ])
+            ->getForm();
     }
 }

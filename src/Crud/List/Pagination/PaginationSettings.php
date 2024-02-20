@@ -34,7 +34,7 @@ class PaginationSettings
 
     public function itemsPerPage(int $itemsPerPage = 10): self
     {
-        $this->itemsPerPage = 10;
+        $this->itemsPerPage = $itemsPerPage;
 
         return $this;
     }
