@@ -1,0 +1,20 @@
+<{{ tag|default('a') }} class="{% block class %}
+    inline-flex items-center gap-x-2 text-sm font-semibold
+    rounded-lg border border-transparent text-green-600
+    hover:text-green-700 disabled:opacity-50 disabled:pointer-events-none
+    dark:text-green-500 dark:hover:text-green-400 dark:focus:outline-none
+    dark:focus:ring-1 dark:focus:ring-gray-600
+{% endblock %}"
+
+{% if href is defined %}
+    href="{% block href %}{{ href }}{% endblock %}"
+{% endif %}
+
+{% if attr is defined %}
+    {% for name, val in attr %}
+    {{ name }}="{{ val }}"
+    {% endfor %}
+{% endif %}
+>
+{% block text %}{{ text }}{% endblock %}
+</{{ tag|default('a') }}>

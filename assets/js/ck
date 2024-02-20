@@ -1,0 +1,300 @@
+
+// import '@ckeditor/ckeditor5-build-classic/build/translations/pl'
+import {ClassicEditor} from '@ckeditor/ckeditor5-editor-classic';
+
+import {Essentials} from '@ckeditor/ckeditor5-essentials';
+import {Link} from '@ckeditor/ckeditor5-link';
+import {Paragraph} from '@ckeditor/ckeditor5-paragraph';
+import {
+    AutoImage,
+    Image,
+    ImageCaption,
+    ImageInsert,
+    ImageResize,
+    ImageStyle,
+    ImageToolbar,
+    ImageUpload,
+    PictureEditing
+} from '@ckeditor/ckeditor5-image';
+import {ShowBlocks} from '@ckeditor/ckeditor5-show-blocks';
+
+import {Heading} from '@ckeditor/ckeditor5-heading';
+import {Style} from '@ckeditor/ckeditor5-style';
+import {
+    Table,
+    TableCaption,
+    TableCellProperties,
+    TableColumnResize,
+    TableProperties,
+    TableToolbar
+} from '@ckeditor/ckeditor5-table';
+import {Font} from '@ckeditor/ckeditor5-font';
+import {Bold, Code, Italic, Strikethrough, Subscript, Superscript, Underline} from '@ckeditor/ckeditor5-basic-styles';
+import {RemoveFormat} from '@ckeditor/ckeditor5-remove-format';
+import {SpecialCharacters, SpecialCharactersEssentials} from '@ckeditor/ckeditor5-special-characters';
+import {PageBreak} from '@ckeditor/ckeditor5-page-break';
+import {HorizontalLine} from '@ckeditor/ckeditor5-horizontal-line';
+import {GeneralHtmlSupport} from '@ckeditor/ckeditor5-html-support';
+import {Highlight} from '@ckeditor/ckeditor5-highlight';
+import {BlockQuote} from '@ckeditor/ckeditor5-block-quote';
+import {MediaEmbed} from '@ckeditor/ckeditor5-media-embed';
+import {CodeBlock} from '@ckeditor/ckeditor5-code-block';
+import {Alignment} from '@ckeditor/ckeditor5-alignment';
+import {DocumentList, DocumentListProperties} from '@ckeditor/ckeditor5-list';
+import {SourceEditing} from '@ckeditor/ckeditor5-source-editing';
+import {TextTransformation} from '@ckeditor/ckeditor5-typing';
+import {WordCount} from '@ckeditor/ckeditor5-word-count';
+
+import {SimpleUploadAdapter} from '@ckeditor/ckeditor5-upload';
+
+
+window.ckeditor = ClassicEditor;
+
+function CKEditorCreate(el, uploadUrl) {
+    ClassicEditor
+        .create(el, {
+            language: 'pl',
+            plugins: [
+                Essentials,
+                Bold,
+                Italic,
+                Link,
+                Paragraph,
+                ShowBlocks,
+                Heading,
+                Style,
+                Table,
+                TableCaption,
+                TableCellProperties,
+                TableColumnResize,
+                TableProperties,
+                TableToolbar,
+                Font,
+                Bold,
+                Code,
+                Italic,
+                Strikethrough,
+                Subscript,
+                Superscript,
+                Underline,
+                RemoveFormat,
+                SpecialCharacters,
+                SpecialCharactersEssentials,
+                PageBreak,
+                HorizontalLine,
+                GeneralHtmlSupport,
+                Highlight,
+                BlockQuote,
+                MediaEmbed,
+                CodeBlock,
+                Alignment,
+                DocumentList,
+                DocumentListProperties,
+                SourceEditing,
+                TextTransformation,
+                WordCount,
+                AutoImage,
+                Image,
+                ImageCaption,
+                ImageInsert,
+                ImageResize,
+                ImageStyle,
+                ImageToolbar,
+                ImageUpload,
+                PictureEditing,
+                SimpleUploadAdapter
+
+            ],
+            extraPlugins: [],
+
+            toolbar: {
+                items: [
+                    'undo', 'redo',
+                    '|',
+                    'showBlocks',
+                    '|',
+                    'heading',
+                    // '|',
+                    // 'style',
+                    '|',
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor',
+                    '-',
+                    'bold', 'italic', 'underline',
+                    {
+                        label: 'Formatting',
+                        icon: 'text',
+                        items: ['strikethrough', 'subscript', 'superscript', 'code', '|', 'removeFormat']
+                    },
+                    '|',
+                    'specialCharacters', 'horizontalLine', 'pageBreak',
+                    '|',
+                    'link', 'insertImage', 'insertTable',
+                    {
+                        label: 'Insert',
+                        icon: 'plus',
+                        items: ['highlight', 'blockQuote', 'mediaEmbed', 'codeBlock']
+                    },
+                    '|',
+                    'alignment',
+                    '|',
+                    'bulletedList', 'numberedList',
+                    '|',
+                    'sourceEditing',
+                ],
+                shouldNotGroupWhenFull: true
+            },
+            video: {
+                upload: {
+                    types: ['mp4'],
+                    allowMultipleFiles: false,
+                }
+            },
+            image: {
+                styles: [
+                    'alignCenter',
+                    'alignLeft',
+                    'alignRight'
+                ],
+                resizeOptions: [
+                    {
+                        name: 'resizeImage:original',
+                        label: 'Original',
+                        value: null
+                    },
+                    {
+                        name: 'resizeImage:50',
+                        label: '50%',
+                        value: '50'
+                    },
+                    {
+                        name: 'resizeImage:75',
+                        label: '75%',
+                        value: '75'
+                    }
+                ],
+                toolbar: [
+                    'imageTextAlternative', 'toggleImageCaption', '|',
+                    'imageStyle:inline', 'imageStyle:wrapText', 'imageStyle:breakText', 'imageStyle:side', '|',
+                    'resizeImage'
+                ],
+                insert: {
+                    integrations: [
+                        'insertImageViaUrl'
+                    ]
+                }
+            },
+
+            simpleUpload: {
+                // The URL that the images are uploaded to.
+                uploadUrl: 'localhost',
+
+                // Enable the XMLHttpRequest.withCredentials property.
+                withCredentials: true,
+
+                // Headers sent along with the XMLHttpRequest to the upload server.
+                headers: {
+                    // 'X-CSRF-TOKEN': 'CSRF-Token',
+                    // Authorization: 'Bearer <JSON Web Token>'
+                }
+            },
+
+            // style: {
+            //     definitions: [
+            //         {
+            //             name: 'Article category',
+            //             element: 'h3',
+            //             classes: [ 'category' ]
+            //         },
+            //         {
+            //             name: 'Title',
+            //             element: 'h2',
+            //             classes: [ 'document-title' ]
+            //         },
+            //         {
+            //             name: 'Subtitle',
+            //             element: 'h3',
+            //             classes: [ 'document-subtitle' ]
+            //         },
+            //         {
+            //             name: 'Info box',
+            //             element: 'p',
+            //             classes: [ 'info-box' ]
+            //         },
+            //         {
+            //             name: 'Side quote',
+            //             element: 'blockquote',
+            //             classes: [ 'side-quote' ]
+            //         },
+            //         {
+            //             name: 'Marker',
+            //             element: 'span',
+            //             classes: [ 'marker' ]
+            //         },
+            //         {
+            //             name: 'Spoiler',
+            //             element: 'span',
+            //             classes: [ 'spoiler' ]
+            //         },
+            //         {
+            //             name: 'Code (dark)',
+            //             element: 'pre',
+            //             classes: [ 'fancy-code', 'fancy-code-dark' ]
+            //         },
+            //         {
+            //             name: 'Code (bright)',
+            //             element: 'pre',
+            //             classes: [ 'fancy-code', 'fancy-code-bright' ]
+            //         }
+            //     ]
+            // },
+            fontSize: {
+                options: [10, 12, 14, 'default', 18, 20, 22],
+                supportAllValues: true
+            },
+
+            list: {
+                properties: {
+                    styles: true,
+                    startIndex: true,
+                    reversed: true
+                }
+            },
+            link: {
+                decorators: {
+                    addTargetToExternalLinks: true,
+                    defaultProtocol: 'https://',
+                    toggleDownloadable: {
+                        mode: 'manual',
+                        label: 'Downloadable',
+                        attributes: {
+                            download: 'file'
+                        }
+                    }
+                }
+            },
+            table: {
+                contentToolbar: [
+                    'tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties', 'toggleTableCaption'
+                ]
+            },
+            // plugins: [ SimpleUploadAdapter ],
+            // simpleUpload: {
+            //     // The URL that the images are uploaded to.
+            //     uploadUrl: uploadUrl,
+            //
+            //     // Enable the XMLHttpRequest.withCredentials property.
+            //     withCredentials: true,
+            //
+            //     // Headers sent along with the XMLHttpRequest to the upload server.
+            //     // headers: {
+            //     //     'X-CSRF-TOKEN': 'CSRF-Token',
+            //     //     Authorization: 'Bearer <JSON Web Token>'
+            //     // }
+            // }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+window.CKEditorCreate = CKEditorCreate

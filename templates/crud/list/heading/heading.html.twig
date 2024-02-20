@@ -1,0 +1,10 @@
+{% embed '@DevsterCms/common/table/heading_cell.html.twig' with {
+    fit: false,
+    title: null,
+    center: heading.getCenter(),
+    bold: heading.getBold()
+} %}
+    {% block content %}
+       {{ headingHtml }}
+    {% endblock %}
+{% endembed %}

@@ -1,0 +1,27 @@
+@layer utilities {
+  .flex {
+    &-grid {
+      @apply flex flex-wrap;
+      width: auto;
+
+      &-gap-4 {
+        margin-left: calc(0px - theme('spacing.2'));
+        margin-right: calc(0px - theme('spacing.2'));
+
+        & > * {
+          @apply p-2;
+        }
+      }
+    }
+
+    &-grid-col-12 {
+      @apply w-full;
+    }
+
+    @for $i from 1 through 11 {
+      &-grid-col-#{$i} {
+        @apply w-#{$i}/12;
+      }
+    }
+  }
+}

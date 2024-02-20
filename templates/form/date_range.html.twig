@@ -1,0 +1,7 @@
+{%- block date_range_widget -%}
+    <div class="flex items-top text-center">
+        {{ form_row(form.from, {attr: { style: 'width: 4em; text-align:center'}}) }}
+        <span class="mx-1 mt-2">-</span>
+        {{ form_row(form.to, {attr: { style: 'width: 4em; text-align:center'}}) }}
+    </div>
+{%- endblock date_range_widget -%}

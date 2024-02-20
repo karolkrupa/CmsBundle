@@ -1,0 +1,135 @@
+{%- block datepicker_widget -%}
+    {#    {%- set widget_class = widget_class|default('w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary focus:ring-2') -%} #}
+
+    {% if valid %}
+        {% set colors = ' border-gray-200 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 ' %}
+    {% else %}
+        {% set colors = ' border-red-500 focus:border-red-500 focus:ring-red-500 dark:bg-gray-800' %}
+    {% endif %}
+
+    {% set attr = attr|merge({
+        class: 'py-2 px-4 block w-full rounded-md text-sm disabled:opacity-50 disabled:pointer-events-none dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 max-w-fit' ~ colors,
+        style: "min-width: 8em; width: fit",
+        size: 10
+    }) %}
+
+    {#    {% set attr = attr|merge({class: attr.class ~ ' datepicker-widget'}) %} #}
+
+{#    {%- if widget == 'single_text' -%}#}
+        {{ block('form_widget_simple') }}
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function (event) {
+                Flatpickr('#{{ id }}')
+            });
+        </script>
+{#    {%- else -%}#}
+{#        <div {{ block('widget_container_attributes') }}>#}
+{#            {{- date_pattern|replace({#}
+{#                '{{ year }}':  form_widget(form.year),#}
+{#                '{{ month }}': form_widget(form.month),#}
+{#                '{{ day }}':   form_widget(form.day),#}
+{#            })|raw -}}#}
+{#        </div>#}
+{#    {%- endif -%}#}
+{%- endblock datepicker_widget -%}
+
+
+{%- block datetimepicker_widget -%}
+    {#    {%- set widget_class = widget_class|default('w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary focus:ring-2') -%} #}
+
+    {% if valid %}
+        {% set colors = ' border-gray-200 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 ' %}
+    {% else %}
+        {% set colors = ' border-red-500 focus:border-red-500 focus:ring-red-500 dark:bg-gray-800' %}
+    {% endif %}
+
+    {% set attr = attr|merge({class: 'py-2 px-4 block w-full rounded-md text-sm disabled:opacity-50 disabled:pointer-events-none dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 max-w-fit' ~ colors}) %}
+
+    {#    {% set attr = attr|merge({class: attr.class ~ ' datepicker-widget'}) %} #}
+
+
+    {% if widget == 'single_text' %}
+        {{- block('form_widget_simple') -}}
+
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function (event) {
+                Flatpickr('#{{ id }}', {
+                    enableTime: true,
+                    dateFormat: "Y-m-d H:i",
+                })
+            });
+        </script>
+    {%- else -%}
+        <div {{ block('widget_container_attributes') }}>
+            {{- form_errors(form.date) -}}
+            {{- form_errors(form.time) -}}
+            {{- form_widget(form.date) -}}
+            {{- form_widget(form.time) -}}
+        </div>
+    {%- endif -%}
+    {#    #}
+
+    {#    {%- if widget == 'single_text' -%} #}
+    {#        {{ block('form_widget_simple') }} #}
+    {#        <script type="text/javascript"> #}
+    {#            document.addEventListener("DOMContentLoaded", function (event) { #}
+    {#                Flatpickr('#{{ id }}') #}
+    {#            }); #}
+    {#        </script> #}
+    {#    {%- else -%} #}
+    {#        <div {{ block('widget_container_attributes') }}> #}
+    {#            {{- date_pattern|replace({ #}
+    {#                '{{ year }}':  form_widget(form.year), #}
+    {#                '{{ month }}': form_widget(form.month), #}
+    {#                '{{ day }}':   form_widget(form.day), #}
+    {#            })|raw -}} #}
+    {#        </div> #}
+    {#    {%- endif -%} #}
+{%- endblock datetimepicker_widget -%}
+
+
+{%- block month_widget -%}
+    {#    {%- set widget_class = widget_class|default('w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary focus:ring-2') -%} #}
+
+    {% if valid %}
+        {% set colors = ' border-gray-200 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 ' %}
+    {% else %}
+        {% set colors = ' border-red-500 focus:border-red-500 focus:ring-red-500 dark:bg-gray-800' %}
+    {% endif %}
+
+    {% set attr = attr|merge({class: 'py-2 px-3 block w-full rounded-md text-sm disabled:opacity-50 disabled:pointer-events-none dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600' ~ colors}) %}
+
+    {{ block('form_widget_simple') }}
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            Flatpickr('#{{ id }}', {
+                enableTime: false,
+                dateFormat: "Y-m",
+                noCalendar: true
+            })
+        });
+    </script>
+
+    {#    <script type="text/javascript">#}
+    {#        document.addEventListener("DOMContentLoaded", function (event) {#}
+    {#            // Get a reference to the file input element#}
+    {#            const inputElement = document.getElementById('{{ id }}');#}
+
+
+    {#             new Datepicker(inputElement, {#}
+    {#                language: 'pl',#}
+    {#                format: 'yyyy-mm',#}
+    {#                pickLevel: 1,#}
+    {#                {% if min_date %}#}
+    {#                minDate: '{{ min_date }}',#}
+    {#                {% endif %}#}
+    {#                {% if max_date %}#}
+    {#                maxDate: '{{ max_date }}',#}
+    {#                {% endif %}#}
+    {#             });#}
+    {#        });#}
+    {#    </script>#}
+
+{%- endblock month_widget -%}
+

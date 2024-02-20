@@ -1,0 +1,73 @@
+{% block remote_select_widget %}
+    {{ block('choice_widget') }}
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            const inputElement = document.getElementById('{{ id }}');
+
+            let choices = new Choices(inputElement, {
+                searchChoices: false,
+                searchFloor: 3,
+                choices: [],
+                shouldSort: false,
+                placeholder: true,
+                placeholderValue: 'Wybierz...',
+                searchPlaceholderValue: 'Szukaj...',
+                loadingText: 'Ładowanie...',
+                noResultsText: 'Brak wyników',
+                noChoicesText: 'Wyszukaj aby zobaczyć wyniki',
+                itemSelectText: null,
+                uniqueItemText: 'Only unique values can be added',
+                customAddItemText: 'Only values matching specific conditions can be added',
+                classNames: {
+                    containerOuter: 'choices',
+                    containerInner: 'choices__inner',
+                    input: 'choices__input',
+                    inputCloned: 'choices__input--cloned',
+                    list: 'choices__list',
+                    listItems: 'choices__list--multiple',
+                    listSingle: 'choices__list--single form-select',
+                    listDropdown: 'choices__list--dropdown',
+                    item: 'choices__item',
+                    itemSelectable: 'choices__item--selectable',
+                    itemDisabled: 'choices__item--disabled',
+                    itemChoice: 'choices__item--choice',
+                    placeholder: 'choices__placeholder',
+                    group: 'choices__group',
+                    groupHeading: 'choices__heading',
+                    button: 'choices__button',
+                    activeState: 'is-active',
+                    focusState: 'is-focused',
+                    openState: 'is-open',
+                    disabledState: 'is-disabled',
+                    highlightedState: 'is-highlighted',
+                    selectedState: 'is-selected',
+                    flippedState: 'is-flipped',
+                    loadingState: 'is-loading',
+                    noResults: 'has-no-results',
+                    noChoices: 'has-no-choices'
+                }
+            })
+
+            let debounce = null;
+            inputElement.addEventListener('search', function (e, e2, e3) {
+                clearTimeout(debounce)
+
+                debounce = setTimeout(() => {
+                    choices.setChoices(async () => {
+                        try {
+                            const items = await fetch('{{ path(route) }}?' + new URLSearchParams({
+                                s: e.detail.value
+                            }));
+                            return items.json()
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }, 'value', 'label', true)
+                }, 800)
+            })
+
+
+        });
+    </script>
+{% endblock %}

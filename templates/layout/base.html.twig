@@ -1,0 +1,87 @@
+{% if form is defined %}
+    {% form_theme form '@DevsterCms/form/tailwind_theme.html.twig' %}
+{% endif %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{{ devstercms.dashboard.title }}{% endblock %}</title>
+    <link rel="icon" href="{{ asset('favicon-casting.ico') }}">
+    {#    {% block stylesheets %} #}
+    {#        {{ encore_entry_link_tags('app', null, 'backend') }} #}
+    {#    {% endblock %} #}
+
+    {#    {% block javascripts %} #}
+    {#        {{ encore_entry_script_tags('app', null, 'backend') }} #}
+    {#    {% endblock %} #}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+          rel="stylesheet">
+
+
+    {{ devstercms_link_tags() }}
+    {#    <script src="{{ asset('bundles/devstercms/build/runtime.js') }}"></script> #}
+    {#    <script src="{{ asset('bundles/devstercms/build/vendors-node_modules_core-js_modules_es_array-buffer_constructor_js-node_modules_core-js_modu-7eab96.js') }}"></script> #}
+    {#    <script src="{{ asset('bundles/devstercms/build/vendors-node_modules_preline_overlay_index_js-node_modules_choices_js_public_assets_scripts_c-f8d1de.js') }}"></script> #}
+    {#    <script src="{{ asset('bundles/devstercms/build/assets_ckeditor5-40_1_0_build_ckeditor_js.js') }}"></script> #}
+    {#    <script src="{{ asset('bundles/devstercms/build/app.js') }}"></script> #}
+
+    {#    <link rel="stylesheet" href="{{ asset('bundles/devstercms/build/vendors-node_modules_preline_overlay_index_js-node_modules_choices_js_public_assets_scripts_c-f8d1de.css') }}"> #}
+    {#    <link rel="stylesheet" href="{{ asset('bundles/devstercms/build/app.css') }}"> #}
+
+</head>
+
+<body class="bg-slate-50 dark:bg-slate-900 font-inter text-stone-600">
+
+{# Notifications #}
+<div class="absolute top-8 end-8 z-[100] space-y-3 vue-container">
+    {% for type, notificationGroup in get_dashboard_notifications() %}
+        {% for notification in notificationGroup %}
+            <notification type="{{ type }}"
+                          :auto-close="{{ notification.autoClose|json_encode }}"
+                          :auto-close-delay="{{ notification.autoCloseDelay|default(5000) }}"
+            >
+                <template v-slot:title>
+                    {{ notification.title }}
+                </template>
+
+                <template v-slot:content>
+                    {{ notification.content }}
+                </template>
+            </notification>
+        {% endfor %}
+    {% endfor %}
+</div>
+
+
+{% include '@DevsterCms/layout/base/topbar.html.twig' %}
+
+<div id="application-sidebar"
+     class="z-20 hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 w-64 bg-white border-e border-gray-200 pt-2.5 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
+    <div class="px-6 mb-2.5 h-9 flex items-center">
+        <a class="flex-none text-xl font-semibold dark:text-white" href="#" aria-label="casting.pl">
+            {{ devstercms.dashboard.title }}
+        </a>
+    </div>
+
+    {{ render(controller('Devster\\CmsBundle\\Controller\\TemplateController::sidebar')) }}
+</div>
+
+<div class="w-ful lg:ps-64">
+    <div class="p-5">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+{% block modals %}{% endblock %}
+
+{{ devstercms_script_tags() }}
+</body>
+
+</html>
+
+

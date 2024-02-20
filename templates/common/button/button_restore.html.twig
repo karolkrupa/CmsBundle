@@ -1,0 +1,11 @@
+{% extends '@DevsterCms/common/button/button_green.html.twig' %}
+
+{% set tag = 'button' %}
+{% set text = 'Przywróć' %}
+
+{% set attr = {
+    'type': 'button',
+    'data-simple-modal': 'Czy na pewno chcesz przywrócić ' ~ subject ~ '?',
+    'data-simple-modal-url': url|default('#')
+} %}
+

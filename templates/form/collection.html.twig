@@ -1,0 +1,64 @@
+{% block collection_buttons %}
+    {% if allow_delete %}
+        <button
+                data-collection-button-remove="{{ id }}"
+                type="button"
+                class="py-1.5 px-2 inline-flex items-center gap-x-1 text-xs font-medium rounded-full border border-dashed border-red-300 bg-white text-red-500 hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+        >
+            <svg class="flex-shrink-0 w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+                <path d="M5 12h14"></path>
+                {#                    <path d="M12 5v14"></path> #}
+            </svg>
+            Usuń
+        </button>
+    {% endif %}
+
+    {% if allow_add %}
+        <button
+                data-collection-button-add="{{ id }}"
+                type="button"
+                class="py-1.5 px-2 inline-flex items-center gap-x-1 text-xs font-medium rounded-full border border-dashed border-gray-200 bg-white text-gray-800 hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+        >
+            <svg class="flex-shrink-0 w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+                <path d="M5 12h14"></path>
+                <path d="M12 5v14"></path>
+            </svg>
+            Dodaj
+        </button>
+    {% endif %}
+{% endblock %}
+
+{% block collection_heading %}
+    <div class="mb-3 ">
+        {{ block('form_label') }}
+
+        {% set help_attr = label_attr|merge({ class: help_attr.class|default('text-xs text-gray-500') }) %}
+        {{ block('form_help') }}
+    </div>
+{% endblock %}
+
+{% block collection_row %}
+    <div>
+        {{ block('collection_heading') }}
+
+        {% if prototype is defined and not prototype.rendered %}
+            {%- set attr = attr|merge({ 'data-prototype': form_row(prototype), 'data-index': form.children|length > 0 ? form.children|last.vars.name + 1 : 0, class: attr.class|default('space-y-3') }) -%}
+        {% endif %}
+
+        {{- block('form_widget') -}}
+        {% if allow_add or allow_delete %}
+            <div class="flex justify-end">
+                <div>
+                    {{ block('collection_buttons') }}
+                </div>
+            </div>
+        {% endif %}
+        {{ block('form_errors') }}
+    </div>
+{% endblock %}

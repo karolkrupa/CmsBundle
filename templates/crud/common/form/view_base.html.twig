@@ -1,0 +1,22 @@
+{% extends '@DevsterCms/layout/base.html.twig' %}
+
+{% block content %}
+    {#    {% embed 'backend/common/show_bar.html.twig' %} #}
+    {#        {% block text %} #}
+    {#            {% if isNew %} #}
+    {#                {{ options.newTitle }} #}
+    {#            {% else %} #}
+    {#                {{ options.editTitle }} #}
+    {#            {% endif %} #}
+    {#        {% endblock %} #}
+    {#    {% endembed %} #}
+
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-xl font-bold mb-3">
+            {% block form_title %}{% endblock %}
+        </h2>
+        <div class="bg-white rounded-md shadow dark:bg-slate-900 p-4 sm:p-7">
+            {% block form_content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

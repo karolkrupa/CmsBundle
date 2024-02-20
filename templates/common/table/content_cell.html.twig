@@ -1,0 +1,11 @@
+<td class="
+text-sm px-2 py-2
+{% if fit|default(false) %} whitespace-nowrap {% endif %}
+{% if class is defined %} {{ class }} {% endif %}
+{% if center|default(false) %} text-center {% endif %}
+{% if bold|default(false) %} font-medium {% else %} font-light {% endif %}
+"
+{% if title|default(false) %} title="{{ title }}" {% endif %}
+>
+    {% block content %}{% endblock %}
+</td>

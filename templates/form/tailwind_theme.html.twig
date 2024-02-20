@@ -1,0 +1,222 @@
+{% extends 'tailwind_2_layout.html.twig' %}
+
+{%- block form_row -%}
+    {% if errors is not empty %}
+        {% set valid = false %}
+    {% endif %}
+
+    {% set defaultClasses = '' %}
+    {%- set row_attr = row_attr|merge({ class: row_attr.class|default(row_class|default(defaultClasses)) }) -%}
+
+    {%- set widget_attr = {valid: valid} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+
+    <div{% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
+        {{- form_label(form) -}}
+        {{- form_widget(form, widget_attr) -}}
+        {{- form_errors(form) -}}
+        {{- form_help(form) -}}
+    </div>
+{%- endblock form_row -%}
+
+
+{%- block form_label -%}
+    {% if valid %}
+        {% set defaultClasses = 'block text-sm mb-1 dark:text-white' %}
+    {% else %}
+        {% set defaultClasses = 'block text-sm mb-1 dark:text-white' %}
+    {% endif %}
+
+    {%- set label_attr = label_attr|merge({ class: label_attr.class|default(label_class|default(defaultClasses)) }) -%}
+    {{- parent() -}}
+{%- endblock form_label -%}
+
+{%- block form_widget -%}
+    {% if compound %}
+        {{- block('form_widget_compound') -}}
+    {% else %}
+        {{- block('form_widget_simple') -}}
+    {% endif %}
+{%- endblock form_widget -%}
+
+
+{%- block form_widget_simple -%}
+    {%- set type = type|default('text') -%}
+    {%- if type == 'range' or type == 'color' -%}
+        {# Attribute "required" is not supported #}
+        {%- set required = false -%}
+    {%- endif -%}
+
+    {% if attr.prefix is defined and attr.prefix is not empty %}
+        {% if valid %}
+            {% set colors = 'border-gray-300 text-gray-900 focus-within:ring-blue-600 focus-within:border-blue-600' %}
+        {% else %}
+            {% set colors = 'border-red-600 text-red-700 focus-within:ring-red-600 focus-within:border-red-600' %}
+        {% endif %}
+
+        {% if attr.class is not defined or attr.class is empty %}
+            {% set containerClass = 'flex border text-sm rounded-md focus-within:ring-1' %}
+        {% else %}
+            {% set containerClass = 'flex border text-sm rounded-md focus-within:ring-1 ' ~ attr.class %}
+        {% endif %}
+
+        {% set attr = attr|merge({class: 'block flex-1 border-0 bg-transparent p-2.5 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6'}) %}
+
+        <div class="flex border text-sm rounded-md focus-within:ring-1 {{ colors }}">
+            <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">
+                {{ attr.prefix }}
+            </span>
+            <input
+                    type="{{ type }}"
+                    {{ block('widget_attributes') }}
+                    {% if value is not empty %}value="{{ value }}" {% endif %}
+            >
+        </div>
+    {% else %}
+        {% if attr.class is not defined or attr.class is empty %}
+            {% if valid %}
+                {% set colors = ' border-gray-200 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 ' %}
+            {% else %}
+                {% set colors = ' border-red-500 focus:border-red-500 focus:ring-red-500 dark:bg-gray-800' %}
+            {% endif %}
+
+            {% set attr = attr|merge({class: 'py-2 px-3 block w-full rounded-md text-sm disabled:opacity-50 disabled:pointer-events-none dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600' ~ colors}) %}
+        {% endif %}
+
+        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    {% endif %}
+{%- endblock form_widget_simple -%}
+
+{%- block form_widget_compound -%}
+    <div {{ block('widget_container_attributes') }}>
+        {%- if form is rootform -%}
+            {{ form_errors(form) }}
+        {%- endif -%}
+        {{- block('form_rows') -}}
+        {{- form_rest(form) -}}
+    </div>
+{%- endblock form_widget_compound -%}
+
+{%- block textarea_widget -%}
+    {% if attr.class is not defined or attr.class is empty %}
+        {% if valid %}
+            {% set colors = ' border-gray-200 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 ' %}
+        {% else %}
+            {% set colors = ' border-red-500 focus:border-red-500 focus:ring-red-500 dark:bg-gray-800' %}
+        {% endif %}
+
+        {% set attr = attr|merge({class: 'py-2 px-4 block w-full rounded-md text-sm disabled:opacity-50 disabled:pointer-events-none dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600' ~ colors}) %}
+    {% endif %}
+
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+{%- endblock textarea_widget -%}
+
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+        <ul {{ block('attributes') }}>
+            {%- for error in errors -%}
+                <li class="{{ error_item_class|default('text-red-600') }}">
+                    <p class="mt-2 text-sm">{{ error.message }}</p>
+                </li>
+            {%- endfor -%}
+        </ul>
+    {%- endif -%}
+{%- endblock form_errors -%}
+
+{% block form_help -%}
+    {%- if help is not empty -%}
+        {%- set help_attr = help_attr|merge({class: (help_attr.class|default(' text-xs text-gray-500 mt-2'))|trim}) -%}
+
+        <p id="{{ id }}_help"{% with { attr: help_attr } %}{{ block('attributes') }}{% endwith %}>
+            {{- block('form_help_content') -}}
+        </p>
+    {%- endif -%}
+{%- endblock form_help %}
+
+
+{%- block checkbox_row -%}
+    {%- set row_attr = row_attr|merge({ class: row_attr.class|default(row_class|default('')) }) -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <div{% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
+        {{- form_errors(form) -}}
+        <div class="inline-flex items-center">
+            {{- form_widget(form, widget_attr) -}}
+            {{- form_label(form) -}}
+        </div>
+        {{- form_help(form) -}}
+    </div>
+{%- endblock checkbox_row -%}
+
+{%- block checkbox_widget -%}
+    {%- set widget_class = widget_class|default('w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary focus:ring-2') -%}
+    {{ parent() }}
+{%- endblock checkbox_widget -%}
+
+{%- block checkbox_label -%}
+    {% set label_class = label_class|default('ml-2 text-sm font-medium text-gray-900') %}
+    {{ block('form_label') }}
+{%- endblock -%}
+
+{%- block choice_expanded_list_group_widget -%}
+    <div class="sm:flex">
+        {%- for child in form %}
+            <label
+                    for="{{ child.vars.id }}"
+                    class="flex py-2 px-3 border border-gray-200 shadow-sm -mt-px -ms-px first:rounded-t-lg last:rounded-b-lg sm:first:rounded-s-lg sm:mt-0 sm:first:ms-0 sm:first:rounded-se-none sm:last:rounded-es-none sm:last:rounded-e-lg text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+            >
+                {{- form_widget(child, {attr: {class: 'shrink-0 mt-0.5 border-gray-300 rounded-full text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-500 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800'}}) -}}
+
+                <span class="text-sm text-gray-500 ms-3 dark:text-gray-400">
+                    {{ child.vars.label }}
+                </span>
+            </label>
+        {% endfor -%}
+    </div>
+{%- endblock choice_expanded_list_group_widget -%}
+
+
+{%- block choice_widget_collapsed -%}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple and (attr.size is not defined or attr.size <= 1) -%}
+        {% set required = false %}
+    {%- endif -%}
+
+    {% set attr = attr|merge({class: attr.class|default('py-2 px-3 pe-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600') }) %}
+
+    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+        {%- if placeholder is not none -%}
+            <option value=""{% if placeholder_attr|default({}) %}{% with { attr: placeholder_attr } %}{{ block('attributes') }}{% endwith %}{% endif %}{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
+        {%- endif -%}
+        {%- if preferred_choices|length > 0 -%}
+            {% set options = preferred_choices %}
+            {% set render_preferred_choices = true %}
+            {{- block('choice_widget_options') -}}
+            {%- if choices|length > 0 and separator is not none -%}
+                <option disabled="disabled">{{ separator }}</option>
+            {%- endif -%}
+        {%- endif -%}
+        {%- set options = choices -%}
+        {%- set render_preferred_choices = false -%}
+        {{- block('choice_widget_options') -}}
+    </select>
+{%- endblock choice_widget_collapsed -%}
+
+{% block submit_widget %}
+    {% set attr = attr|merge({class: attr.class|default('py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-md border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600')}) %}
+
+    {{ parent() }}
+{% endblock submit_widget %}
+
+{% use '@DevsterCms/form/collection.html.twig' %}
+
+{% use '@DevsterCms/form/date.html.twig' %}
+{% use '@DevsterCms/form/ckeditor.html.twig' %}
+{% use '@DevsterCms/form/remote_select.html.twig' %}
+{% use '@DevsterCms/form/image.html.twig' %}
+{% use '@DevsterCms/form/time.html.twig' %}
+{% use '@DevsterCms/form/password.html.twig' %}
+{% use '@DevsterCms/form/date_range.html.twig' %}

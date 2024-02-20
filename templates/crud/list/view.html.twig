@@ -1,0 +1,71 @@
+{% extends '@DevsterCms/layout/base.html.twig' %}
+
+{% block content %}
+
+    {% embed '@DevsterCms/common/table/table.html.twig' with { pagination: pagination|default(null) } %}
+        {% block title %}{{ pageTitle|default('') }}{% endblock %}
+
+{#        {% block heading_buttons %}#}
+{#            {% if globalActions is defined and globalActions is not empty %}#}
+{#                {% for action in globalActions %}#}
+{#                    {% include action.template with action.params(#}
+{#                        null,#}
+{#                        path(action.route, action.routeParams(null))#}
+{#                        ) %}#}
+{#                {% endfor %}#}
+{#            {% endif %}#}
+
+{#            {{ parent() }}#}
+{#        {% endblock %}#}
+
+{#        {% block filters %}#}
+{#            {% if filterForm is defined %}#}
+{#                {% if filtersTemplate is defined and filtersTemplate %}#}
+{#                    {% include filtersTemplate with { form: filterForm } %}#}
+{#                {% else %}#}
+{#                    {% for filter in filterForm %}#}
+{#                        <div class="sm:col-span-1">#}
+{#                            {{ form_row(filter) }}#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                {% endif %}#}
+{#            {% endif %}#}
+{#        {% endblock %}#}
+
+        {% block filters %}
+            {% if filterFormView %}
+                {{ filterFormView }}
+            {% endif %}
+        {% endblock %}
+
+        {% block filters_controls %}
+            {% if pageActionViews is not empty %}
+                {% for pageAction in pageActionViews %}
+                    {{ pageAction }}
+                {% endfor %}
+            {% endif %}
+            {% if filterFormControlsView %}
+                {{ filterFormControlsView }}
+            {% endif %}
+        {% endblock %}
+
+        {% block heading_row %}
+            {% for heading in headings %}
+                {{ heading }}
+            {% endfor %}
+        {% endblock %}
+
+        {% block content %}
+            {% for row in rows %}
+                <tr class="odd:bg-white even:bg-gray-50 hover:bg-gray-100">
+{#                <tr class="hover:bg-gray-100">#}
+                    {% for cell in row %}
+                        {{ cell }}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        {% endblock %}
+    {% endembed %}
+
+{% endblock %}
+

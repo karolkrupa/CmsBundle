@@ -1,0 +1,10 @@
+{% embed '@DevsterCms/common/table/content_cell.html.twig' with {
+    fit: false,
+    center: cell.getCenter(),
+    bold: cell.getBold(),
+    title: false
+} %}
+    {% block content %}
+        {{ cellHtml }}
+    {% endblock %}
+{% endembed %}

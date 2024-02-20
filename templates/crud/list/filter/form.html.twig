@@ -1,0 +1,19 @@
+{% form_theme form '@DevsterCms/form/tailwind_theme.html.twig' %}
+
+{{ form_start(form, { method: 'GET', attr: { id: form.vars.id }}) }}
+
+<div class="gap-5 md:flex md:items-center">
+    {% if form.search is defined %}
+        {{ form_row(form.search) }}
+    {% endif %}
+
+    {% for filter in form %}
+        {% if not filter.rendered %}
+            <div class="sm:col-span-1">
+                {{ form_row(filter) }}
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+{{ form_end(form) }}

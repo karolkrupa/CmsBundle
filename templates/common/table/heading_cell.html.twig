@@ -1,0 +1,8 @@
+<th scope="col"
+    class="text-xs px-2 py-3 text-start uppercase text-stone-500 font-normal {% if fit|default(false) %} whitespace-nowrap w-[1px] {% endif %}"
+        {% if title|default(false) %}
+            title="{{ title }}"
+        {% endif %}
+>
+    {% block content %}{% endblock %}
+</th>

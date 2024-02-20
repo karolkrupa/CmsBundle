@@ -1,0 +1,26 @@
+{%- block time_widget -%}
+    {%- if widget == 'single_text' -%}
+        {{ block('form_widget_simple') }}
+    {%- else -%}
+        {%- set vars = widget == 'text' ? {} : {} -%}
+
+        {% set attr = { class: 'flex items-center'} %}
+        <div {{ block('widget_container_attributes') }}>
+            <div>
+                {{ form_widget(form.hour, vars) }}
+            </div>
+            {% if with_minutes %}
+                <span class="mx-1">:</span>
+                <div>
+                    {{ form_widget(form.minute, vars) }}
+                </div>
+            {% endif %}
+            {% if with_seconds %}
+                <span class="mx-1">:</span>
+                <div>
+                    {{ form_widget(form.second, vars) }}
+                </div>
+            {% endif %}
+        </div>
+    {%- endif -%}
+{%- endblock time_widget -%}

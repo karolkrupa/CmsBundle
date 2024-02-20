@@ -1,0 +1,12 @@
+{% include '@DevsterCms/common/button/button.html.twig' with {
+    text: 'Resetuj',
+    href: app.request.pathInfo
+} %}
+
+{% include '@DevsterCms/common/button/button_blue.html.twig' with {
+    tag: 'button',
+    text: 'Szukaj',
+    attr: {
+        form: form.vars.id
+    }
+} %}

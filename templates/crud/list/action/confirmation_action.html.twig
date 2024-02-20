@@ -1,0 +1,79 @@
+<div class="vue-container inline-block">
+        <confirmation-modal>
+            <template v-slot:activator="{ open }">
+                {% include buttonTemplate with {
+                    text: buttonText,
+                    tag: 'button',
+                    href: null,
+                    class: 'w-full',
+                    attr: {
+                        '@click': 'open'
+                    }
+                } %}
+            </template>
+
+{#            <template v-slot:title>#}
+{#                {{ modalArguments.title }}#}
+{#            </template>#}
+
+{#            <template v-slot:text>#}
+{#                {{ modalArguments.text }}#}
+{#            </template>#}
+
+            <template v-slot:buttons="{ close, confirm }">
+                <button @click="confirm" type="button"
+                        class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
+                    {{ modalArguments.acceptText }}
+                </button>
+{##}
+                <button @click="close" type="button"
+                        class="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
+                    {{ modalArguments.rejectText }}
+                </button>
+            </template>
+        </confirmation-modal>
+
+
+{#        {% include buttonTemplate with {#}
+{#            text: buttonText,#}
+{#            tag: 'button',#}
+{#            href: null,#}
+{#            attr: {#}
+{#                'data-hs-overlay': '#' ~ modalId#}
+{#            }#}
+{#        } %}#}
+
+
+{#    <headless-portal>#}
+{#                {% embed '@DevsterCms/common/modal/modal.html.twig' with {#}
+{#                    reject_text: modalArguments.rejectText,#}
+{#                    accept_text: modalArguments.acceptText,#}
+{#                    id: modalId,#}
+{#                    confirmUrl: href#}
+{#                } %}#}
+{#                    {% block title %}{{ modalArguments.title }}{% endblock %}#}
+
+{#                    {% block text %}{{ modalArguments.text }}{% endblock %}#}
+{#                {% endembed %}#}
+{#    </headless-portal>#}
+{#    {% include buttonTemplate with {#}
+{#        text: buttonText,#}
+{#        tag: 'button',#}
+{#        href: null,#}
+{#        attr: {#}
+{#            'data-hs-overlay': '#' ~ modalId#}
+{#        }#}
+{#    } %}#}
+
+{#    {% embed '@DevsterCms/common/modal/modal.html.twig' with {#}
+{#        reject_text: modalArguments.rejectText,#}
+{#        accept_text: modalArguments.acceptText,#}
+{#        id: modalId,#}
+{#        confirmUrl: href#}
+{#    } %}#}
+{#        {% block title %}{{ modalArguments.title }}{% endblock %}#}
+
+{#        {% block text %}{{ modalArguments.text }}{% endblock %}#}
+{#    {% endembed %}#}
+</div>
+

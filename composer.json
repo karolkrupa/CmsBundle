@@ -1,0 +1,37 @@
+{
+    "name": "karolkrupa/cms-bundle",
+    "description": "Cms Bundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Devster\\CmsBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Acme\\BlogBundle\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Karol Krupa",
+            "email": "karo2krupa@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "symfony/framework-bundle": "^6.4",
+        "knplabs/knp-components": "^4.3",
+        "symfony/form": "^6.4",
+        "symfony/dom-crawler": "^6.4"
+    },
+    "extra": {
+        "symfony": {
+            "require": "6.*"
+        }
+    },
+    "require-dev": {
+        "symfony/webpack-encore-bundle": "^2.1"
+    }
+}
