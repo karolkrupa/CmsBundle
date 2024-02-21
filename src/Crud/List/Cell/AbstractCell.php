@@ -12,7 +12,7 @@ abstract class AbstractCell implements CellInterface
     public function getViewVars(mixed $data): array
     {
         return [
-            'title' => $this->title instanceof \Closure ? $this->title($data) : $this->title
+            'title' => $this->title instanceof \Closure ? ($this->title)($data) : $this->title
         ];
     }
 

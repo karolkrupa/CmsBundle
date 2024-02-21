@@ -40,7 +40,7 @@ class FilterFormHandler
             $where = '';
 
             foreach ($serachFields as $fieldName) {
-                $aliasedFileName = $this->getSortFieldFromAlias($rootAlias, $fieldName);
+                $aliasedFileName = $this->getQbFieldName($rootAlias, $fieldName);
 
                 if ($where) {
                     $where .= ' OR ';
@@ -68,7 +68,7 @@ class FilterFormHandler
             } elseif ($mapping = $fieldConfig->getMapping()) {
                 if (str_contains($mapping, ':value')) {
                     $mapping = str_replace(':value', ':' . $qbValueName, $mapping);
-                    $qb->setParameter($qbValueName, $fieldValue);
+                    $qb->setParameter($qbValueName, $fieldValue, $fieldConfig->getParameterType());
                 }
 
                 $qb->andWhere($mapping);
@@ -78,7 +78,7 @@ class FilterFormHandler
                     $fieldConfig->getProperty(),
                     $qbValueName
                 ))
-                    ->setParameter($qbValueName, $fieldValue);
+                    ->setParameter($qbValueName, $fieldValue, $fieldConfig->getParameterType());
             }
         }
     }
@@ -90,7 +90,7 @@ class FilterFormHandler
         }
 
         $config = new FormField();
-        $config->property($this->getSortFieldFromAlias($rootAlias, $field));
+        $config->property($this->getQbFieldName($rootAlias, $field));
 
         return $config;
     }
@@ -104,16 +104,16 @@ class FilterFormHandler
         return $form->getData() ?? [];
     }
 
-    private function getSortFieldFromAlias(?string $rootAlias, string $sortField): string
+    private function getQbFieldName(?string $rootAlias, string $field): string
     {
         if (!$rootAlias) {
-            return $sortField;
+            return $field;
         }
 
-        if (!str_contains($sortField, '.')) {
-            return $rootAlias . '.' . $sortField;
+        if (!str_contains($field, '.')) {
+            return $rootAlias . '.' . $field;
         }
 
-        return $sortField;
+        return $field;
     }
 }
