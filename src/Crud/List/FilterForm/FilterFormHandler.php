@@ -86,11 +86,14 @@ class FilterFormHandler
     private function getFieldConfig(FilterForm $form, string $field, string $rootAlias): FormField
     {
         if (isset($form->getConfigurations()[$field])) {
-            return $form->getConfigurations()[$field];
+            $config = $form->getConfigurations()[$field];
+        }else {
+            $config = new FormField();
         }
 
-        $config = new FormField();
-        $config->property($this->getQbFieldName($rootAlias, $field));
+        if(!$config->getProperty()) {
+            $config->property($this->getQbFieldName($rootAlias, $field));
+        }
 
         return $config;
     }
