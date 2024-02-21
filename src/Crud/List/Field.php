@@ -8,17 +8,17 @@ use Devster\CmsBundle\Crud\List\Cell\CellInterface;
 
 class Field extends AbstractField
 {
-    static public function create(string $id, string $cellType = TextCell::class): static
+    static public function create(string $property, string $cellType = TextCell::class): static
     {
-        return new static($id, $cellType);
+        return new static($property, $cellType);
     }
 
     protected CellInterface $value;
 
-    public function __construct(string $id, string $cellType = TextCell::class)
+    public function __construct(string $property, string $cellType = TextCell::class)
     {
-        parent::__construct($id);
-        $this->value = new $cellType($this->id);
+        parent::__construct($property);
+        $this->value = new $cellType($this->property);
     }
 
     public function getCell(): AbstractCell

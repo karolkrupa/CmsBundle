@@ -13,16 +13,16 @@ abstract class AbstractField
     protected ?string $sortField = null;
 
     public function __construct(
-        protected readonly string $id
+        protected readonly string $property
     )
     {
-        $this->heading = new Heading($this->id);
-        $this->sortField = $this->id;
+        $this->heading = new Heading($this->property);
+        $this->sortField = $this->property;
     }
 
-    static public function create(string $id): static
+    static public function create(string $property): static
     {
-        return new static($id);
+        return new static($property);
     }
 
     /**

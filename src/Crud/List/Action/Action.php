@@ -25,7 +25,7 @@ class Action implements ActionInterface
     {
     }
 
-    static public function create(string|\Closure $text): static
+    static public function create(string|\Closure $text = null): static
     {
         return new static($text);
     }
@@ -85,7 +85,7 @@ class Action implements ActionInterface
     }
 
 
-    public function getText(): string|\Closure
+    public function getText(): null|string|\Closure
     {
         return $this->text;
     }
