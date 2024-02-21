@@ -1,8 +1,9 @@
 {% embed '@DevsterCms/common/table/content_cell.html.twig' with {
     fit: field.isFit(),
-    center: cell.getCenter(),
     bold: cell.getBold(),
-    title: title|default(null)
+    title: title|default(null),
+    alignment: cell.alignment.name,
+    verticalAlignment: cell.verticalAlignment.name
 } %}
     {% block content %}
         {{ cellHtml }}

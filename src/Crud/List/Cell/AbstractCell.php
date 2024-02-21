@@ -2,12 +2,15 @@
 
 namespace Devster\CmsBundle\Crud\List\Cell;
 
+use Devster\CmsBundle\Crud\Common\Alignment;
+use Devster\CmsBundle\Crud\Common\VerticalAlignment;
+
 abstract class AbstractCell implements CellInterface
 {
     protected ?string $template = null;
-    protected bool $center = false;
     protected bool $bold = false;
-
+    protected Alignment $alignment = Alignment::left;
+    protected VerticalAlignment $verticalAlignment = VerticalAlignment::middle;
 
     /**
      * Konfiguracja szablonu widoku
@@ -23,14 +26,27 @@ abstract class AbstractCell implements CellInterface
     }
 
     /**
-     * Konfiguracja wycentrowania w komórce tabeli
+     * Konfiguracja położenia w komórce tabeli
      *
-     * @param bool $center
+     * @param Alignment $alignment
      * @return $this
      */
-    public function setCenter(bool $center = true): static
+    public function setAlignment(Alignment $alignment): static
     {
-        $this->center = $center;
+        $this->alignment = $alignment;
+
+        return $this;
+    }
+
+    /**
+     * Konfiguracja położenia w komórce tabeli
+     *
+     * @param VerticalAlignment $alignment
+     * @return $this
+     */
+    public function setVerticalAlignment(VerticalAlignment $alignment): static
+    {
+        $this->verticalAlignment = $alignment;
 
         return $this;
     }
@@ -53,11 +69,6 @@ abstract class AbstractCell implements CellInterface
         return $this->template;
     }
 
-    public function getCenter(): bool
-    {
-        return $this->center;
-    }
-
     public function getBold(): bool
     {
         return $this->bold;
@@ -72,5 +83,15 @@ abstract class AbstractCell implements CellInterface
     public function getViewVars(mixed $data): array
     {
         return [];
+    }
+
+    public function getAlignment(): Alignment
+    {
+        return $this->alignment;
+    }
+
+    public function getVerticalAlignment(): VerticalAlignment
+    {
+        return $this->verticalAlignment;
     }
 }

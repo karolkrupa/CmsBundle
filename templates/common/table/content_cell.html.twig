@@ -2,8 +2,9 @@
 text-sm px-2 py-2
 {% if fit|default(false) %} whitespace-nowrap {% endif %}
 {% if class is defined %} {{ class }} {% endif %}
-{% if center|default(false) %} text-center {% endif %}
 {% if bold|default(false) %} font-medium {% else %} font-light {% endif %}
+{% if verticalAlignment|default(false) %} align-{{ verticalAlignment }} {% endif %} {# align-middle align-top align-bottom (Lista klas dla kompilatora tailwinda) #}
+{% if alignment|default(false) %} text-{{ alignment }} {% endif %} {# text-left text-right text-center text-justify (Lista klas dla kompilatora tailwinda) #}
 "
 {% if title|default(false) %} title="{{ title }}" {% endif %}
 >
