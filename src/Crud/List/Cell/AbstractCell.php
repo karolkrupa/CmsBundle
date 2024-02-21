@@ -7,7 +7,7 @@ abstract class AbstractCell implements CellInterface
     protected bool $center = false;
     protected bool $bold = false;
     protected string $align = 'left';
-    protected null|string|\Closure $title;
+    protected null|string|\Closure $title = null;
 
     public function getViewVars(mixed $data): array
     {
