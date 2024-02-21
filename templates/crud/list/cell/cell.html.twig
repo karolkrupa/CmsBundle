@@ -3,7 +3,8 @@
     bold: cell.getBold(),
     title: title|default(null),
     alignment: cell.alignment.name,
-    verticalAlignment: cell.verticalAlignment.name
+    verticalAlignment: cell.verticalAlignment.name,
+    class: cell.class
 } %}
     {% block content %}
         {{ cellHtml }}

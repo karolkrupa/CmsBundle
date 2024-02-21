@@ -13,6 +13,11 @@ class ActionsCell extends AbstractCell
     protected array $actions = [];
     protected bool $dropdown = false;
 
+    protected function getDefaultTemplate(): ?string
+    {
+        return null;
+    }
+
     /**
      * Dodanie akcji do listy
      *

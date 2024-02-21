@@ -10,9 +10,13 @@ use Devster\CmsBundle\Crud\List\Cell\Renderer\TextCellRenderer;
  */
 class TextCell extends AbstractCell implements TitledCellInterface
 {
-    protected ?string $template = '@DevsterCms/crud/list/cell/text.html.twig';
     protected string $align = 'left';
     protected null|string|\Closure $title = null;
+
+    protected function getDefaultTemplate(): string
+    {
+        return '@DevsterCms/crud/list/cell/text.html.twig';
+    }
 
     public function __construct(protected null|string|\Closure $value = null)
     {

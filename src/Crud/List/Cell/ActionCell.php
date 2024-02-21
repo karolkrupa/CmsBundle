@@ -7,6 +7,11 @@ use Devster\CmsBundle\Crud\List\Cell\Renderer\ActionCellRenderer;
 
 class ActionCell extends AbstractCell
 {
+    protected function getDefaultTemplate(): ?string
+    {
+        return null;
+    }
+
     public static function create(ActionInterface $action): static
     {
         return new static($action);
@@ -15,6 +20,7 @@ class ActionCell extends AbstractCell
     public function __construct(protected ActionInterface $action)
     {
     }
+
 
     /**
      * Konfiguracja akcji

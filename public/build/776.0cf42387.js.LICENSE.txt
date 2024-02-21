@@ -1,0 +1,65 @@
+/*
+ * HSAccordion
+ * @version: 2.0.3
+ * @author: HTMLStream
+ * @license: Licensed under MIT (https://preline.co/docs/license.html)
+ * Copyright 2023 HTMLStream
+ */
+
+/*
+ * HSBasePlugin
+ * @version: 2.0.3
+ * @author: HTMLStream
+ * @license: Licensed under MIT (https://preline.co/docs/license.html)
+ * Copyright 2023 HTMLStream
+ */
+
+/*
+ * HSDropdown
+ * @version: 2.0.3
+ * @author: HTMLStream
+ * @license: Licensed under MIT (https://preline.co/docs/license.html)
+ * Copyright 2023 HTMLStream
+ */
+
+/*
+ * HSOverlay
+ * @version: 2.0.3
+ * @author: HTMLStream
+ * @license: Licensed under MIT (https://preline.co/docs/license.html)
+ * Copyright 2023 HTMLStream
+ */
+
+/*!
+ * FilePond 4.30.6
+ * Licensed under MIT, https://opensource.org/licenses/MIT/
+ * Please visit https://pqina.nl/filepond/ for details.
+ */
+
+/*!
+ * FilePondPluginFileValidateSize 2.2.8
+ * Licensed under MIT, https://opensource.org/licenses/MIT/
+ * Please visit https://pqina.nl/filepond/ for details.
+ */
+
+/*!
+ * FilePondPluginFileValidateType 1.2.8
+ * Licensed under MIT, https://opensource.org/licenses/MIT/
+ * Please visit https://pqina.nl/filepond/ for details.
+ */
+
+/*!
+ * FilePondPluginImagePreview 4.6.12
+ * Licensed under MIT, https://opensource.org/licenses/MIT/
+ * Please visit https://pqina.nl/filepond/ for details.
+ */
+
+/*! #__NO_SIDE_EFFECTS__ */
+
+/*! choices.js v10.2.0 | © 2022 Josh Johnson | https://github.com/jshjohnson/Choices#readme */
+
+/**
+* @vue/shared v3.4.10
+* (c) 2018-present Yuxi (Evan) You and Vue contributors
+* @license MIT
+**/

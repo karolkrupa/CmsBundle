@@ -11,6 +11,9 @@ abstract class AbstractCell implements CellInterface
     protected bool $bold = false;
     protected Alignment $alignment = Alignment::left;
     protected VerticalAlignment $verticalAlignment = VerticalAlignment::middle;
+    protected ?string $class = null;
+
+    abstract protected function getDefaultTemplate(): ?string;
 
     /**
      * Konfiguracja szablonu widoku
@@ -64,9 +67,26 @@ abstract class AbstractCell implements CellInterface
         return $this;
     }
 
+    /**
+     * Konfiguracja dodatkowych klas dla komórki
+     *
+     * @param string|null $class
+     * @return $this
+     */
+    public function setClass(?string $class): static
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
     public function getTemplate(): ?string
     {
-        return $this->template;
+        if ($this->template) {
+            return $this->template;
+        }
+
+        return $this->getDefaultTemplate();
     }
 
     public function getBold(): bool
@@ -74,6 +94,10 @@ abstract class AbstractCell implements CellInterface
         return $this->bold;
     }
 
+    public function getClass(): ?string
+    {
+        return $this->class;
+    }
     /**
      * Zmienne dla widoku
      *

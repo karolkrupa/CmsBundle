@@ -7,8 +7,12 @@ namespace Devster\CmsBundle\Crud\List\Cell;
  */
 class DateCell extends TextCell
 {
-    protected ?string $template = '@DevsterCms/crud/list/cell/date.html.twig';
     protected string $format = 'Y-m-d';
+
+    protected function getDefaultTemplate(): string
+    {
+        return '@DevsterCms/crud/list/cell/date.html.twig';
+    }
 
     /**
      * Konfiguracja formatu wyświetlania daty
