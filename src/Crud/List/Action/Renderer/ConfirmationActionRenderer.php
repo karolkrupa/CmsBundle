@@ -1,11 +1,11 @@
 <?php
 
-namespace Devster\CmsBundle\Crud\List\Action;
+namespace Devster\CmsBundle\Crud\List\Action\Renderer;
 
-use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
+use Devster\CmsBundle\Crud\List\Action\ActionInterface;
+use Devster\CmsBundle\Crud\List\Action\ConfirmationAction;
 use Twig\Markup;
 
-#[AutoconfigureTag(name: 'devster.cms.renderer.action')]
 class ConfirmationActionRenderer extends AnchorActionRenderer
 {
     public function renderPageView(ActionInterface $action): Markup

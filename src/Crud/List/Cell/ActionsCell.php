@@ -10,11 +10,6 @@ use Devster\CmsBundle\Crud\List\Cell\Renderer\ActionsCellRenderer;
  */
 class ActionsCell extends AbstractCell
 {
-    static public function create(): static
-    {
-        return new static();
-    }
-
     protected array $actions = [];
     protected bool $dropdown = false;
 
@@ -22,6 +17,17 @@ class ActionsCell extends AbstractCell
     {
     }
 
+    static public function create(): static
+    {
+        return new static();
+    }
+
+    /**
+     * Dodanie akcji do listy
+     *
+     * @param Action $action
+     * @return $this
+     */
     public function add(Action $action): static
     {
         $this->actions[] = $action;
@@ -29,6 +35,12 @@ class ActionsCell extends AbstractCell
         return $this;
     }
 
+    /**
+     * Konfiguracja wyświetlania akcji jako dropdown
+     *
+     * @param bool $dropdown
+     * @return $this
+     */
     public function asDropdown(bool $dropdown = true): static
     {
         $this->dropdown = $dropdown;

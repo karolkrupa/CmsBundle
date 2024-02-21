@@ -3,28 +3,70 @@
 namespace Devster\CmsBundle\Crud\List\Action;
 
 
+use Devster\CmsBundle\Crud\List\Action\Renderer\ConfirmationActionRenderer;
+
 class ConfirmationAction extends AnchorAction
 {
-    public function getRenderer(): string
-    {
-        return ConfirmationActionRenderer::class;
-    }
-
     protected null|string|\Closure $modalTitle = null;
     protected null|string|\Closure $modalText = '';
     protected string $acceptText = 'Tak';
     protected string $rejectText = 'Nie';
 
-    public function getModalTitle(): string|\Closure|null
-    {
-        return $this->modalTitle;
-    }
-
-    public function modalTitle(string|\Closure|null $modalTitle): static
+    /**
+     * Konfiguracja tytułu modala
+     *
+     * @param string|\Closure(mixed $data):string|null $modalTitle
+     * @return $this
+     */
+    public function setModalTitle(string|\Closure|null $modalTitle): static
     {
         $this->modalTitle = $modalTitle;
 
         return $this;
+    }
+
+    /**
+     * Konfiguracja tekstu modala
+     *
+     * @param string|\Closure(mixed $data):string|null $modalText
+     * @return $this
+     */
+    public function setModalText(string|\Closure|null $modalText): static
+    {
+        $this->modalText = $modalText;
+
+        return $this;
+    }
+
+    /**
+     * Konfiguracja tekstu przycisku akceptacji
+     *
+     * @param string $acceptText
+     * @return $this
+     */
+    public function setAcceptText(string $acceptText): static
+    {
+        $this->acceptText = $acceptText;
+
+        return $this;
+    }
+
+    /**
+     * Konfiguracja treści przycisku odrzucenia
+     *
+     * @param string $rejectText
+     * @return $this
+     */
+    public function setRejectText(string $rejectText): static
+    {
+        $this->rejectText = $rejectText;
+
+        return $this;
+    }
+
+    public function getModalTitle(): string|\Closure|null
+    {
+        return $this->modalTitle;
     }
 
     public function getModalText(): string|\Closure|null
@@ -32,23 +74,9 @@ class ConfirmationAction extends AnchorAction
         return $this->modalText;
     }
 
-    public function modalText(string|\Closure|null $modalText): static
-    {
-        $this->modalText = $modalText;
-
-        return $this;
-    }
-
     public function getAcceptText(): string
     {
         return $this->acceptText;
-    }
-
-    public function acceptText(string $acceptText): static
-    {
-        $this->acceptText = $acceptText;
-
-        return $this;
     }
 
     public function getRejectText(): string
@@ -56,10 +84,8 @@ class ConfirmationAction extends AnchorAction
         return $this->rejectText;
     }
 
-    public function rejectText(string $rejectText): static
+    public function getRenderer(): string
     {
-        $this->rejectText = $rejectText;
-
-        return $this;
+        return ConfirmationActionRenderer::class;
     }
 }

@@ -7,28 +7,42 @@ use Devster\CmsBundle\Crud\List\Heading\Heading;
 
 abstract class AbstractField
 {
-    static public function create(string $id): static
-    {
-        return new static($id);
-    }
-
     protected Heading $heading;
     protected bool $fit = false;
+    protected bool $sortable = false;
+    protected ?string $sortField = null;
 
     public function __construct(
         protected readonly string $id
     )
     {
-        $this->heading = new Heading($this->id, $this->id);
+        $this->heading = new Heading($this->id);
+        $this->sortField = $this->id;
     }
 
-    public function getHeading(): Heading
+    static public function create(string $id): static
     {
-        return $this->heading;
+        return new static($id);
     }
+
+    /**
+     * Abstract methods
+     * ----------------
+     */
 
     abstract public function getCell(): CellInterface;
 
+    /**
+     * Setters
+     * -------
+     */
+
+    /**
+     * Konfiguracja komórki tabeli
+     *
+     * @param Closure(CellInterface $cell):void $closure
+     * @return $this
+     */
     public function configureCell(\Closure $closure): static
     {
         $closure($this->getCell());
@@ -36,10 +50,16 @@ abstract class AbstractField
         return $this;
     }
 
-    public function heading(string|Heading $heading): static
+    /**
+     * Konfiguracja nagłówka kolumny tabeli
+     *
+     * @param string|Heading $heading
+     * @return $this
+     */
+    public function setHeading(string|Heading $heading): static
     {
         if (is_string($heading)) {
-            $this->heading->text($heading);
+            $this->heading->setText($heading);
         } else {
             $this->heading = $heading;
         }
@@ -47,11 +67,52 @@ abstract class AbstractField
         return $this;
     }
 
-    public function fit(bool $fit = true): static
+    /**
+     * Konfiguracja dopasowania szerokości kolumny tabeli
+     *
+     * @param bool $fit
+     * @return $this
+     */
+    public function setFit(bool $fit = true): static
     {
         $this->fit = $fit;
 
         return $this;
+    }
+
+    /**
+     * Konfiguracja możliwości sortowania kolumny tabeli
+     *
+     * @param bool $sort
+     * @return $this
+     */
+    public function setSortable(bool $sort = true): static
+    {
+        $this->sortable = $sort;
+
+        return $this;
+    }
+
+    /**
+     * Konfiguracja pola, po którym odbywa się sortowanie kolumny
+     *
+     * @param string|null $sortField
+     * @return $this
+     */
+    public function setSortField(?string $sortField): static
+    {
+        $this->sortField = $sortField;
+
+        return $this;
+    }
+
+    /**
+     * Getters
+     * -------
+     */
+    public function getHeading(): Heading
+    {
+        return $this->heading;
     }
 
     public function isFit(): bool
@@ -59,17 +120,13 @@ abstract class AbstractField
         return $this->fit;
     }
 
-    public function sortable(bool $sort = true): static
+    public function isSortable(): bool
     {
-        $this->heading->sortable($sort);
-
-        return $this;
+        return $this->sortable;
     }
 
-    public function sortField(?string $sortField): static
+    public function getSortField(): ?string
     {
-        $this->heading->sortField($sortField);
-
-        return $this;
+        return $this->sortField;
     }
 }

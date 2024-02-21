@@ -5,7 +5,7 @@ namespace Devster\CmsBundle\Crud\List;
 use Devster\CmsBundle\Crud\Common\PageRendererInterface;
 use Devster\CmsBundle\Crud\Common\PageViewInterface;
 use Devster\CmsBundle\Crud\Edit\EditView;
-use Devster\CmsBundle\Crud\List\Action\ActionRenderInterface;
+use Devster\CmsBundle\Crud\List\Action\Renderer\ActionRenderInterface;
 use Devster\CmsBundle\Crud\List\FilterForm\FilterFormRenderer;
 use Devster\CmsBundle\Crud\List\Pagination\PaginationSettings;
 use Devster\CmsBundle\KnpPager\Event\Subscriber\SortableSubscriber;
@@ -77,9 +77,9 @@ class ListViewRenderer implements PageRendererInterface
             $html = $this->twig->render(
                 '@DevsterCms/crud/list/heading/heading.html.twig',
                 [
-                    'heading' => $field->getHeading(),
+                    'field' => $field,
                     'headingHtml' => $renderer->render(
-                        $field->getHeading(),
+                        $field,
                         $pagination,
                         $rootAlias
                     )

@@ -14,7 +14,13 @@ class Heading extends AbstractHeading
         return HeadingRenderer::class;
     }
 
-    public function text(string $text): static
+    /**
+     * Tekst nagłówka kolumny tabeli
+     *
+     * @param string $text
+     * @return $this
+     */
+    public function setText(string $text): static
     {
         $this->text = $text;
 

@@ -1,6 +1,8 @@
 <?php
 
-namespace Devster\CmsBundle\Crud\List\Action;
+namespace Devster\CmsBundle\Crud\List\Action\Renderer;
+
+use Devster\CmsBundle\Crud\List\Action\ActionInterface;
 
 interface ActionRenderInterface
 {

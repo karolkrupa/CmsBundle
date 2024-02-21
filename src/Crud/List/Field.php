@@ -31,7 +31,7 @@ class Field extends AbstractField
         if ($value instanceof TextCell) {
             $this->value = $value;
         } else {
-            $this->value->value($value);
+            $this->value->setValue($value);
         }
 
         return $this;

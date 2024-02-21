@@ -2,7 +2,6 @@
 
 namespace Devster\CmsBundle\Crud\List\Cell;
 
-use Devster\CmsBundle\Crud\List\Cell\Renderer\CommonCellRenderer;
 
 /**
  * Dto wartości komórki tabeli

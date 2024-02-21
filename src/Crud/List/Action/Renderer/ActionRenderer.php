@@ -1,12 +1,11 @@
 <?php
 
-namespace Devster\CmsBundle\Crud\List\Action;
+namespace Devster\CmsBundle\Crud\List\Action\Renderer;
 
-use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
+use Devster\CmsBundle\Crud\List\Action\ActionInterface;
 use Twig\Environment;
 use Twig\Markup;
 
-#[AutoconfigureTag(name: 'devster.cms.renderer.action')]
 class ActionRenderer implements ActionRenderInterface
 {
     public function __construct(

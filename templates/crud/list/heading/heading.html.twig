@@ -1,8 +1,8 @@
 {% embed '@DevsterCms/common/table/heading_cell.html.twig' with {
-    fit: heading.isFit(),
+    fit: field.isFit(),
     title: null,
-    center: heading.getCenter(),
-    bold: heading.getBold()
+    center: field.heading.getCenter(),
+    bold: field.heading.getBold()
 } %}
     {% block content %}
        {{ headingHtml }}

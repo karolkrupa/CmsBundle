@@ -17,24 +17,26 @@ class TemplateCell extends AbstractCell
     {
     }
 
-    public function getRenderer(): string
-    {
-        return CommonCellRenderer::class;
-    }
-
-    public function template(?string $template): static
+    /**
+     * Konfiguracja szablonu widoku
+     *
+     * @param string|null $template
+     * @return $this
+     */
+    public function setTemplate(?string $template): static
     {
         $this->template = $template;
 
         return $this;
     }
 
-    public function getTemplate(): ?string
-    {
-        return $this->template;
-    }
-
-    public function value(string|\Closure $value): static
+    /**
+     * Konfiguracja danych przekazywanych do widoku komórki
+     *
+     * @param string|\Closure(mixed $cellData):mixed $value
+     * @return $this
+     */
+    public function setValue(string|\Closure $value): static
     {
         $this->value = $value;
 
@@ -44,5 +46,15 @@ class TemplateCell extends AbstractCell
     public function getValue(): null|string|\Closure
     {
         return $this->value;
+    }
+
+    public function getTemplate(): ?string
+    {
+        return $this->template;
+    }
+
+    public function getRenderer(): string
+    {
+        return CommonCellRenderer::class;
     }
 }

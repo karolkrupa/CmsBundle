@@ -1,13 +1,13 @@
 <?php
 
-namespace Devster\CmsBundle\Crud\List\Action;
+namespace Devster\CmsBundle\Crud\List\Action\Renderer;
 
-use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
+use Devster\CmsBundle\Crud\List\Action\ActionInterface;
+use Devster\CmsBundle\Crud\List\Action\AnchorAction;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 use Twig\Markup;
 
-#[AutoconfigureTag(name: 'devster.cms.renderer.action')]
 class AnchorActionRenderer implements ActionRenderInterface
 {
     public function __construct(
@@ -75,7 +75,7 @@ class AnchorActionRenderer implements ActionRenderInterface
 
     protected function parseRouteParams(ActionInterface $action, mixed $data): array
     {
-        $params = $action->getParams();
+        $params = $action->getRouteParams();
 
         if(!$data) {
             if($params && !is_array($params)) {

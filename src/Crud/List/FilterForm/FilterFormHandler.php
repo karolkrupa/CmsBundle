@@ -92,7 +92,7 @@ class FilterFormHandler
         }
 
         if (!$config->getProperty()) {
-            $config->property($this->getQbFieldName($rootAlias, $field));
+            $config->setProperty($this->getQbFieldName($rootAlias, $field));
         }
 
         return $config;

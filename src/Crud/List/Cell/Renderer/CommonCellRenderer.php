@@ -2,16 +2,11 @@
 
 namespace Devster\CmsBundle\Crud\List\Cell\Renderer;
 
-use Devster\CmsBundle\Crud\List\Cell\BoolCell;
-use Devster\CmsBundle\Crud\List\Cell\DateCell;
 use Devster\CmsBundle\Crud\List\Cell\TemplateCell;
-use Devster\CmsBundle\Crud\List\Cell\TextCell;
-use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Twig\Environment;
 use Twig\Markup;
 
-#[AutoconfigureTag(name: 'devster.cms.renderer.cell')]
-class CommonCellRenderer
+class CommonCellRenderer implements CellRendererInterface
 {
     public function __construct(
         private readonly Environment $twig

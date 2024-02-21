@@ -7,35 +7,53 @@ use Symfony\Component\Form\FormInterface;
 
 class FilterForm
 {
-    static public function create(): static
-    {
-        return new static();
-    }
-
     protected ?FormInterface $form = null;
     protected array $configurations = [];
     protected array $searchFields = [];
-
     private ?FormInterface $baseForm = null;
 
     public function __construct()
     {
     }
 
-    public function searchFields(array $searchFields): static
+    static public function create(): static
+    {
+        return new static();
+    }
+
+    /**
+     * Konfiguracja pól dla wyszukiwarki
+     *
+     * @param array $searchFields
+     * @return $this
+     */
+    public function setSearchFields(array $searchFields): static
     {
         $this->searchFields = $searchFields;
 
         return $this;
     }
 
-    public function form(FormInterface $form): static
+    /**
+     * Konfiguracja formularza filtrów
+     *
+     * @param FormInterface $form
+     * @return $this
+     */
+    public function setForm(FormInterface $form): static
     {
         $this->form = $form;
 
         return $this;
     }
 
+    /**
+     * Konfiguracja obsługi filtrowania dla danego pola
+     *
+     * @param string $field
+     * @param \Closure(FormField $field):void $closure
+     * @return $this
+     */
     public function configureField(string $field, \Closure $closure): static
     {
         if (!isset($this->configurations[$field])) {

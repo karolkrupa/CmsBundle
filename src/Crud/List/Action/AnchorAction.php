@@ -3,25 +3,33 @@
 namespace Devster\CmsBundle\Crud\List\Action;
 
 
+use Devster\CmsBundle\Crud\List\Action\Renderer\AnchorActionRenderer;
+
 class AnchorAction extends Action
 {
     protected ?string $route = null;
     protected array|\Closure $params = [];
 
-
-    public function getRenderer(): string
-    {
-        return AnchorActionRenderer::class;
-    }
-
-    public function route(string $route): static
+    /**
+     * Konfiguracja route akcji
+     *
+     * @param string $route
+     * @return $this
+     */
+    public function setRoute(string $route): static
     {
         $this->route = $route;
 
         return $this;
     }
 
-    public function params(array|\Closure $params): static
+    /**
+     * Konfiguracja parametrów dla route
+     *
+     * @param array|\Closure():array $params
+     * @return $this
+     */
+    public function setRouteParams(array|\Closure $params): static
     {
         $this->params = $params;
 
@@ -33,8 +41,13 @@ class AnchorAction extends Action
         return $this->route;
     }
 
-    public function getParams(): array|\Closure
+    public function getRouteParams(): array|\Closure
     {
         return $this->params;
+    }
+
+    public function getRenderer(): string
+    {
+        return AnchorActionRenderer::class;
     }
 }

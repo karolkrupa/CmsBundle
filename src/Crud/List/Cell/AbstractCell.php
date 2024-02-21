@@ -9,30 +9,54 @@ abstract class AbstractCell implements CellInterface
     protected string $align = 'left';
     protected null|string|\Closure $title = null;
 
-    public function getViewVars(mixed $data): array
-    {
-        return [
-            'title' => $this->title instanceof \Closure ? ($this->title)($data) : $this->title
-        ];
-    }
-
-    public function center(bool $center = true): static
+    /**
+     * Konfiguracja wycentrowania w komórce tabeli
+     *
+     * @param bool $center
+     * @return $this
+     */
+    public function setCenter(bool $center = true): static
     {
         $this->center = $center;
 
         return $this;
     }
 
-    public function bold(bool $bold = true): static
+    /**
+     * Konfiguracja pogrubienia tekstu w komórce tabeli
+     *
+     * @param bool $bold
+     * @return $this
+     */
+    public function setBold(bool $bold = true): static
     {
         $this->bold = $bold;
 
         return $this;
     }
 
-    public function align(string $align = 'left'): static
+    /**
+     * Konfiguracja wyjustowania tekstu w komórce tabeli
+     *
+     * @param string $align
+     * @return $this
+     */
+    public function setAlign(string $align = 'left'): static
     {
         $this->align = $align;
+
+        return $this;
+    }
+
+    /**
+     * Konfiguracja tytułu (popup) komórki tabeli
+     *
+     * @param string|\Closure|null $title
+     * @return $this
+     */
+    public function setTitle(string|\Closure|null $title): static
+    {
+        $this->title = $title;
 
         return $this;
     }
@@ -57,10 +81,16 @@ abstract class AbstractCell implements CellInterface
         return $this->title;
     }
 
-    public function title(string|\Closure|null $title): static
+    /**
+     * Zmienne dla widoku
+     *
+     * @param mixed $data
+     * @return \Closure[]|null[]|string[]
+     */
+    public function getViewVars(mixed $data): array
     {
-        $this->title = $title;
-
-        return $this;
+        return [
+            'title' => $this->title instanceof \Closure ? ($this->title)($data) : $this->title
+        ];
     }
 }

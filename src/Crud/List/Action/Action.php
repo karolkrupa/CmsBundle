@@ -2,26 +2,17 @@
 
 namespace Devster\CmsBundle\Crud\List\Action;
 
+use Devster\CmsBundle\Crud\List\Action\Renderer\ActionRenderer;
+
 class Action implements ActionInterface
 {
     const COLOR_DEFAULT = null;
     const COLOR_BLUE = 'BLUE';
     const COLOR_RED = 'RED';
     const COLOR_GREEN = 'GREEN';
-
     const TYPE_DEFAULT = 'default';
     const TYPE_TEXT = 'text';
     const TYPE_BUTTON = 'button';
-
-    public function getRenderer(): string
-    {
-        return ActionRenderer::class;
-    }
-
-    static public function create(string $name): static
-    {
-        return new static($name);
-    }
 
     protected ?string $template = null;
     protected ?string $color = self::COLOR_DEFAULT;
@@ -33,23 +24,58 @@ class Action implements ActionInterface
     {
     }
 
-    public function name(string $name): static
+    static public function create(string $name): static
+    {
+        return new static($name);
+    }
+
+    /**
+     * Konfiguracja nazwy akcji
+     *
+     * @param string $name
+     * @return $this
+     */
+    public function setName(string $name): static
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function template(?string $template): static
+    /**
+     * Konfiguracja szablonu akcji
+     *
+     * @param string|null $template
+     * @return $this
+     */
+    public function setTemplate(?string $template): static
     {
         $this->template = $template;
 
         return $this;
+    }
+
+    /**
+     * Konfiguracja koloru akcji
+     *
+     * @param string|null $color
+     * @return $this
+     */
+    public function setColor(?string $color): static
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+    public function getRenderer(): string
+    {
+        return ActionRenderer::class;
     }
 
     public function getTemplate(string $placeType = 'cell'): ?string
@@ -87,12 +113,5 @@ class Action implements ActionInterface
         }
 
         return $map[$this->color];
-    }
-
-    public function color(?string $color): static
-    {
-        $this->color = $color;
-
-        return $this;
     }
 }

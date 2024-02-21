@@ -2,17 +2,14 @@
 
 namespace Devster\CmsBundle\Crud\List\Cell\Renderer;
 
-use Devster\CmsBundle\Crud\List\Action\ActionRenderer;
-use Devster\CmsBundle\Crud\List\Action\ActionRenderInterface;
+use Devster\CmsBundle\Crud\List\Action\Renderer\ActionRenderInterface;
 use Devster\CmsBundle\Crud\List\Cell\ActionsCell;
-use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\DependencyInjection\Attribute\TaggedLocator;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Twig\Environment;
 use Twig\Markup;
 
-#[AutoconfigureTag(name: 'devster.cms.renderer.cell')]
-class ActionsCellRenderer
+class ActionsCellRenderer implements CellRendererInterface
 {
     public function __construct(
         private readonly Environment    $twig,

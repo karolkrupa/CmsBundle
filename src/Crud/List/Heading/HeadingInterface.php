@@ -6,6 +6,6 @@ interface HeadingInterface
 {
     public function getRenderer(): string;
 
-    public function bold(bool $bold = true);
-    public function align(string $align = 'left');
+    public function setBold(bool $bold = true);
+    public function setAlign(string $align = 'left');
 }

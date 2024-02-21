@@ -18,14 +18,38 @@ class ListView implements PageViewInterface
     public ?FilterForm $filterForm = null;
     public ?PaginationSettings $pagination = null;
 
-
-    public function title(?string $title = null): static
+    /**
+     * Konfiguracja tytułu strony
+     *
+     * @param string|null $title
+     * @return $this
+     */
+    public function setTitle(?string $title = null): static
     {
         $this->title = $title;
 
         return $this;
     }
 
+    /**
+     * Konfiguracja formularza filtrów
+     *
+     * @param FilterForm $form
+     * @return $this
+     */
+    public function setFilterForm(FilterForm $form): static
+    {
+        $this->filterForm = $form;
+
+        return $this;
+    }
+
+    /**
+     * Dodanie kolumny tabeli
+     *
+     * @param $listField
+     * @return $this
+     */
     public function addField($listField): self
     {
         $this->fields[] = $listField;
@@ -34,25 +58,11 @@ class ListView implements PageViewInterface
     }
 
     /**
-     * @return Field[]
+     * Dodanie akcji globalnej dla widoku listy
+     *
+     * @param ActionInterface $action
+     * @return $this
      */
-    public function getFields(): array
-    {
-        return $this->fields;
-    }
-
-    public function setFilterForm(FilterForm $form): static
-    {
-        $this->filterForm = $form;
-
-        return $this;
-    }
-
-    public function getFilterForm(): ?FilterForm
-    {
-        return $this->filterForm;
-    }
-
     public function addAction(ActionInterface $action): static
     {
         $this->actions[] = $action;
@@ -61,14 +71,8 @@ class ListView implements PageViewInterface
     }
 
     /**
-     * @return ActionInterface[]
-     */
-    public function getActions(): array
-    {
-        return $this->actions;
-    }
-
-    /**
+     * Konfiguracja paginacji
+     *
      * @param Closure(PaginationSettings $paginationSettings):void $closure
      * @return static
      */
@@ -81,6 +85,27 @@ class ListView implements PageViewInterface
         $closure($this->pagination);
 
         return $this;
+    }
+
+    /**
+     * @return Field[]
+     */
+    public function getFields(): array
+    {
+        return $this->fields;
+    }
+
+    public function getFilterForm(): ?FilterForm
+    {
+        return $this->filterForm;
+    }
+
+    /**
+     * @return ActionInterface[]
+     */
+    public function getActions(): array
+    {
+        return $this->actions;
     }
 
     public function getPagination(): ?PaginationSettings

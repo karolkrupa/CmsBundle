@@ -8,9 +8,9 @@ interface CellInterface
 
     public function getViewVars(mixed $data): array;
 
-    public function center(bool $center = true): static;
-    public function bold(bool $bold = true): static;
-    public function align(string $align = 'left'): static;
+    public function setCenter(bool $center = true): static;
+    public function setBold(bool $bold = true): static;
+    public function setAlign(string $align = 'left'): static;
 
 
     public function getCenter(): bool;

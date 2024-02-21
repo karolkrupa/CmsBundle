@@ -14,7 +14,7 @@ class FormField
     /**
      * Pole do automatycznego bindowania wartości dla query buildera. Np. "u.firstName"
      */
-    public function property(string $property, ?string $parameterType = null): static
+    public function setProperty(string $property, ?string $parameterType = null): static
     {
         $this->property = $property;
 
@@ -30,7 +30,7 @@ class FormField
      *
      * @param Closure(QueryBuilder $qb, mixed $value): void $handler
      */
-    public function handler(\Closure $handler): static
+    public function setHandler(\Closure $handler): static
     {
         $this->handler = $handler;
 
@@ -42,13 +42,23 @@ class FormField
      *
      * Słowo kluczowe ":value" będzie podmieniane na wartość filtra
      */
-    public function mapping(?string $mapping, ?string $parameterType = null): static
+    public function setMapping(?string $mapping, ?string $parameterType = null): static
     {
         $this->mapping = $mapping;
 
         if ($parameterType) {
             $this->parameterType = $parameterType;
         }
+
+        return $this;
+    }
+
+    /**
+     * Typ parametru dla query buildera
+     */
+    public function setParameterType(?string $parameterType): static
+    {
+        $this->parameterType = $parameterType;
 
         return $this;
     }
@@ -71,15 +81,5 @@ class FormField
     public function getParameterType(): ?string
     {
         return $this->parameterType;
-    }
-
-    /**
-     * Typ parametru dla query buildera
-     */
-    public function parameterType(?string $parameterType): static
-    {
-        $this->parameterType = $parameterType;
-
-        return $this;
     }
 }

@@ -2,15 +2,14 @@
 
 namespace Devster\CmsBundle\Crud\List\Heading\Renderer;
 
-use Devster\CmsBundle\Crud\List\Heading\Heading;
+use Devster\CmsBundle\Crud\List\AbstractField;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Environment;
 use Twig\Markup;
 
-#[AutoconfigureTag(name: 'devster.cms.renderer.heading')]
-class HeadingRenderer
+class HeadingRenderer implements HeadingRendererInterface
 {
     public function __construct(
         private readonly Environment  $twig,
@@ -19,10 +18,10 @@ class HeadingRenderer
     {
     }
 
-    public function render(Heading $heading, PaginationInterface $pagination = null, ?string $rootAlias = null): Markup
+    public function render(AbstractField $field, PaginationInterface $pagination = null, ?string $rootAlias = null): Markup
     {
-        if ($heading->isSortable() && $pagination) {
-            $sortField = $this->getQbFieldName($rootAlias, $heading->getSortField());
+        if ($field->isSortable() && $pagination) {
+            $sortField = $this->getQbFieldName($rootAlias, $field->getSortField());
             $direction = $pagination->getCustomParameter('sortedFields')[$sortField] ?? null;
 
             $newDirection = $direction == 'desc' ? 'asc' : 'desc';
@@ -34,7 +33,7 @@ class HeadingRenderer
             $html = $this->twig->render(
                 '@DevsterCms/crud/list/sortable_link.html.twig',
                 [
-                    'text' => $heading->getText(),
+                    'text' => $field->getHeading()->getText(),
                     'sorted' => !!$direction,
                     'direction' => $direction ?? 'asc',
                     'options' => $options
@@ -44,7 +43,7 @@ class HeadingRenderer
             return new Markup($html, 'UTF-8');
         }
 
-        return new Markup($heading->getText(), 'UTF-8');
+        return new Markup($field->getHeading()->getText(), 'UTF-8');
     }
 
     private function getSortUrl(PaginationInterface $pagination, string $param, string $direction): string

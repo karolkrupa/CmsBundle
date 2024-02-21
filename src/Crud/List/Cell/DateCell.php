@@ -10,7 +10,13 @@ class DateCell extends TextCell
     protected ?string $template = '@DevsterCms/crud/list/cell/date.html.twig';
     protected string $format = 'Y-m-d';
 
-    public function format(string $format): static
+    /**
+     * Konfiguracja formatu wyświetlania daty
+     *
+     * @param string $format
+     * @return $this
+     */
+    public function setFormat(string $format): static
     {
         $this->format = $format;
 

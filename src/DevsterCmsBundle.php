@@ -2,7 +2,10 @@
 
 namespace Devster\CmsBundle;
 
+use Devster\CmsBundle\Crud\List\Action\Renderer\ActionRenderInterface;
 use Devster\CmsBundle\Crud\List\Cell\ListFieldRendererInterface;
+use Devster\CmsBundle\Crud\List\Cell\Renderer\CellRendererInterface;
+use Devster\CmsBundle\Crud\List\Heading\Renderer\HeadingRendererInterface;
 use Devster\CmsBundle\DependencyInjection\CrudPass;
 use Devster\CmsBundle\DependencyInjection\DevsterCmsExtension;
 use Devster\CmsBundle\DependencyInjection\TwigPass;
@@ -22,6 +25,15 @@ class DevsterCmsBundle extends AbstractBundle
 
         $container->addCompilerPass(new CrudPass());
         $container->addCompilerPass(new TwigPass());
+
+        $container->registerForAutoconfiguration(ActionRenderInterface::class)
+            ->addTag('devster.cms.renderer.action');
+
+        $container->registerForAutoconfiguration(CellRendererInterface::class)
+            ->addTag('devster.cms.renderer.cell');
+
+        $container->registerForAutoconfiguration(HeadingRendererInterface::class)
+            ->addTag('devster.cms.renderer.heading');
 
 
 //        $container->register('devster_cms.crud.list.field.renderer_locator', ServiceLocator::class)
