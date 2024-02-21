@@ -2,15 +2,14 @@
 
 namespace Devster\CmsBundle\Crud\List\FilterForm;
 
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 
 class FilterForm
 {
-    static public function create(?string $alias = null): static
+    static public function create(): static
     {
-        return new static($alias);
+        return new static();
     }
 
     protected ?FormInterface $form = null;
@@ -19,20 +18,8 @@ class FilterForm
 
     private ?FormInterface $baseForm = null;
 
-    public function __construct(
-        protected ?string $alias = null
-    )
+    public function __construct()
     {
-    }
-
-    /**
-     * Root z QB alias dla filtrów
-     */
-    public function alias(string $alias): static
-    {
-        $this->alias = $alias;
-
-        return $this;
     }
 
     public function searchFields(array $searchFields): static
@@ -72,11 +59,6 @@ class FilterForm
     public function getConfigurations(): array
     {
         return $this->configurations;
-    }
-
-    public function getAlias(): ?string
-    {
-        return $this->alias;
     }
 
     public function getSearchFields(): array

@@ -18,7 +18,7 @@ class FilterFormHandler
     {
     }
 
-    public function handle(FilterForm $filterForm, QueryBuilder $qb): void
+    public function handle(FilterForm $filterForm, QueryBuilder $qb, ?string $rootAlias = null): void
     {
         $form = $filterForm->getForm($this->formFactory);
 
@@ -34,7 +34,7 @@ class FilterFormHandler
 
         $filterData = $this->getFilterFormData($form, $this->requestStack->getCurrentRequest());
 
-        $rootAlias = $filterForm->getAlias() ?? $qb->getRootAliases()[0];
+        $rootAlias = $rootAlias ?? $qb->getRootAliases()[0];
 
         if ($searchAdded && isset($filterData['search'])) {
             $where = '';
@@ -87,11 +87,11 @@ class FilterFormHandler
     {
         if (isset($form->getConfigurations()[$field])) {
             $config = $form->getConfigurations()[$field];
-        }else {
+        } else {
             $config = new FormField();
         }
 
-        if(!$config->getProperty()) {
+        if (!$config->getProperty()) {
             $config->property($this->getQbFieldName($rootAlias, $field));
         }
 

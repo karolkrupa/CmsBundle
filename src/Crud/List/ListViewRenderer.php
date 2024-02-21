@@ -45,14 +45,29 @@ class ListViewRenderer implements PageRendererInterface
         return $this->renderIterableData($view, $data);
     }
 
-    public function renderQbData(ListView $view, QueryBuilder $qb, ?PaginationSettings $paginationSettings = null)
+    public function renderQbData(
+        ListView $view,
+        QueryBuilder $qb,
+        ?string $rootAlias = null,
+        ?PaginationSettings $paginationSettings = null
+    )
     {
         $pagination = $this->getPagination($qb, $paginationSettings);
 
-        return $this->renderIterableData($view, $pagination, $pagination);
+        return $this->renderIterableData(
+            $view,
+            $pagination,
+            $pagination,
+            $rootAlias
+        );
     }
 
-    private function renderIterableData(ListView $view, iterable $data, mixed $pagination = null)
+    private function renderIterableData(
+        ListView $view,
+        iterable $data,
+        mixed $pagination = null,
+        ?string $rootAlias = null
+    )
     {
         $headings = [];
         $rows = [];
@@ -63,7 +78,11 @@ class ListViewRenderer implements PageRendererInterface
                 '@DevsterCms/crud/list/heading/heading.html.twig',
                 [
                     'heading' => $field->getHeading(),
-                    'headingHtml' => $renderer->render($field->getHeading(), $pagination)
+                    'headingHtml' => $renderer->render(
+                        $field->getHeading(),
+                        $pagination,
+                        $rootAlias
+                    )
                 ]
             );
             $headings[] = new Markup($html, 'UTF-8');

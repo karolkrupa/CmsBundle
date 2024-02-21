@@ -19,16 +19,16 @@ class HeadingRenderer
     {
     }
 
-    public function render(Heading $heading, PaginationInterface $pagination = null): Markup
+    public function render(Heading $heading, PaginationInterface $pagination = null, ?string $rootAlias = null): Markup
     {
         if ($heading->isSortable() && $pagination) {
             $sortField = $heading->getSortField();
             $direction = $pagination->getCustomParameter('sortedFields')[$sortField] ?? null;
 
-            $newDirection = $direction == 'desc'? 'asc' : 'desc';
+            $newDirection = $direction == 'desc' ? 'asc' : 'desc';
 
             $options = [
-                'href' => $this->getSortUrl($pagination, $sortField, $newDirection)
+                'href' => $this->getSortUrl($pagination, $this->getQbFieldName($rootAlias, $sortField), $newDirection)
             ];
 
             $html = $this->twig->render(
@@ -56,5 +56,18 @@ class HeadingRenderer
         $queryParams[$pagination->getPaginatorOption('sortDirectionParameterName')] = $direction;
 
         return $request->getBaseUrl() . '?' . http_build_query($queryParams);
+    }
+
+    private function getQbFieldName(?string $rootAlias, string $field): string
+    {
+        if (!$rootAlias) {
+            return $field;
+        }
+
+        if (!str_contains($field, '.')) {
+            return $rootAlias . '.' . $field;
+        }
+
+        return $field;
     }
 }

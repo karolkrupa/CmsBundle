@@ -15,14 +15,23 @@ class ListViewHandler
     {
     }
 
-    public function handle(ListView $listView, QueryBuilder $qb): Response
+    public function handle(ListView $listView, QueryBuilder $qb, ?string $rootAlias = null): Response
     {
+        if (!$rootAlias && !empty($qb->getRootAliases())) {
+            $rootAlias = $qb->getRootAliases()[0];
+        }
+
         if ($filterForm = $listView->getFilterForm()) {
-            $this->filterFormHandler->handle($filterForm, $qb);
+            $this->filterFormHandler->handle($filterForm, $qb, $rootAlias);
         }
 
         return new Response(
-            $this->listViewRenderer->renderQbData($listView, $qb, $listView->getPagination())
+            $this->listViewRenderer->renderQbData(
+                $listView,
+                $qb,
+                $rootAlias,
+                $listView->getPagination()
+            )
         );
     }
 }
