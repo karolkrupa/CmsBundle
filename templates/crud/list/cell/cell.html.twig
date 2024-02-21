@@ -1,5 +1,5 @@
 {% embed '@DevsterCms/common/table/content_cell.html.twig' with {
-    fit: false,
+    fit: field.isFit(),
     center: cell.getCenter(),
     bold: cell.getBold(),
     title: title|default(null)

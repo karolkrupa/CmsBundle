@@ -102,6 +102,7 @@ class ListViewRenderer implements PageRendererInterface
                 $html = $this->twig->render(
                     '@DevsterCms/crud/list/cell/cell.html.twig',
                     [
+                        'field' => $field,
                         'cell' => $field->getCell(),
                         'title' => $cellTitle,
                         'cellHtml' => $renderer->render($field->getCell(), $rowData)

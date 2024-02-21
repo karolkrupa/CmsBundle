@@ -54,6 +54,11 @@ abstract class AbstractField
         return $this;
     }
 
+    public function isFit(): bool
+    {
+        return $this->fit;
+    }
+
     public function sortable(bool $sort = true): static
     {
         $this->heading->sortable($sort);
