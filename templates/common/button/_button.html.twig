@@ -2,17 +2,18 @@
     {% set tag = 'a' %}
 {% endif %}
 
-<{{ tag|default('a') }} class="{% block class %}
+<{{ tag|default('a') }} class="
+{% block class %}
     py-2 px-3 inline-flex items-center
-    bg-{{ bg|default('white') }}
     gap-x-2 text-sm font-medium rounded-md border
-    border-gray-200 text-gray-800 shadow-sm
-    hover:bg-{{ bg|default('gray-50') }} disabled:opacity-50 disabled:pointer-events-none
-    dark:bg-slate-900 dark:border-gray-700 dark:text-white
-    dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1
-    dark:focus:ring-gray-600
+    border-gray-200 shadow-sm
+    disabled:opacity-50 disabled:pointer-events-none
     {{ class|default('') }}
-{% endblock %}"
+{% endblock %}
+{% block colorClass %}
+    text-gray-800 bg-white hover:bg-gray-50
+{% endblock %}
+"
 
 {% if href is defined and href %}
     href="{% block href %}{{ href }}{% endblock %}"

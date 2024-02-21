@@ -13,15 +13,6 @@ class ActionsCell extends AbstractCell
     protected array $actions = [];
     protected bool $dropdown = false;
 
-    public function __construct()
-    {
-    }
-
-    static public function create(): static
-    {
-        return new static();
-    }
-
     /**
      * Dodanie akcji do listy
      *

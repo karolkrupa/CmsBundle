@@ -3,60 +3,27 @@
 namespace Devster\CmsBundle\Crud\List\Action\Renderer;
 
 use Devster\CmsBundle\Crud\List\Action\ActionInterface;
-use Devster\CmsBundle\Crud\List\Action\AnchorAction;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Twig\Environment;
 use Twig\Markup;
 
-class AnchorActionRenderer implements ActionRenderInterface
+class AnchorActionRenderer extends ActionRenderer
 {
-    public function __construct(
-        protected readonly Environment           $twig,
-        protected readonly UrlGeneratorInterface $urlGenerator
-    )
+    public static function getSubscribedServices(): array
     {
+        return [
+            ...parent::getSubscribedServices(),
+            UrlGeneratorInterface::class
+        ];
     }
 
-    public function renderPageView(ActionInterface $action): Markup
-    {
-        if(!$action instanceof AnchorAction) {
-            throw new \RuntimeException('Nieobsługiwany typ akcji: '. get_class($action));
-        }
-
-        $template = $action->getTemplate('page')?? '@DevsterCms/common/button/button.html.twig';
-
-        return $this->render($action, null, $template);
-    }
-
-    public function renderCellView(ActionInterface $action, mixed $data): Markup
-    {
-        if(!$action instanceof AnchorAction) {
-            throw new \RuntimeException('Nieobsługiwany typ akcji: '. get_class($action));
-        }
-
-        $template = $action->getTemplate()?? '@DevsterCms/common/button/text/text_button.html.twig';
-
-        return $this->render($action, $data, $template);
-    }
-
-    public function renderDropdownView(ActionInterface $action, mixed $data)
-    {
-        if(!$action instanceof AnchorAction) {
-            throw new \RuntimeException('Nieobsługiwany typ akcji: '. get_class($action));
-        }
-
-        $template = $action->getTemplate('dropdown')?? '@DevsterCms/common/button/text/text_button.html.twig';
-
-        return $this->render($action, $data, $template);
-    }
-
-
-    private function render(ActionInterface $action, mixed $data, string $template): Markup
+    public function render(ActionInterface $action, mixed $data): Markup
     {
         $href = $this->getActionUrl($action, $data);
 
-        $html = $this->twig->render($template, [
-            'text' => $action->getName(),
+        $template = $action->getTemplate() ?? '@DevsterCms/common/anchor/default.html.twig';
+
+        $html = $this->twig()->render($template, [
+            ...$this->getViewData($action, $data),
             'href' => $href
         ]);
 
@@ -66,8 +33,8 @@ class AnchorActionRenderer implements ActionRenderInterface
     protected function getActionUrl(ActionInterface $action, mixed $data = null): ?string
     {
         $url = null;
-        if($action->getRoute()) {
-            $url = $this->urlGenerator->generate($action->getRoute(), $this->parseRouteParams($action, $data));
+        if ($action->getRoute()) {
+            $url = $this->urlGenerator()->generate($action->getRoute(), $this->parseRouteParams($action, $data));
         }
 
         return $url;
@@ -77,8 +44,8 @@ class AnchorActionRenderer implements ActionRenderInterface
     {
         $params = $action->getRouteParams();
 
-        if(!$data) {
-            if($params && !is_array($params)) {
+        if (!$data) {
+            if ($params && !is_array($params)) {
                 throw new \LogicException('Akcje globalne obsługują jedynie tablicę parametrów');
             }
 
@@ -123,5 +90,10 @@ class AnchorActionRenderer implements ActionRenderInterface
         }
 
         return $param;
+    }
+
+    private function urlGenerator(): UrlGeneratorInterface
+    {
+        return $this->container->get(UrlGeneratorInterface::class);
     }
 }

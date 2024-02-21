@@ -12,7 +12,7 @@ class ActionsFiled extends AbstractField
     public function __construct(string $id)
     {
         parent::__construct($id);
-        $this->cell = new ActionsCell();
+        $this->cell = new ActionsCell($id);
     }
 
     public function getCell(): ActionsCell

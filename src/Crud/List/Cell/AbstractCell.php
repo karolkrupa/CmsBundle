@@ -4,10 +4,23 @@ namespace Devster\CmsBundle\Crud\List\Cell;
 
 abstract class AbstractCell implements CellInterface
 {
+    protected ?string $template = null;
     protected bool $center = false;
     protected bool $bold = false;
-    protected string $align = 'left';
-    protected null|string|\Closure $title = null;
+
+
+    /**
+     * Konfiguracja szablonu widoku
+     *
+     * @param string|null $template
+     * @return $this
+     */
+    public function setTemplate(?string $template): static
+    {
+        $this->template = $template;
+
+        return $this;
+    }
 
     /**
      * Konfiguracja wycentrowania w komórce tabeli
@@ -35,30 +48,9 @@ abstract class AbstractCell implements CellInterface
         return $this;
     }
 
-    /**
-     * Konfiguracja wyjustowania tekstu w komórce tabeli
-     *
-     * @param string $align
-     * @return $this
-     */
-    public function setAlign(string $align = 'left'): static
+    public function getTemplate(): ?string
     {
-        $this->align = $align;
-
-        return $this;
-    }
-
-    /**
-     * Konfiguracja tytułu (popup) komórki tabeli
-     *
-     * @param string|\Closure|null $title
-     * @return $this
-     */
-    public function setTitle(string|\Closure|null $title): static
-    {
-        $this->title = $title;
-
-        return $this;
+        return $this->template;
     }
 
     public function getCenter(): bool
@@ -71,26 +63,14 @@ abstract class AbstractCell implements CellInterface
         return $this->bold;
     }
 
-    public function getAlign(): string
-    {
-        return $this->align;
-    }
-
-    public function getTitle(): string|\Closure|null
-    {
-        return $this->title;
-    }
-
     /**
      * Zmienne dla widoku
      *
      * @param mixed $data
-     * @return \Closure[]|null[]|string[]
+     * @return array
      */
     public function getViewVars(mixed $data): array
     {
-        return [
-            'title' => $this->title instanceof \Closure ? ($this->title)($data) : $this->title
-        ];
+        return [];
     }
 }

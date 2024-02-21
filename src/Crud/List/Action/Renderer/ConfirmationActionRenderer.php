@@ -8,48 +8,21 @@ use Twig\Markup;
 
 class ConfirmationActionRenderer extends AnchorActionRenderer
 {
-    public function renderPageView(ActionInterface $action): Markup
+    public function render(ActionInterface $action, mixed $data): Markup
     {
         if (!$action instanceof ConfirmationAction) {
-            throw new \RuntimeException('Nieobsługiwany typ akcji: ' . get_class($action));
+            throw new \RuntimeException('Nieobsługiwany typ akcji');
         }
 
-        $template = $action->getTemplate('page') ?? '@DevsterCms/common/button/button.html.twig';
-
-        return $this->render($action, null, $template);
-    }
-
-    public function renderCellView(ActionInterface $action, mixed $data): Markup
-    {
-        if (!$action instanceof ConfirmationAction) {
-            throw new \RuntimeException('Nieobsługiwany typ akcji: ' . get_class($action));
-        }
-
-        $template = $action->getTemplate() ?? '@DevsterCms/common/button/text/text_button.html.twig';
-
-        return $this->render($action, $data, $template);
-    }
-
-    public function renderDropdownView(ActionInterface $action, mixed $data)
-    {
-        if (!$action instanceof ConfirmationAction) {
-            throw new \RuntimeException('Nieobsługiwany typ akcji: ' . get_class($action));
-        }
-
-        $template = $action->getTemplate('dropdown') ?? '@DevsterCms/common/button/text/text_button.html.twig';
-
-        return $this->render($action, $data, $template);
-    }
-
-
-    private function render(ConfirmationAction $action, mixed $data, string $template): Markup
-    {
         $url = $this->getActionUrl($action, $data);
 
-        $html = $this->twig->render('@DevsterCms/crud/list/action/confirmation_action.html.twig', [
+        $template = $action->getTemplate() ?? '@DevsterCms/common/button/text/default.html.twig';
+
+        $html = $this->twig()->render('@DevsterCms/crud/list/action/confirmation_action.html.twig', [
+            ...$this->getViewData($action, $data),
             'href' => $url,
             'buttonTemplate' => $template,
-            'buttonText' => $action->getName(),
+            'buttonText' => $action->getText() instanceof \Closure ? $action->getText()($data) : $action->getText(),
             'modalArguments' => $this->parseModalData($action, $data),
             'modalId' => 'modal-' . uniqid()
         ]);

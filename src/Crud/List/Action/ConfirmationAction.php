@@ -7,6 +7,11 @@ use Devster\CmsBundle\Crud\List\Action\Renderer\ConfirmationActionRenderer;
 
 class ConfirmationAction extends AnchorAction
 {
+    const TYPE_ANCHOR = 'anchor';
+    const TYPE_BUTTON = 'button';
+    const TYPE_TEXT_BUTTON = 'text_button';
+
+    protected string $activatorType = self::TYPE_ANCHOR;
     protected null|string|\Closure $modalTitle = null;
     protected null|string|\Closure $modalText = '';
     protected string $acceptText = 'Tak';
@@ -64,6 +69,19 @@ class ConfirmationAction extends AnchorAction
         return $this;
     }
 
+    /**
+     * Konfiguracja typu aktywatora
+     *
+     * @param string $activatorType
+     * @return $this
+     */
+    public function setActivatorType(string $activatorType): ConfirmationAction
+    {
+        $this->activatorType = $activatorType;
+
+        return $this;
+    }
+
     public function getModalTitle(): string|\Closure|null
     {
         return $this->modalTitle;
@@ -87,5 +105,28 @@ class ConfirmationAction extends AnchorAction
     public function getRenderer(): string
     {
         return ConfirmationActionRenderer::class;
+    }
+
+    public function getTemplate(): string
+    {
+        if ($this->template) {
+            return $this->template;
+        }
+
+        if ($this->activatorType == self::TYPE_ANCHOR) {
+            $map = AnchorAction::TEMPLATES;
+        } elseif ($this->activatorType == self::TYPE_BUTTON) {
+            $map = ButtonAction::TEMPLATES;
+        } elseif ($this->activatorType == self::TYPE_TEXT_BUTTON) {
+            $map = TextButtonAction::TEMPLATES;
+        } else {
+            throw new \RuntimeException('Niznany typ aktywatora');
+        }
+
+        if (!isset($map[$this->color])) {
+            throw new \RuntimeException('Brak templatki dla koloru akcji: ' . $this->color);
+        }
+
+        return $map[$this->color];
     }
 }

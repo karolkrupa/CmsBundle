@@ -25,11 +25,11 @@ class ActionsCellRenderer implements CellRendererInterface
         foreach ($cell->getActions() as $action) {
             /** @var ActionRenderInterface $renderer */
             $renderer = $this->actionsRendererLocator->get($action->getRenderer());
-            if ($cell->isDropdown()) {
-                $renderedActions[] = $renderer->renderDropdownView($action, $data);
-            } else {
-                $renderedActions[] = $renderer->renderCellView($action, $data);
-            }
+//            if ($cell->isDropdown()) {
+                $renderedActions[] = $renderer->render($action, $data);
+//            } else {
+//                $renderedActions[] = $renderer->renderCellView($action, $data);
+//            }
         }
 
         $html = $this->twig->render('@DevsterCms/crud/list/cell/actions.html.twig', [

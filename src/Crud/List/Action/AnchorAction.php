@@ -7,6 +7,13 @@ use Devster\CmsBundle\Crud\List\Action\Renderer\AnchorActionRenderer;
 
 class AnchorAction extends Action
 {
+    const TEMPLATES = [
+        self::COLOR_DEFAULT => '@DevsterCms/common/anchor/default.html.twig',
+        self::COLOR_BLUE => '@DevsterCms/common/anchor/blue.html.twig',
+        self::COLOR_RED => '@DevsterCms/common/anchor/red.html.twig',
+        self::COLOR_GREEN => '@DevsterCms/common/anchor/green.html.twig'
+    ];
+
     protected ?string $route = null;
     protected array|\Closure $params = [];
 
@@ -49,5 +56,18 @@ class AnchorAction extends Action
     public function getRenderer(): string
     {
         return AnchorActionRenderer::class;
+    }
+
+    public function getTemplate(): string
+    {
+        if ($this->template) {
+            return $this->template;
+        }
+
+        if (!isset(static::TEMPLATES[$this->color])) {
+            throw new \RuntimeException('Brak templatki dla koloru akcji: ' . $this->color);
+        }
+
+        return static::TEMPLATES[$this->color];
     }
 }

@@ -6,6 +6,7 @@ use Devster\CmsBundle\Crud\Common\PageRendererInterface;
 use Devster\CmsBundle\Crud\Common\PageViewInterface;
 use Devster\CmsBundle\Crud\Edit\EditView;
 use Devster\CmsBundle\Crud\List\Action\Renderer\ActionRenderInterface;
+use Devster\CmsBundle\Crud\List\Cell\TitledCellInterface;
 use Devster\CmsBundle\Crud\List\FilterForm\FilterFormRenderer;
 use Devster\CmsBundle\Crud\List\Pagination\PaginationSettings;
 use Devster\CmsBundle\KnpPager\Event\Subscriber\SortableSubscriber;
@@ -46,9 +47,9 @@ class ListViewRenderer implements PageRendererInterface
     }
 
     public function renderQbData(
-        ListView $view,
-        QueryBuilder $qb,
-        ?string $rootAlias = null,
+        ListView            $view,
+        QueryBuilder        $qb,
+        ?string             $rootAlias = null,
         ?PaginationSettings $paginationSettings = null
     )
     {
@@ -65,8 +66,8 @@ class ListViewRenderer implements PageRendererInterface
     private function renderIterableData(
         ListView $view,
         iterable $data,
-        mixed $pagination = null,
-        ?string $rootAlias = null
+        mixed    $pagination = null,
+        ?string  $rootAlias = null
     )
     {
         $headings = [];
@@ -93,11 +94,15 @@ class ListViewRenderer implements PageRendererInterface
             foreach ($view->getFields() as $field) {
                 $renderer = $this->cellRendererLocator->get($field->getCell()->getRenderer());
 
-                $cellTitle = $field->getCell()->getTitle();
+                $cellTitle = '';
+                if ($field->getCell() instanceof TitledCellInterface) {
+                    $cellTitle = $field->getCell()->getTitle();
 
-                if($cellTitle instanceof \Closure) {
-                    $cellTitle = $cellTitle($rowData);
+                    if ($cellTitle instanceof \Closure) {
+                        $cellTitle = $cellTitle($rowData);
+                    }
                 }
+
 
                 $html = $this->twig->render(
                     '@DevsterCms/crud/list/cell/cell.html.twig',
@@ -125,7 +130,7 @@ class ListViewRenderer implements PageRendererInterface
             /** @var ActionRenderInterface $renderer */
             $renderer = $this->actionRendererLocator->get($action->getRenderer());
 
-            $pageActionViews[] = $renderer->renderPageView($action);
+            $pageActionViews[] = $renderer->render($action, null);
         }
 
         return $this->twig->render('@DevsterCms/crud/list/view.html.twig', [

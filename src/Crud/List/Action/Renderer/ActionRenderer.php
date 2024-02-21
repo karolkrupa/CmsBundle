@@ -3,44 +3,36 @@
 namespace Devster\CmsBundle\Crud\List\Action\Renderer;
 
 use Devster\CmsBundle\Crud\List\Action\ActionInterface;
+use Symfony\Contracts\Service\Attribute\SubscribedService;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
+use Symfony\Contracts\Service\ServiceSubscriberTrait;
 use Twig\Environment;
 use Twig\Markup;
 
-class ActionRenderer implements ActionRenderInterface
+class ActionRenderer implements ActionRenderInterface, ServiceSubscriberInterface
 {
-    public function __construct(
-        private readonly Environment $twig
-    )
-    {
-    }
+    use ServiceSubscriberTrait;
 
-    public function renderPageView(ActionInterface $action)
-    {
-        return $this->renderCellView($action, null);
-    }
-
-
-    public function renderCellView(ActionInterface $action, mixed $data)
+    public function render(ActionInterface $action, mixed $data): Markup
     {
         $template = $action->getTemplate() ?? '@DevsterCms/crud/list/action/action.html.twig';
 
-        $html = $this->twig->render($template, [
-            'text' => $action->getName()
-        ]);
+        $html = $this->twig()->render($template, $this->getViewData($action, $data));
 
         return new Markup($html, 'UTF-8');
     }
 
-    public function renderDropdownView(ActionInterface $action, mixed $data)
+    protected function getViewData(ActionInterface $action, mixed $data): array
     {
-        $template = $action->getTemplate('dropdown') ?? '@DevsterCms/common/dropdown/item.html.twig';
-
-        $html = $this->twig->render($template, [
-            'text' => $action->getName()
-        ]);
-
-        return new Markup($html, 'UTF-8');
+        return [
+            'action' => $action,
+            'text' => $action->getText() instanceof \Closure ? $action->getText()($data) : $action->getText()
+        ];
     }
 
-
+    #[SubscribedService]
+    protected function twig(): Environment
+    {
+        return $this->container->get(__METHOD__);
+    }
 }

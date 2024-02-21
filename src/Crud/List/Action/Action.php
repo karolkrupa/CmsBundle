@@ -10,34 +10,35 @@ class Action implements ActionInterface
     const COLOR_BLUE = 'BLUE';
     const COLOR_RED = 'RED';
     const COLOR_GREEN = 'GREEN';
-    const TYPE_DEFAULT = 'default';
-    const TYPE_TEXT = 'text';
-    const TYPE_BUTTON = 'button';
 
     protected ?string $template = null;
     protected ?string $color = self::COLOR_DEFAULT;
-    protected string $type = self::TYPE_DEFAULT;
+    protected ?string $class = null;
+    protected bool $appendClass = false;
 
+    /**
+     * @param string|Closure(mixed $data):string $text
+     */
     public function __construct(
-        protected string $name
+        protected string|\Closure $text
     )
     {
     }
 
-    static public function create(string $name): static
+    static public function create(string|\Closure $text): static
     {
-        return new static($name);
+        return new static($text);
     }
 
     /**
      * Konfiguracja nazwy akcji
      *
-     * @param string $name
+     * @param string|Closure(mixed $data):string $text
      * @return $this
      */
-    public function setName(string $name): static
+    public function setText(string|\Closure $text): static
     {
-        $this->name = $name;
+        $this->text = $text;
 
         return $this;
     }
@@ -68,50 +69,48 @@ class Action implements ActionInterface
         return $this;
     }
 
-
-    public function getName(): string
+    /**
+     * Konfiguracja klas
+     *
+     * @param string|null $class
+     * @param bool $appendClass
+     * @return $this
+     */
+    public function setClass(?string $class, bool $appendClass = false): static
     {
-        return $this->name;
+        $this->class = $class;
+        $this->appendClass = $appendClass;
+
+        return $this;
     }
+
+
+    public function getText(): string|\Closure
+    {
+        return $this->text;
+    }
+
     public function getRenderer(): string
     {
         return ActionRenderer::class;
     }
 
-    public function getTemplate(string $placeType = 'cell'): ?string
+    public function getTemplate(): string
     {
-        $mapText = [
-            null => '@DevsterCms/common/button/text/text_button.html.twig',
-            self::COLOR_BLUE => '@DevsterCms/common/button/text/text_button_blue.html.twig',
-            self::COLOR_RED => '@DevsterCms/common/button/text/text_button_red.html.twig',
-            self::COLOR_GREEN => '@DevsterCms/common/button/text/text_button_green.html.twig'
-        ];
-
-        $mapButton = [
-            null => '@DevsterCms/common/button/button.html.twig',
-            self::COLOR_BLUE => '@DevsterCms/common/button/button_blue.html.twig',
-            self::COLOR_RED => '@DevsterCms/common/button/button_red.html.twig',
-            self::COLOR_GREEN => '@DevsterCms/common/button/button_green.html.twig'
-        ];
-
         if ($this->template) {
             return $this->template;
         }
 
-        $type = $this->type;
-        if ($type == self::TYPE_DEFAULT) {
-            if($placeType == 'dropdown') {
-                return '@DevsterCms/common/dropdown/item.html.twig';
-            }
+        return '@DevsterCms/common/button/text/default.html.twig';
+    }
 
-            $type = $placeType == 'cell' ? self::TYPE_TEXT : self::TYPE_BUTTON;
-        }
-        $map = $type == self::TYPE_TEXT ? $mapText : $mapButton;
+    public function getClass(): ?string
+    {
+        return $this->class;
+    }
 
-        if (!isset($map[$this->color])) {
-            throw new \RuntimeException('Brak templatki dla koloru akcji: ' . $this->color);
-        }
-
-        return $map[$this->color];
+    public function isAppendClass(): bool
+    {
+        return $this->appendClass;
     }
 }
