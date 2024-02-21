@@ -7,10 +7,13 @@ abstract class AbstractCell implements CellInterface
     protected bool $center = false;
     protected bool $bold = false;
     protected string $align = 'left';
+    protected null|string|\Closure $title;
 
-    public function getViewVars(): array
+    public function getViewVars(mixed $data): array
     {
-        return [];
+        return [
+            'title' => $this->title instanceof \Closure ? $this->title($data) : $this->title
+        ];
     }
 
     public function center(bool $center = true): static
@@ -47,5 +50,17 @@ abstract class AbstractCell implements CellInterface
     public function getAlign(): string
     {
         return $this->align;
+    }
+
+    public function getTitle(): string|\Closure|null
+    {
+        return $this->title;
+    }
+
+    public function title(string|\Closure|null $title): static
+    {
+        $this->title = $title;
+
+        return $this;
     }
 }

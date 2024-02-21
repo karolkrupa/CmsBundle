@@ -73,10 +73,18 @@ class ListViewRenderer implements PageRendererInterface
             $rowCells = [];
             foreach ($view->getFields() as $field) {
                 $renderer = $this->cellRendererLocator->get($field->getCell()->getRenderer());
+
+                $cellTitle = $field->getCell()->getTitle();
+
+                if($cellTitle instanceof \Closure) {
+                    $cellTitle = $cellTitle($rowData);
+                }
+
                 $html = $this->twig->render(
                     '@DevsterCms/crud/list/cell/cell.html.twig',
                     [
                         'cell' => $field->getCell(),
+                        'title' => $cellTitle,
                         'cellHtml' => $renderer->render($field->getCell(), $rowData)
                     ]
                 );

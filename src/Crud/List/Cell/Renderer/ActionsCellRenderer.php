@@ -17,7 +17,7 @@ class ActionsCellRenderer
     public function __construct(
         private readonly Environment    $twig,
         #[TaggedLocator(tag: 'devster.cms.renderer.action')]
-        private readonly ServiceLocator           $actionsRendererLocator,
+        private readonly ServiceLocator $actionsRendererLocator,
     )
     {
     }
@@ -28,12 +28,11 @@ class ActionsCellRenderer
         foreach ($cell->getActions() as $action) {
             /** @var ActionRenderInterface $renderer */
             $renderer = $this->actionsRendererLocator->get($action->getRenderer());
-            if($cell->isDropdown()) {
+            if ($cell->isDropdown()) {
                 $renderedActions[] = $renderer->renderDropdownView($action, $data);
-            }else {
+            } else {
                 $renderedActions[] = $renderer->renderCellView($action, $data);
             }
-
         }
 
         $html = $this->twig->render('@DevsterCms/crud/list/cell/actions.html.twig', [

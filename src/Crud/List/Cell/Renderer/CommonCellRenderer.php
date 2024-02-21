@@ -22,7 +22,7 @@ class CommonCellRenderer
     public function render(TemplateCell $cell, mixed $data): Markup
     {
         $html = $this->twig->render($this->getCellTemplate($cell), [
-            'vars' => $cell->getViewVars(),
+            'vars' => $cell->getViewVars($data),
             'value' => $this->getViewValue($cell, $data)
         ]);
 

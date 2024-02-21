@@ -22,10 +22,10 @@ class DateCell extends TextCell
         return $this->format;
     }
 
-    public function getViewVars(): array
+    public function getViewVars(mixed $data): array
     {
         return [
-            ...parent::getViewVars(),
+            ...parent::getViewVars($data),
             ...[
                 'format' => $this->format
             ]

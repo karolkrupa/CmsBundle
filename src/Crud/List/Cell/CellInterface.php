@@ -6,7 +6,7 @@ interface CellInterface
 {
     public function getRenderer(): string;
 
-    public function getViewVars(): array;
+    public function getViewVars(mixed $data): array;
 
     public function center(bool $center = true): static;
     public function bold(bool $bold = true): static;

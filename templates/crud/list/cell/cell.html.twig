@@ -2,7 +2,7 @@
     fit: false,
     center: cell.getCenter(),
     bold: cell.getBold(),
-    title: false
+    title: title|default(null)
 } %}
     {% block content %}
         {{ cellHtml }}
