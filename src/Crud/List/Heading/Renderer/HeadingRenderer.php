@@ -22,13 +22,13 @@ class HeadingRenderer
     public function render(Heading $heading, PaginationInterface $pagination = null, ?string $rootAlias = null): Markup
     {
         if ($heading->isSortable() && $pagination) {
-            $sortField = $heading->getSortField();
+            $sortField = $this->getQbFieldName($rootAlias, $heading->getSortField());
             $direction = $pagination->getCustomParameter('sortedFields')[$sortField] ?? null;
 
             $newDirection = $direction == 'desc' ? 'asc' : 'desc';
 
             $options = [
-                'href' => $this->getSortUrl($pagination, $this->getQbFieldName($rootAlias, $sortField), $newDirection)
+                'href' => $this->getSortUrl($pagination, $sortField, $newDirection)
             ];
 
             $html = $this->twig->render(
