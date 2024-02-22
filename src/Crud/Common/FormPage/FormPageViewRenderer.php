@@ -2,25 +2,19 @@
 
 namespace Devster\CmsBundle\Crud\Common\FormPage;
 
-use Devster\CmsBundle\Crud\Common\PageRendererInterface;
-use Devster\CmsBundle\Crud\Common\PageViewInterface;
-use Twig\Environment;
+use Devster\CmsBundle\Crud\Common\Renderer\TemplatePageViewRenderer;
+use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
+use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;
 
-class FormPageRenderer implements PageRendererInterface
+class FormPageViewRenderer extends TemplatePageViewRenderer
 {
-    public function __construct(
-        protected readonly Environment $twig
-    )
-    {
-    }
-
-    public function render(PageViewInterface $view, mixed $data = null): string
+    public function render(PageViewInterface $view, PageViewPayloadInterface $payload = null): string
     {
         if (!$view instanceof FormPageView) {
             throw new \LogicException('Oczekiwany typ: ' . FormPageView::class);
         }
 
-        return $this->twig->render(
+        return $this->twig()->render(
             '@DevsterCms/crud/common/form/view.html.twig',
             [
                 'form' => $view->getForm()->createView(),

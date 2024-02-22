@@ -2,6 +2,7 @@
 
 namespace Devster\CmsBundle\DependencyInjection;
 
+use Devster\CmsBundle\Crud\Common\Renderer\PageViewRendererInterface;
 use Devster\CmsBundle\Crud\Sidebar\Sidebar;
 use Devster\CmsBundle\Form\CKEditorType;
 use Symfony\Component\Config\FileLocator;
@@ -14,6 +15,9 @@ class DevsterCmsExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
+        $container->registerForAutoconfiguration(PageViewRendererInterface::class)
+            ->addTag('devster.cms.renderer.page');
+
         $loader = new YamlFileLoader(
             $container,
             new FileLocator(__DIR__ . '/../../config')

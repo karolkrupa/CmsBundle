@@ -2,8 +2,9 @@
 
 namespace Devster\CmsBundle;
 
+use Devster\CmsBundle\Crud\Common\Renderer\PageViewRendererInterface;
+use Devster\CmsBundle\Crud\Common\View\PageViewHandlerInterface;
 use Devster\CmsBundle\Crud\List\Action\Renderer\ActionRenderInterface;
-use Devster\CmsBundle\Crud\List\Cell\ListFieldRendererInterface;
 use Devster\CmsBundle\Crud\List\Cell\Renderer\CellRendererInterface;
 use Devster\CmsBundle\Crud\List\Heading\Renderer\HeadingRendererInterface;
 use Devster\CmsBundle\DependencyInjection\CrudPass;
@@ -34,6 +35,11 @@ class DevsterCmsBundle extends AbstractBundle
 
         $container->registerForAutoconfiguration(HeadingRendererInterface::class)
             ->addTag('devster.cms.renderer.heading');
+
+
+
+        $container->registerForAutoconfiguration(PageViewHandlerInterface::class)
+            ->addTag('devster.cms.view.handler');
 
 
 //        $container->register('devster_cms.crud.list.field.renderer_locator', ServiceLocator::class)

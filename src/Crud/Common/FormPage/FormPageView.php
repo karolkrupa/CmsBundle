@@ -2,31 +2,29 @@
 
 namespace Devster\CmsBundle\Crud\Common\FormPage;
 
-use Devster\CmsBundle\Crud\Common\PageViewInterface;
+use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
+use Devster\CmsBundle\Crud\Common\View\TemplatePageView;
 use Symfony\Component\Form\FormInterface;
 
-class FormPageView implements PageViewInterface
+class FormPageView extends TemplatePageView
 {
+    protected ?string $successRoute = null;
+    protected ?FormInterface $form = null;
+    protected ?string $formTemplate = null;
+
     static public function create(): static
     {
         return new static();
     }
 
-    protected ?string $title = null;
-    protected ?string $successRoute = null;
-    protected ?FormInterface $form = null;
-    protected ?string $formTemplate = null;
+    public function getRenderer(): string
+    {
+        return FormPageViewRenderer::class;
+    }
 
     public function form(FormInterface $form): static
     {
         $this->form = $form;
-
-        return $this;
-    }
-
-    public function title(string $title): static
-    {
-        $this->title = $title;
 
         return $this;
     }
@@ -43,11 +41,6 @@ class FormPageView implements PageViewInterface
         $this->formTemplate = $template;
 
         return $this;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
     }
 
     public function getSuccessRoute(): ?string

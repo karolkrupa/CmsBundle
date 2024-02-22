@@ -2,9 +2,9 @@
 
 namespace Devster\CmsBundle\Crud\Edit;
 
-use Devster\CmsBundle\Crud\Common\FormPage\FormPageRenderer;
+use Devster\CmsBundle\Crud\Common\FormPage\FormPageViewRenderer;
 
-class EditViewRenderer extends FormPageRenderer
+class EditViewRenderer extends FormPageViewRenderer
 {
 
 }

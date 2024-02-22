@@ -2,31 +2,34 @@
 
 namespace Devster\CmsBundle\Crud\Edit;
 
-use Symfony\Component\HttpFoundation\Request;
+use Devster\CmsBundle\Crud\Common\View\AbstractPageViewHandler;
+use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
+use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-class EditViewHandler
+class EditViewHandler extends AbstractPageViewHandler
 {
-    public function __construct(
-        private readonly EditViewRenderer $editViewRenderer
-    )
-    {
-    }
-
     public function handle(
-        EditView $editView,
-        Request  $request,
-        mixed    $data
+        PageViewInterface $view,
+        PageViewPayloadInterface $payload
     ): Response
     {
-        $form = $editView->getForm();
+        if(!$view instanceof EditView) {
+            throw new \RuntimeException('Niepoprawny typ widoku');
+        }
 
-        $form->setData($data);
+        if(!$payload instanceof EditViewPayload) {
+            throw new \RuntimeException('Niepoprawny payload');
+        }
 
-        $form->handleRequest($request);
+        $form = $view->getForm();
+
+        $form->setData($payload->data);
+
+        $form->handleRequest($payload->request);
 
         return new Response(
-            $this->editViewRenderer->render($editView, $data)
+            $this->getRenderer($view->getRenderer())->render($view, $payload)
         );
     }
 }

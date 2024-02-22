@@ -5,7 +5,7 @@ namespace Devster\CmsBundle\Controller;
 use Devster\CmsBundle\Crud\Action\Renderer\ActionRenderer;
 use Devster\CmsBundle\Crud\List\Cell\ListFieldRendererInterface;
 use Devster\CmsBundle\Crud\List\Cell\Renderer\ListFieldRenderer;
-use Devster\CmsBundle\Crud\List\ListView;
+use Devster\CmsBundle\Crud\List\ListPageView;
 use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
@@ -36,7 +36,7 @@ class AbstractCrudController extends AbstractController implements ServiceSubscr
     }
 
     protected function renderList(
-        ListView     $view,
+        ListPageView $view,
         QueryBuilder $data
     )
     {

@@ -2,33 +2,32 @@
 
 namespace Devster\CmsBundle\Crud\List;
 
-use Devster\CmsBundle\Crud\Common\PageViewInterface;
+use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
+use Devster\CmsBundle\Crud\Common\View\TemplatePageView;
 use Devster\CmsBundle\Crud\List\Action\ActionInterface;
 use Devster\CmsBundle\Crud\List\FilterForm\FilterForm;
 use Devster\CmsBundle\Crud\List\Pagination\PaginationSettings;
+use Devster\CmsBundle\Crud\List\Renderer\ListPageViewRenderer;
 
 /**
  * Dto widoku listy
  */
-class ListView implements PageViewInterface
+class ListPageView extends TemplatePageView
 {
-    public ?string $title = null;
-    public array $fields = [];
-    public array $actions = [];
-    public ?FilterForm $filterForm = null;
-    public ?PaginationSettings $pagination = null;
+    protected array $fields = [];
+    protected array $actions = [];
+    protected ?FilterForm $filterForm = null;
+    protected ?PaginationSettings $pagination = null;
+    protected ?string $template = '@DevsterCms/crud/list/view.html.twig';
 
-    /**
-     * Konfiguracja tytułu strony
-     *
-     * @param string|null $title
-     * @return $this
-     */
-    public function setTitle(?string $title = null): static
+    public function getRenderer(): string
     {
-        $this->title = $title;
+        return ListPageViewRenderer::class;
+    }
 
-        return $this;
+    public function getHandler(): string
+    {
+        return ListPageViewHandler::class;
     }
 
     /**

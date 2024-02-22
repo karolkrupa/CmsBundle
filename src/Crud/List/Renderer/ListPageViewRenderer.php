@@ -1,13 +1,17 @@
 <?php
 
-namespace Devster\CmsBundle\Crud\List;
+namespace Devster\CmsBundle\Crud\List\Renderer;
 
-use Devster\CmsBundle\Crud\Common\PageRendererInterface;
-use Devster\CmsBundle\Crud\Common\PageViewInterface;
+use Devster\CmsBundle\Crud\Common\Renderer\PageViewRendererInterface;
+use Devster\CmsBundle\Crud\Common\Renderer\TemplatePageViewRenderer;
+use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
+use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;
 use Devster\CmsBundle\Crud\Edit\EditView;
 use Devster\CmsBundle\Crud\List\Action\Renderer\ActionRenderInterface;
 use Devster\CmsBundle\Crud\List\Cell\TitledCellInterface;
 use Devster\CmsBundle\Crud\List\FilterForm\Renderer\FilterFormRenderer;
+use Devster\CmsBundle\Crud\List\ListPageView;
+use Devster\CmsBundle\Crud\List\ListPageViewPayload;
 use Devster\CmsBundle\Crud\List\Pagination\PaginationSettings;
 use Devster\CmsBundle\KnpPager\Event\Subscriber\SortableSubscriber;
 use Doctrine\ORM\QueryBuilder;
@@ -21,10 +25,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Environment;
 use Twig\Markup;
 
-class ListViewRenderer implements PageRendererInterface
+class ListPageViewRenderer extends TemplatePageViewRenderer
 {
     public function __construct(
-        private readonly Environment        $twig,
         #[TaggedLocator(tag: 'devster.cms.renderer.heading')]
         private readonly ServiceLocator     $headingRendererLocator,
         #[TaggedLocator(tag: 'devster.cms.renderer.cell')]
@@ -37,17 +40,21 @@ class ListViewRenderer implements PageRendererInterface
     {
     }
 
-    public function render(PageViewInterface $view, mixed $data): string
+    public function render(PageViewInterface $view, PageViewPayloadInterface $payload): string
     {
         if (!$view instanceof EditView) {
-            throw new \LogicException('Oczekiwany typ: ' . ListView::class);
+            throw new \LogicException('Oczekiwany typ: ' . ListPageView::class);
         }
 
-        return $this->renderIterableData($view, $data);
+        if (!$payload instanceof ListPageViewPayload) {
+            throw new \LogicException('Oczekiwany typ: ' . ListPageView::class);
+        }
+
+        return $this->renderIterableData($view, $payload->getPayload());
     }
 
     public function renderQbData(
-        ListView            $view,
+        ListPageView        $view,
         QueryBuilder        $qb,
         ?string             $rootAlias = null,
         ?PaginationSettings $paginationSettings = null
@@ -64,10 +71,10 @@ class ListViewRenderer implements PageRendererInterface
     }
 
     private function renderIterableData(
-        ListView $view,
-        iterable $data,
-        mixed    $pagination = null,
-        ?string  $rootAlias = null
+        ListPageView $view,
+        iterable     $data,
+        mixed        $pagination = null,
+        ?string      $rootAlias = null
     )
     {
         $headings = [];
@@ -75,7 +82,7 @@ class ListViewRenderer implements PageRendererInterface
 
         foreach ($view->getFields() as $field) {
             $renderer = $this->headingRendererLocator->get($field->getHeading()->getRenderer());
-            $html = $this->twig->render(
+            $html = $this->twig()->render(
                 '@DevsterCms/crud/list/heading/heading.html.twig',
                 [
                     'field' => $field,
@@ -104,7 +111,7 @@ class ListViewRenderer implements PageRendererInterface
                 }
 
 
-                $html = $this->twig->render(
+                $html = $this->twig()->render(
                     '@DevsterCms/crud/list/cell/cell.html.twig',
                     [
                         'field' => $field,
@@ -133,8 +140,9 @@ class ListViewRenderer implements PageRendererInterface
             $pageActionViews[] = $renderer->render($action, null);
         }
 
-        return $this->twig->render('@DevsterCms/crud/list/view.html.twig', [
-            'pageTitle' => $view->title,
+        // @DevsterCms/crud/list/view.html.twig
+        return $this->twig()->render($view->getTemplate(), [
+            'pageTitle' => $view->getTitle(),
             'headings' => $headings,
             'rows' => $rows,
             'pagination' => $pagination,
@@ -176,7 +184,7 @@ class ListViewRenderer implements PageRendererInterface
         );
 
         $pagination->renderer = function ($data) use ($request) {
-            return $this->twig->render(
+            return $this->twig()->render(
                 '@DevsterCms/crud/list/pagination.html.twig',
                 [
                     ...$data,
