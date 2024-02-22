@@ -13,11 +13,7 @@ class TwigPass implements CompilerPassInterface
             'addGlobal',
             [
                 'devstercms',
-                [
-                    'dashboard' => [
-                        'title' => $container->getParameter('devstercms.dashboard.title')
-                    ]
-                ]
+                $container->getParameter('devstercms.config')
             ]
         );
 

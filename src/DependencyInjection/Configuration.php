@@ -13,17 +13,21 @@ class Configuration implements ConfigurationInterface
 
         $treeBuilder->getRootNode()
             ->children()
-            ->arrayNode('dashboard')
-            ->children()
-            ->scalarNode('title')->defaultValue('Dashboard')->end()
+                ->arrayNode('dashboard')
+                    ->children()
+                        ->scalarNode('title')->defaultValue('Dashboard')->end()
+                        ->scalarNode('my_account_route')->defaultNull()->end()
+                        ->scalarNode('logout_route')->defaultNull()->end()
+                    ->end()->addDefaultsIfNotSet()
+                ->end()
+                ->scalarNode('sidebar_config_file')->defaultValue('config/sidebar.yaml')->end()
+                ->arrayNode('ckeditor')
+                    ->children()
+                        ->scalarNode('file_upload_route')->defaultNull()->end()
+                    ->end()->addDefaultsIfNotSet()
+                ->end()
             ->end()
-            ->end()
-            ->scalarNode('sidebar_config_file')->defaultValue('config/sidebar.yaml')->end()
-            ->arrayNode('ckeditor')
-            ->children()
-            ->scalarNode('file_upload_route')->defaultNull()->end()
-            ->end()
-            ->end();
+        ;
 
         return $treeBuilder;
     }

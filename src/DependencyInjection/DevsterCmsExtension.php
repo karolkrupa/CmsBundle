@@ -40,13 +40,7 @@ class DevsterCmsExtension extends Extension
 
         $this->processCKEditorConfig($config, $container);
 
-        $container->setParameter('devstercms.dashboard.title', $config['dashboard']['title']?? 'Dashboard');
-
-//        $container->get(Environment::class)->addGlobal('devstercms', [
-//            'dashboard' => [
-//                'title' => $config['dashboard']['title']?? 'Dashboard'
-//            ]
-//        ]);
+        $container->setParameter('devstercms.config', $config);
     }
 
 
