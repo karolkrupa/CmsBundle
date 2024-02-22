@@ -2,19 +2,17 @@
 
 namespace Devster\CmsBundle\Crud\List\FilterForm;
 
+use Devster\CmsBundle\Crud\Common\TemplateableInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 
-class FilterForm
+class FilterForm implements TemplateableInterface
 {
     protected ?FormInterface $form = null;
     protected array $configurations = [];
     protected array $searchFields = [];
     private ?FormInterface $baseForm = null;
-
-    public function __construct()
-    {
-    }
+    protected ?string $template = '@DevsterCms/crud/list/filter/form.html.twig';
 
     static public function create(): static
     {
@@ -43,6 +41,19 @@ class FilterForm
     public function setForm(FormInterface $form): static
     {
         $this->form = $form;
+
+        return $this;
+    }
+
+    /**
+     * Konfiguracja templatki dla formularza
+     *
+     * @param string|null $template
+     * @return $this
+     */
+    public function setTemplate(?string $template): static
+    {
+        $this->template = $template;
 
         return $this;
     }
@@ -82,6 +93,11 @@ class FilterForm
     public function getSearchFields(): array
     {
         return $this->searchFields;
+    }
+
+    public function getTemplate(): string
+    {
+        return $this->template;
     }
 
     public function getBaseForm(FormFactoryInterface $formFactory): FormInterface

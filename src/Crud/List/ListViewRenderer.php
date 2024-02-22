@@ -7,7 +7,7 @@ use Devster\CmsBundle\Crud\Common\PageViewInterface;
 use Devster\CmsBundle\Crud\Edit\EditView;
 use Devster\CmsBundle\Crud\List\Action\Renderer\ActionRenderInterface;
 use Devster\CmsBundle\Crud\List\Cell\TitledCellInterface;
-use Devster\CmsBundle\Crud\List\FilterForm\FilterFormRenderer;
+use Devster\CmsBundle\Crud\List\FilterForm\Renderer\FilterFormRenderer;
 use Devster\CmsBundle\Crud\List\Pagination\PaginationSettings;
 use Devster\CmsBundle\KnpPager\Event\Subscriber\SortableSubscriber;
 use Doctrine\ORM\QueryBuilder;

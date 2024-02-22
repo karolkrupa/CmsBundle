@@ -98,6 +98,7 @@ abstract class AbstractCell implements CellInterface
     {
         return $this->class;
     }
+
     /**
      * Zmienne dla widoku
      *

@@ -1,7 +1,8 @@
 <?php
 
-namespace Devster\CmsBundle\Crud\List\FilterForm;
+namespace Devster\CmsBundle\Crud\List\FilterForm\Renderer;
 
+use Devster\CmsBundle\Crud\List\FilterForm\FilterForm;
 use Symfony\Component\Form\FormFactoryInterface;
 use Twig\Environment;
 use Twig\Markup;
@@ -20,7 +21,7 @@ class FilterFormRenderer
         $formView = $filterForm->getForm($this->formFactory)->createView();
 
         $html = $this->twig->render(
-            '@DevsterCms/crud/list/filter/form.html.twig',
+            $filterForm->getTemplate(),
             [
                 'form' => $formView
             ]
