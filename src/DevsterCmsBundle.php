@@ -3,7 +3,7 @@
 namespace Devster\CmsBundle;
 
 use Devster\CmsBundle\Crud\Common\Renderer\PageViewRendererInterface;
-use Devster\CmsBundle\Crud\Common\View\PageViewHandlerInterface;
+use Devster\CmsBundle\Crud\Common\View\Handler\PageViewHandlerInterface;
 use Devster\CmsBundle\Crud\List\Action\Renderer\ActionRenderInterface;
 use Devster\CmsBundle\Crud\List\Cell\Renderer\CellRendererInterface;
 use Devster\CmsBundle\Crud\List\Heading\Renderer\HeadingRendererInterface;

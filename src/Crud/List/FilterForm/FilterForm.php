@@ -20,7 +20,7 @@ class FilterForm implements TemplateableInterface
     }
 
     /**
-     * Konfiguracja pól dla wyszukiwarki
+     * Configure search fields for basic search functionality
      *
      * @param array $searchFields
      * @return $this
@@ -33,7 +33,7 @@ class FilterForm implements TemplateableInterface
     }
 
     /**
-     * Konfiguracja formularza filtrów
+     * Set custom filter form
      *
      * @param FormInterface $form
      * @return $this
@@ -46,7 +46,9 @@ class FilterForm implements TemplateableInterface
     }
 
     /**
-     * Konfiguracja templatki dla formularza
+     * Set custom form twig template
+     *
+     * @see @DevsterCms/crud/list/filter/form.html.twig
      *
      * @param string|null $template
      * @return $this
@@ -59,10 +61,10 @@ class FilterForm implements TemplateableInterface
     }
 
     /**
-     * Konfiguracja obsługi filtrowania dla danego pola
+     * Customize form field handling
      *
      * @param string $field
-     * @param \Closure(FormField $field):void $closure
+     * @param Closure(FormField $field):void $closure
      * @return $this
      */
     public function configureField(string $field, \Closure $closure): static

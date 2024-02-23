@@ -5,11 +5,13 @@ namespace Devster\CmsBundle\Crud\List\Cell;
 use Devster\CmsBundle\Crud\List\Action\ActionInterface;
 use Devster\CmsBundle\Crud\List\Cell\Renderer\ActionCellRenderer;
 
+/**
+ * Cell with one action
+ */
 class ActionCell extends AbstractCell
 {
-    protected function getDefaultTemplate(): ?string
+    public function __construct(protected ActionInterface $action)
     {
-        return null;
     }
 
     public static function create(ActionInterface $action): static
@@ -17,13 +19,8 @@ class ActionCell extends AbstractCell
         return new static($action);
     }
 
-    public function __construct(protected ActionInterface $action)
-    {
-    }
-
-
     /**
-     * Konfiguracja akcji
+     * Set embedded action
      *
      * @param ActionInterface $action
      * @return $this
@@ -43,5 +40,10 @@ class ActionCell extends AbstractCell
     public function getRenderer(): string
     {
         return ActionCellRenderer::class;
+    }
+
+    protected function getDefaultTemplate(): ?string
+    {
+        return null;
     }
 }

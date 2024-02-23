@@ -2,17 +2,23 @@
 
 namespace Devster\CmsBundle\Crud\List\Action;
 
-use Devster\CmsBundle\Crud\List\Action\Renderer\ActionRenderer;
+use Devster\CmsBundle\Crud\Common\RenderableInterface;
+use Devster\CmsBundle\Crud\Common\TemplateableInterface;
 
-interface ActionInterface
+interface ActionInterface extends TemplateableInterface, RenderableInterface
 {
     /**
+     * @see ActionInterface::setText
+     *
      * @param string|Closure(mixed $data):string $text
      */
     public function __construct(string|\Closure $text);
 
     /**
-     * Konfiguracja nazwy akcji
+     * Configure action text
+     *
+     * It sets text explicitly or dynamically by closure.
+     * Dynamic text is only available in table cells
      *
      * @param string|Closure(mixed $data):string $text
      * @return $this
@@ -20,15 +26,7 @@ interface ActionInterface
     public function setText(string|\Closure $text): static;
 
     /**
-     * Konfiguracja szablonu akcji
-     *
-     * @param string|null $template
-     * @return $this
-     */
-    public function setTemplate(?string $template): static;
-
-    /**
-     * Konfiguracja koloru akcji
+     * Configure color variant
      *
      * @param string|null $color
      * @return $this
@@ -36,7 +34,7 @@ interface ActionInterface
     public function setColor(?string $color): static;
 
     /**
-     * Konfiguracja klas
+     * Configure html classes
      *
      * @param string|null $class
      * @param bool $appendClass
@@ -44,12 +42,7 @@ interface ActionInterface
      */
     public function setClass(?string $class, bool $appendClass = false): static;
 
-
     public function getText(): null|string|\Closure;
-
-    public function getRenderer(): string;
-
-    public function getTemplate(): string;
 
     public function getClass(): ?string;
 

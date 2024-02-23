@@ -25,17 +25,24 @@ class CrudPass implements CompilerPassInterface
 
         $container->setDefinition('devster_cms.crud.list.field.renderer_locator', $locator);
 
-        $tagged = [];
-        foreach ($container->findTaggedServiceIds('devster.cms.renderer.page') as $key => $value) {
-            $tagged[$key] = new Reference($key);
+
+        $locatorForTags = [
+            'devster.cms.renderer.page', // => devster.cms.renderer.page.locator
+            'devster.cms.renderer.action', // => devster.cms.renderer.action.locator
+        ];
+
+        foreach ($locatorForTags as $tag) {
+            $services = [];
+            foreach ($container->findTaggedServiceIds($tag) as $key => $value) {
+                $services[$key] = new Reference($key);
+            }
+
+            $locator = (new Definition(ServiceLocator::class))
+                ->addArgument($services)
+                ->addTag('container.service_locator');
+
+            $container->setDefinition($tag . '.locator', $locator);
         }
-
-        $locator = (new Definition(ServiceLocator::class))
-            ->addArgument($tagged)
-            ->addTag('container.service_locator');
-
-        $container->setDefinition('devster.cms.renderer.page.locator', $locator);
-
     }
 
 }

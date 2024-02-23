@@ -3,7 +3,7 @@
 namespace Devster\CmsBundle\Crud\List\Cell;
 
 /**
- * Dto wartości komórki tabeli
+ * Boll value cell
  */
 class BoolCell extends TextCell
 {
@@ -26,7 +26,7 @@ class BoolCell extends TextCell
     }
 
     /**
-     * Wyświetlanie jako badge
+     * Displays as badge
      *
      * @param bool $asBadge
      * @return $this
@@ -41,7 +41,7 @@ class BoolCell extends TextCell
     }
 
     /**
-     * Wyświetlanie jako ikona
+     * Display as icons (tick/x-mark)
      *
      * @param bool $asIcon
      * @return $this
@@ -56,7 +56,7 @@ class BoolCell extends TextCell
     }
 
     /**
-     * Tekst dla pozytywnej wartości
+     * Configure text for true value
      *
      * @param string|\Closure(mixed $data):string $trueValue
      * @return $this
@@ -69,7 +69,7 @@ class BoolCell extends TextCell
     }
 
     /**
-     * Tekst dla negatywnej wartości
+     * Configure text for false value
      *
      * @param string|\Closure(mixed $data):string $falseValue
      * @return $this

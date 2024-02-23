@@ -3,7 +3,7 @@
 namespace Devster\CmsBundle\Crud\List\Cell;
 
 /**
- * Dto wartości komórki tabeli
+ * Date cell type
  */
 class DateCell extends TextCell
 {
@@ -15,9 +15,9 @@ class DateCell extends TextCell
     }
 
     /**
-     * Konfiguracja formatu wyświetlania daty
+     * Configure date format
      *
-     * @param string $format
+     * @param string $format - php date format
      * @return $this
      */
     public function setFormat(string $format): static

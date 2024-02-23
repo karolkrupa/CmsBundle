@@ -5,8 +5,14 @@ namespace Devster\CmsBundle\Crud\List\Action;
 
 use Devster\CmsBundle\Crud\List\Action\Renderer\AnchorActionRenderer;
 
+/**
+ * Simple anchor action
+ */
 class AnchorAction extends Action
 {
+    /**
+     * Templates for color variants
+     */
     const TEMPLATES = [
         self::COLOR_DEFAULT => '@DevsterCms/common/anchor/default.html.twig',
         self::COLOR_BLUE => '@DevsterCms/common/anchor/blue.html.twig',
@@ -18,7 +24,7 @@ class AnchorAction extends Action
     protected array|\Closure $params = [];
 
     /**
-     * Konfiguracja route akcji
+     * Configure action route
      *
      * @param string $route
      * @return $this
@@ -31,9 +37,15 @@ class AnchorAction extends Action
     }
 
     /**
-     * Konfiguracja parametrów dla route
+     * Configure route params
      *
-     * @param array|\Closure():array $params
+     * It allows configure params statically by array or dynamically by closure
+     *
+     * For example:
+     * [ 'id' => 'registerId' ] - it should resolve id param by getter getRegisterId from cell data
+     * function(User $user) { return [ 'id' => $user->getId() ] }
+     *
+     * @param array|\Closure(mixed $data):array $params
      * @return $this
      */
     public function setRouteParams(array|\Closure $params): static

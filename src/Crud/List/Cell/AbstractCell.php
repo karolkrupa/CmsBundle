@@ -16,8 +16,6 @@ abstract class AbstractCell implements CellInterface
     abstract protected function getDefaultTemplate(): ?string;
 
     /**
-     * Konfiguracja szablonu widoku
-     *
      * @param string|null $template
      * @return $this
      */
@@ -29,8 +27,6 @@ abstract class AbstractCell implements CellInterface
     }
 
     /**
-     * Konfiguracja położenia w komórce tabeli
-     *
      * @param Alignment $alignment
      * @return $this
      */
@@ -42,8 +38,6 @@ abstract class AbstractCell implements CellInterface
     }
 
     /**
-     * Konfiguracja położenia w komórce tabeli
-     *
      * @param VerticalAlignment $alignment
      * @return $this
      */
@@ -55,8 +49,6 @@ abstract class AbstractCell implements CellInterface
     }
 
     /**
-     * Konfiguracja pogrubienia tekstu w komórce tabeli
-     *
      * @param bool $bold
      * @return $this
      */
@@ -68,8 +60,6 @@ abstract class AbstractCell implements CellInterface
     }
 
     /**
-     * Konfiguracja dodatkowych klas dla komórki
-     *
      * @param string|null $class
      * @return $this
      */
@@ -99,12 +89,6 @@ abstract class AbstractCell implements CellInterface
         return $this->class;
     }
 
-    /**
-     * Zmienne dla widoku
-     *
-     * @param mixed $data
-     * @return array
-     */
     public function getViewVars(mixed $data): array
     {
         return [];

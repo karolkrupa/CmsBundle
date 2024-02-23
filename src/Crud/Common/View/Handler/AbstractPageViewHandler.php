@@ -1,6 +1,6 @@
 <?php
 
-namespace Devster\CmsBundle\Crud\Common\View;
+namespace Devster\CmsBundle\Crud\Common\View\Handler;
 
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -20,9 +20,11 @@ abstract class AbstractPageViewHandler implements PageViewHandlerInterface, Serv
     }
 
     /**
-     * @template T
-     * @param class-string<T> $class
-     * @return T
+     * Returns page renderer by class FQN
+     *
+     * @template C
+     * @param class-string<C> $class
+     * @return C
      */
     protected function getRenderer(string $class)
     {

@@ -6,17 +6,12 @@ namespace Devster\CmsBundle\Crud\List\Cell;
 use Devster\CmsBundle\Crud\List\Cell\Renderer\TextCellRenderer;
 
 /**
- * Dto wartości komórki tabeli
+ * Text cell
  */
 class TextCell extends AbstractCell implements TitledCellInterface
 {
     protected string $align = 'left';
     protected null|string|\Closure $title = null;
-
-    protected function getDefaultTemplate(): string
-    {
-        return '@DevsterCms/crud/list/cell/text.html.twig';
-    }
 
     public function __construct(protected null|string|\Closure $value = null)
     {
@@ -27,22 +22,14 @@ class TextCell extends AbstractCell implements TitledCellInterface
         return new static($value);
     }
 
-
-    /**
-     * Konfiguracja wyjustowania tekstu w komórce tabeli
-     *
-     * @param string $align
-     * @return $this
-     */
-    public function setAlign(string $align = 'left'): static
+    protected function getDefaultTemplate(): string
     {
-        $this->align = $align;
-
-        return $this;
+        return '@DevsterCms/crud/list/cell/text.html.twig';
     }
 
+
     /**
-     * Konfiguracja tytułu (popup) komórki tabeli
+     * Configure cell html title
      *
      * @param string|\Closure|null $title
      * @return $this
@@ -55,7 +42,11 @@ class TextCell extends AbstractCell implements TitledCellInterface
     }
 
     /**
-     * Konfiguracja danych przekazywanych do widoku komórki
+     * Configure text value
+     *
+     * Always dynamically configures the value for the provided data (cell data).
+     * - If it is string, evaluates value using the possible getters
+     * - If it is a closure, the value returned from the closure will be used
      *
      * @param string|\Closure(mixed $cellData):mixed $value
      * @return $this
@@ -70,11 +61,6 @@ class TextCell extends AbstractCell implements TitledCellInterface
     public function getValue(): null|string|\Closure
     {
         return $this->value;
-    }
-
-    public function getAlign(): string
-    {
-        return $this->align;
     }
 
     public function getTitle(): string|\Closure|null

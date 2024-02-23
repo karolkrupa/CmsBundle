@@ -5,6 +5,9 @@ namespace Devster\CmsBundle\Crud\List\Action;
 
 use Devster\CmsBundle\Crud\List\Action\Renderer\ConfirmationActionRenderer;
 
+/**
+ * Action with confirmation modal
+ */
 class ConfirmationAction extends AnchorAction
 {
     const TYPE_ANCHOR = 'anchor';
@@ -18,7 +21,7 @@ class ConfirmationAction extends AnchorAction
     protected string $rejectText = 'Nie';
 
     /**
-     * Konfiguracja tytułu modala
+     * Configure modal title
      *
      * @param string|\Closure(mixed $data):string|null $modalTitle
      * @return $this
@@ -31,7 +34,7 @@ class ConfirmationAction extends AnchorAction
     }
 
     /**
-     * Konfiguracja tekstu modala
+     * Configure modal text
      *
      * @param string|\Closure(mixed $data):string|null $modalText
      * @return $this
@@ -44,7 +47,7 @@ class ConfirmationAction extends AnchorAction
     }
 
     /**
-     * Konfiguracja tekstu przycisku akceptacji
+     * Configure confirm button text
      *
      * @param string $acceptText
      * @return $this
@@ -57,7 +60,7 @@ class ConfirmationAction extends AnchorAction
     }
 
     /**
-     * Konfiguracja treści przycisku odrzucenia
+     * Configure reject button text
      *
      * @param string $rejectText
      * @return $this
@@ -70,7 +73,12 @@ class ConfirmationAction extends AnchorAction
     }
 
     /**
-     * Konfiguracja typu aktywatora
+     * Configure activator button type
+     *
+     * available options:
+     * - self::TYPE_ANCHOR @see AnchorAction
+     * - self::TYPE_BUTTON @see ButtonAction
+     * - self::TYPE_TEXT_BUTTON @see TextButtonAction
      *
      * @param string $activatorType
      * @return $this

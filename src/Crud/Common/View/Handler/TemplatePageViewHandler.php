@@ -1,9 +1,14 @@
 <?php
 
-namespace Devster\CmsBundle\Crud\Common\View;
+namespace Devster\CmsBundle\Crud\Common\View\Handler;
 
+use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
+use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Handler form template page view
+ */
 class TemplatePageViewHandler extends AbstractPageViewHandler
 {
     public function handle(PageViewInterface $view, PageViewPayloadInterface $payload): Response

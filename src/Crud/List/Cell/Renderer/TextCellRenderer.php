@@ -2,13 +2,13 @@
 
 namespace Devster\CmsBundle\Crud\List\Cell\Renderer;
 
-use Devster\CmsBundle\Crud\List\Cell\AbstractCell;
+use Devster\CmsBundle\Crud\List\Cell\CellInterface;
 use Devster\CmsBundle\Crud\List\Cell\TextCell;
 use Devster\CmsBundle\Util\ValueExtractor;
 
 class TextCellRenderer extends AbstractCellRenderer
 {
-    protected function getViewData(AbstractCell $cell, mixed $data): array
+    protected function getViewData(CellInterface $cell, mixed $data): array
     {
         if (!$cell instanceof TextCell) {
             throw new \RuntimeException('Nieobsługiwany typ komórki');

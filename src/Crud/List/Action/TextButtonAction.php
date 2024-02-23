@@ -2,7 +2,12 @@
 
 namespace Devster\CmsBundle\Crud\List\Action;
 
-class TextButtonAction extends ButtonAction
+/**
+ * Text button anchor
+ *
+ * @see AnchorAction
+ */
+class TextButtonAction extends AnchorAction
 {
     const TEMPLATES = [
         self::COLOR_DEFAULT => '@DevsterCms/common/button/text/default.html.twig',

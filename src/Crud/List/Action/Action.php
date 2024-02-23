@@ -31,8 +31,6 @@ class Action implements ActionInterface
     }
 
     /**
-     * Konfiguracja nazwy akcji
-     *
      * @param string|Closure(mixed $data):string $text
      * @return $this
      */
@@ -44,8 +42,6 @@ class Action implements ActionInterface
     }
 
     /**
-     * Konfiguracja szablonu akcji
-     *
      * @param string|null $template
      * @return $this
      */

@@ -3,7 +3,7 @@
 namespace Devster\CmsBundle\Crud;
 
 use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
-use Devster\CmsBundle\Crud\Common\View\PageViewHandlerInterface;
+use Devster\CmsBundle\Crud\Common\View\Handler\PageViewHandlerInterface;
 use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;
 use Symfony\Component\DependencyInjection\Attribute\TaggedLocator;
 use Symfony\Component\DependencyInjection\ServiceLocator;

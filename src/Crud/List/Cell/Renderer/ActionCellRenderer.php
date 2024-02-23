@@ -2,19 +2,23 @@
 
 namespace Devster\CmsBundle\Crud\List\Cell\Renderer;
 
+use Devster\CmsBundle\Crud\List\Action\ActionInterface;
+use Devster\CmsBundle\Crud\List\Action\Renderer\ActionRenderInterface;
 use Devster\CmsBundle\Crud\List\Cell\ActionCell;
 use Devster\CmsBundle\Crud\List\Cell\CellInterface;
-use Symfony\Component\DependencyInjection\Attribute\TaggedLocator;
-use Symfony\Component\DependencyInjection\ServiceLocator;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Contracts\Service\Attribute\SubscribedService;
 use Twig\Markup;
 
 class ActionCellRenderer extends AbstractCellRenderer
 {
-    public function __construct(
-        #[TaggedLocator(tag: 'devster.cms.renderer.action')]
-        private readonly ServiceLocator $actionsRendererLocator,
-    )
+    public static function getSubscribedServices(): array
     {
+        return [
+            ...parent::getSubscribedServices(),
+            new SubscribedService('action_renderers', ContainerInterface::class, attributes: new Autowire(service: 'devster.cms.renderer.action.locator'))
+        ];
     }
 
     public function render(CellInterface $cell, mixed $data): Markup
@@ -25,7 +29,7 @@ class ActionCellRenderer extends AbstractCellRenderer
 
         $action = $cell->getAction();
 
-        $renderer = $this->actionsRendererLocator->get($action->getRenderer());
+        $renderer = $this->getActionRenderer($action);
 
         if ($cell->getTemplate()) {
             $html = $this->twig()->render(
@@ -40,5 +44,10 @@ class ActionCellRenderer extends AbstractCellRenderer
         }
 
         return $renderer->render($action, $data);
+    }
+
+    protected function getActionRenderer(ActionInterface $action): ActionRenderInterface
+    {
+        return $this->container->get('action_renderers')->get($action->getRenderer());
     }
 }

@@ -3,7 +3,13 @@
 namespace Devster\CmsBundle\Crud\Common\View;
 
 use Devster\CmsBundle\Crud\Common\Renderer\TemplatePageViewRenderer;
+use Devster\CmsBundle\Crud\Common\View\Handler\TemplatePageViewHandler;
 
+/**
+ * Base page view, it allows to render page according to the provided custom twig template
+ *
+ * @see TemplatePageView::setTemplate
+ */
 class TemplatePageView implements PageViewInterface
 {
     protected ?string $title = null;

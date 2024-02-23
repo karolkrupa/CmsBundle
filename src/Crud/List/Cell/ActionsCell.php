@@ -6,7 +6,7 @@ use Devster\CmsBundle\Crud\List\Action\Action;
 use Devster\CmsBundle\Crud\List\Cell\Renderer\ActionsCellRenderer;
 
 /**
- * Dto wartości komórki tabeli
+ * Cell with multiple actions
  */
 class ActionsCell extends AbstractCell
 {
@@ -19,7 +19,7 @@ class ActionsCell extends AbstractCell
     }
 
     /**
-     * Dodanie akcji do listy
+     * Add action
      *
      * @param Action $action
      * @return $this
@@ -32,7 +32,7 @@ class ActionsCell extends AbstractCell
     }
 
     /**
-     * Konfiguracja wyświetlania akcji jako dropdown
+     * Display actions in dropdown
      *
      * @param bool $dropdown
      * @return $this

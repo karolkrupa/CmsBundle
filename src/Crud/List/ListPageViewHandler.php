@@ -3,7 +3,7 @@
 namespace Devster\CmsBundle\Crud\List;
 
 use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
-use Devster\CmsBundle\Crud\Common\View\PageViewHandlerInterface;
+use Devster\CmsBundle\Crud\Common\View\Handler\PageViewHandlerInterface;
 use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;
 use Devster\CmsBundle\Crud\List\FilterForm\FilterFormHandler;
 use Devster\CmsBundle\Crud\List\Renderer\ListPageViewRenderer;

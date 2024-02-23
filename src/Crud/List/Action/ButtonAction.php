@@ -2,6 +2,11 @@
 
 namespace Devster\CmsBundle\Crud\List\Action;
 
+/**
+ * Button view anchor
+ *
+ * @see AnchorAction
+ */
 class ButtonAction extends AnchorAction
 {
     const TEMPLATES = [

@@ -2,17 +2,14 @@
 
 namespace Devster\CmsBundle\Crud\Edit;
 
-use Devster\CmsBundle\Crud\Common\View\AbstractPageViewHandler;
+use Devster\CmsBundle\Crud\Common\View\Handler\AbstractPageViewHandler;
 use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
 use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class EditViewHandler extends AbstractPageViewHandler
 {
-    public function handle(
-        PageViewInterface $view,
-        PageViewPayloadInterface $payload
-    ): Response
+    public function handle(PageViewInterface $view, PageViewPayloadInterface $payload): Response
     {
         if(!$view instanceof EditView) {
             throw new \RuntimeException('Niepoprawny typ widoku');
