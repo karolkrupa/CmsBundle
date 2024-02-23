@@ -103,6 +103,8 @@ abstract class AbstractField
     {
         $this->sortField = $sortField;
 
+        $this->setSortable(true);
+
         return $this;
     }
 

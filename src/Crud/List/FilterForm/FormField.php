@@ -28,7 +28,7 @@ class FormField
     /**
      * Handler do obsługi wartości z formularza
      *
-     * @param Closure(QueryBuilder $qb, mixed $value): void $handler
+     * @param Closure(mixed $value, QueryBuilder $qb): void $handler
      */
     public function setHandler(\Closure $handler): static
     {
