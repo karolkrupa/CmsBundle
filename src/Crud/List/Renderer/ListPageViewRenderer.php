@@ -133,7 +133,7 @@ class ListPageViewRenderer extends TemplatePageViewRenderer
             $rows[] = $rowCells;
         }
 
-        $filterFormView = null;
+        $filterFormView = ['form' => null, 'controls' => null];
         if ($view->getFilterForm()) {
             $filterFormView = $this->filterFormRenderer->render($view->getFilterForm());
         }
@@ -152,8 +152,8 @@ class ListPageViewRenderer extends TemplatePageViewRenderer
             'headings' => $headings,
             'rows' => $rows,
             'pagination' => $pagination,
-            'filterFormView' => $filterFormView['form'],
-            'filterFormControlsView' => $filterFormView['controls'],
+            'filterFormView' => $filterFormView['form']?: null,
+            'filterFormControlsView' => $filterFormView['controls']?: null,
             'pageActionViews' => $pageActionViews
         ]);
     }
