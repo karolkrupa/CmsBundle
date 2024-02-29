@@ -2,6 +2,7 @@
 
 namespace Devster\CmsBundle\Crud\List\Cell\Renderer;
 
+use Devster\CmsBundle\Crud\Common\View\PageViewContextInterface;
 use Devster\CmsBundle\Crud\List\Cell\CellInterface;
 use Symfony\Contracts\Service\Attribute\SubscribedService;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
@@ -13,26 +14,27 @@ abstract class AbstractCellRenderer implements CellRendererInterface, ServiceSub
 {
     use ServiceSubscriberTrait;
 
-    public function render(CellInterface $cell, mixed $data): Markup
+    public function render(CellInterface $cell, mixed $data, PageViewContextInterface $context): Markup
     {
         return $this->renderTemplate(
             $cell,
             $data,
-            $cell->getTemplate()
+            $cell->getTemplate(),
+            $context
         );
     }
 
-    protected function renderTemplate(CellInterface $cell, mixed $data, string $template): Markup
+    protected function renderTemplate(CellInterface $cell, mixed $data, string $template, PageViewContextInterface $context): Markup
     {
         $html = $this->twig()->render(
             $template,
-            $this->getViewData($cell, $data)
+            $this->getViewData($cell, $data, $context)
         );
 
         return new Markup($html, 'UTF-8');
     }
 
-    protected function getViewData(CellInterface $cell, mixed $data): array
+    protected function getViewData(CellInterface $cell, mixed $data, PageViewContextInterface $context): array
     {
         return [
             'vars' => $cell->getViewVars($data)

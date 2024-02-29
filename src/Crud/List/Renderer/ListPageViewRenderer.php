@@ -4,10 +4,12 @@ namespace Devster\CmsBundle\Crud\List\Renderer;
 
 use Devster\CmsBundle\Crud\Common\Renderer\PageViewRendererInterface;
 use Devster\CmsBundle\Crud\Common\Renderer\TemplatePageViewRenderer;
+use Devster\CmsBundle\Crud\Common\View\PageViewContextInterface;
 use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
 use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;
 use Devster\CmsBundle\Crud\Edit\EditView;
 use Devster\CmsBundle\Crud\List\Action\Renderer\ActionRenderInterface;
+use Devster\CmsBundle\Crud\List\Cell\Renderer\CellRendererInterface;
 use Devster\CmsBundle\Crud\List\Cell\TitledCellInterface;
 use Devster\CmsBundle\Crud\List\FilterForm\Renderer\FilterFormRenderer;
 use Devster\CmsBundle\Crud\List\ListPageView;
@@ -40,7 +42,7 @@ class ListPageViewRenderer extends TemplatePageViewRenderer
     {
     }
 
-    public function render(PageViewInterface $view, PageViewPayloadInterface $payload): string
+    public function render(PageViewInterface $view, PageViewPayloadInterface $payload, PageViewContextInterface $context): string
     {
         if (!$view instanceof EditView) {
             throw new \LogicException('Oczekiwany typ: ' . ListPageView::class);
@@ -50,12 +52,13 @@ class ListPageViewRenderer extends TemplatePageViewRenderer
             throw new \LogicException('Oczekiwany typ: ' . ListPageView::class);
         }
 
-        return $this->renderIterableData($view, $payload->getPayload());
+        return $this->renderIterableData($view, $payload->getPayload(), $context);
     }
 
     public function renderQbData(
         ListPageView        $view,
         QueryBuilder        $qb,
+        PageViewContextInterface $context,
         ?string             $rootAlias = null,
         ?PaginationSettings $paginationSettings = null
     )
@@ -65,6 +68,7 @@ class ListPageViewRenderer extends TemplatePageViewRenderer
         return $this->renderIterableData(
             $view,
             $pagination,
+            $context,
             $pagination,
             $rootAlias
         );
@@ -73,6 +77,7 @@ class ListPageViewRenderer extends TemplatePageViewRenderer
     private function renderIterableData(
         ListPageView $view,
         iterable     $data,
+        PageViewContextInterface $context,
         mixed        $pagination = null,
         ?string      $rootAlias = null
     )
@@ -99,6 +104,7 @@ class ListPageViewRenderer extends TemplatePageViewRenderer
         foreach ($data as $rowData) {
             $rowCells = [];
             foreach ($view->getFields() as $field) {
+                /** @var CellRendererInterface $renderer */
                 $renderer = $this->cellRendererLocator->get($field->getCell()->getRenderer());
 
                 $cellTitle = '';
@@ -117,7 +123,7 @@ class ListPageViewRenderer extends TemplatePageViewRenderer
                         'field' => $field,
                         'cell' => $field->getCell(),
                         'title' => $cellTitle,
-                        'cellHtml' => $renderer->render($field->getCell(), $rowData)
+                        'cellHtml' => $renderer->render($field->getCell(), $rowData, $context)
                     ]
                 );
 

@@ -2,13 +2,14 @@
 
 namespace Devster\CmsBundle\Crud\List\Cell\Renderer;
 
+use Devster\CmsBundle\Crud\Common\View\PageViewContextInterface;
 use Devster\CmsBundle\Crud\List\Cell\ActionsCell;
 use Devster\CmsBundle\Crud\List\Cell\CellInterface;
 use Twig\Markup;
 
 class ActionsCellRenderer extends ActionCellRenderer
 {
-    public function render(CellInterface $cell, mixed $data): Markup
+    public function render(CellInterface $cell, mixed $data, PageViewContextInterface $context): Markup
     {
         if (!$cell instanceof ActionsCell) {
             throw new \RuntimeException('Niepoprawny typ akcji');

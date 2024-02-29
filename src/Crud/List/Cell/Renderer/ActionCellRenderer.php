@@ -2,6 +2,7 @@
 
 namespace Devster\CmsBundle\Crud\List\Cell\Renderer;
 
+use Devster\CmsBundle\Crud\Common\View\PageViewContextInterface;
 use Devster\CmsBundle\Crud\List\Action\ActionInterface;
 use Devster\CmsBundle\Crud\List\Action\Renderer\ActionRenderInterface;
 use Devster\CmsBundle\Crud\List\Cell\ActionCell;
@@ -21,7 +22,7 @@ class ActionCellRenderer extends AbstractCellRenderer
         ];
     }
 
-    public function render(CellInterface $cell, mixed $data): Markup
+    public function render(CellInterface $cell, mixed $data, PageViewContextInterface $context): Markup
     {
         if (!$cell instanceof ActionCell) {
             throw new \RuntimeException('Nieznany typ komórki');
@@ -35,7 +36,7 @@ class ActionCellRenderer extends AbstractCellRenderer
             $html = $this->twig()->render(
                 $cell->getTemplate(),
                 [
-                    ...$this->getViewData($cell, $data),
+                    ...$this->getViewData($cell, $data, $context),
                     'actionHtml' => $renderer->render($action, $data)
                 ]
             );

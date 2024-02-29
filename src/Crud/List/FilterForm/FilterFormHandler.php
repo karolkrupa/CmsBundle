@@ -18,7 +18,7 @@ class FilterFormHandler
     {
     }
 
-    public function handle(FilterForm $filterForm, QueryBuilder $qb, ?string $rootAlias = null): void
+    public function handle(FilterForm $filterForm, QueryBuilder $qb, ?string $rootAlias = null): array
     {
         $form = $filterForm->getForm($this->formFactory);
 
@@ -81,6 +81,8 @@ class FilterFormHandler
                     ->setParameter($qbValueName, $fieldValue, $fieldConfig->getParameterType());
             }
         }
+
+        return $filterData;
     }
 
     private function getFieldConfig(FilterForm $form, string $field, string $rootAlias): FormField

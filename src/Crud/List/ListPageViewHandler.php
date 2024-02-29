@@ -33,14 +33,16 @@ class ListPageViewHandler implements PageViewHandlerInterface
             $rootAlias = $payload->qb->getRootAliases()[0];
         }
 
+        $filterData = [];
         if ($filterForm = $view->getFilterForm()) {
-            $this->filterFormHandler->handle($filterForm, $payload->qb, $rootAlias);
+            $filterData = $this->filterFormHandler->handle($filterForm, $payload->qb, $rootAlias);
         }
 
         return new Response(
             $this->listViewRenderer->renderQbData(
                 $view,
                 $payload->qb,
+                new ListPageViewContext($filterData),
                 $rootAlias,
                 $view->getPagination()
             )

@@ -3,6 +3,7 @@
 namespace Devster\CmsBundle\Crud\List\Cell;
 
 
+use Devster\CmsBundle\Crud\Common\View\PageViewContextInterface;
 use Devster\CmsBundle\Crud\List\Cell\Renderer\TextCellRenderer;
 
 /**
@@ -48,7 +49,7 @@ class TextCell extends AbstractCell implements TitledCellInterface
      * - If it is string, evaluates value using the possible getters
      * - If it is a closure, the value returned from the closure will be used
      *
-     * @param string|\Closure(mixed $cellData):mixed $value
+     * @param string|\Closure(mixed $cellData, PageViewContextInterface $context):mixed $value
      * @return $this
      */
     public function setValue(string|\Closure $value): static

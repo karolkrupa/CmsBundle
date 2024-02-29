@@ -4,10 +4,10 @@ namespace Devster\CmsBundle\Util;
 
 class ValueExtractor
 {
-    static public function extractValue(mixed $data, string|\Closure $getter)
+    static public function extractValue(mixed $data, string|\Closure $getter, array $closureArguments = [])
     {
         if ($getter instanceof \Closure) {
-            return $getter($data);
+            return $getter($data, ...$closureArguments);
         }
 
         if (is_array($data)) {

@@ -3,6 +3,7 @@
 namespace Devster\CmsBundle\Crud\List\Action\Renderer;
 
 use Devster\CmsBundle\Crud\List\Action\ActionInterface;
+use Devster\CmsBundle\Util\ValueExtractor;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Markup;
 
@@ -73,23 +74,7 @@ class AnchorActionRenderer extends ActionRenderer
 
     private function getParamValueFromData(string $param, mixed $data)
     {
-        if (is_array($data)) {
-            return $data[$param] ?? $param;
-        }
-
-        $getterProperty = ucfirst($param);
-        $getters = [
-            "get{$getterProperty}",
-            "is{$getterProperty}"
-        ];
-
-        foreach ($getters as $getter) {
-            if (method_exists($data, $getter)) {
-                return $data->$getter();
-            }
-        }
-
-        return $param;
+        return ValueExtractor::extractValue($data, $param);
     }
 
     private function urlGenerator(): UrlGeneratorInterface

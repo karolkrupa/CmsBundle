@@ -2,6 +2,7 @@
 
 namespace Devster\CmsBundle\Crud\Common\Renderer;
 
+use Devster\CmsBundle\Crud\Common\View\PageViewContextInterface;
 use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
 use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;
 use Symfony\Contracts\Service\Attribute\SubscribedService;
@@ -13,7 +14,7 @@ class TemplatePageViewRenderer implements PageViewRendererInterface, ServiceSubs
 {
     use ServiceSubscriberTrait;
 
-    public function render(PageViewInterface $view, PageViewPayloadInterface $payload): string
+    public function render(PageViewInterface $view, PageViewPayloadInterface $payload, PageViewContextInterface $context): string
     {
         if(!$payload instanceof TemplatePageViewPayload) {
             throw new \RuntimeException('Niepoprawy typ payloudu');
