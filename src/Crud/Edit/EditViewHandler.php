@@ -11,11 +11,11 @@ class EditViewHandler extends AbstractPageViewHandler
 {
     public function handle(PageViewInterface $view, PageViewPayloadInterface $payload): Response
     {
-        if(!$view instanceof EditView) {
+        if (!$view instanceof EditView) {
             throw new \RuntimeException('Niepoprawny typ widoku');
         }
 
-        if(!$payload instanceof EditViewPayload) {
+        if (!$payload instanceof EditViewPayload) {
             throw new \RuntimeException('Niepoprawny payload');
         }
 
@@ -26,7 +26,7 @@ class EditViewHandler extends AbstractPageViewHandler
         $form->handleRequest($payload->request);
 
         return new Response(
-            $this->getRenderer($view->getRenderer())->render($view, $payload)
+            $this->getRenderer($view->getRenderer())->render($view, $payload, new EditViewContext($form))
         );
     }
 }

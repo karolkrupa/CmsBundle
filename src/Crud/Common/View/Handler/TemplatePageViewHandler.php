@@ -4,6 +4,7 @@ namespace Devster\CmsBundle\Crud\Common\View\Handler;
 
 use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
 use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;
+use Devster\CmsBundle\Crud\Common\View\TemplatePageViewContext;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -16,7 +17,7 @@ class TemplatePageViewHandler extends AbstractPageViewHandler
         $renderer = $this->getRenderer($view->getRenderer());
 
         return new Response(
-            $renderer->render($view, $payload)
+            $renderer->render($view, $payload, new TemplatePageViewContext())
         );
     }
 }

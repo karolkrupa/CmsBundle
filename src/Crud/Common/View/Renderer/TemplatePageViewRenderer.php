@@ -1,7 +1,9 @@
 <?php
 
-namespace Devster\CmsBundle\Crud\Common\Renderer;
+namespace Devster\CmsBundle\Crud\Common\View\Renderer;
 
+use Devster\CmsBundle\Crud\Common\View\Renderer\PageViewRendererInterface;
+use Devster\CmsBundle\Crud\Common\View\TemplatePageViewPayload;
 use Devster\CmsBundle\Crud\Common\View\PageViewContextInterface;
 use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
 use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;

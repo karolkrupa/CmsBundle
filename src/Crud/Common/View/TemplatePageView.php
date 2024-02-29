@@ -2,7 +2,7 @@
 
 namespace Devster\CmsBundle\Crud\Common\View;
 
-use Devster\CmsBundle\Crud\Common\Renderer\TemplatePageViewRenderer;
+use Devster\CmsBundle\Crud\Common\View\Renderer\TemplatePageViewRenderer;
 use Devster\CmsBundle\Crud\Common\View\Handler\TemplatePageViewHandler;
 
 /**

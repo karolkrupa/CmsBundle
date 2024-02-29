@@ -2,8 +2,8 @@
 
 namespace Devster\CmsBundle\Crud\List\Renderer;
 
-use Devster\CmsBundle\Crud\Common\Renderer\PageViewRendererInterface;
-use Devster\CmsBundle\Crud\Common\Renderer\TemplatePageViewRenderer;
+use Devster\CmsBundle\Crud\Common\View\Renderer\PageViewRendererInterface;
+use Devster\CmsBundle\Crud\Common\View\Renderer\TemplatePageViewRenderer;
 use Devster\CmsBundle\Crud\Common\View\PageViewContextInterface;
 use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
 use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;

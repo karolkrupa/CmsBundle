@@ -2,6 +2,7 @@
 
 namespace Devster\CmsBundle\Crud\Common\View\Handler;
 
+use Devster\CmsBundle\Crud\Common\View\Renderer\PageViewRendererInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Contracts\Service\Attribute\SubscribedService;
@@ -26,7 +27,7 @@ abstract class AbstractPageViewHandler implements PageViewHandlerInterface, Serv
      * @param class-string<C> $class
      * @return C
      */
-    protected function getRenderer(string $class)
+    protected function getRenderer(string $class): PageViewRendererInterface
     {
         return $this->container->get('renderers')->get($class);
     }
