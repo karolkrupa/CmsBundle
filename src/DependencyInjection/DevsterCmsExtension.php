@@ -44,6 +44,10 @@ class DevsterCmsExtension extends Extension
 
         $this->processCKEditorConfig($config, $container);
 
+        if(!in_array('Symfony\WebpackEncoreBundle\WebpackEncoreBundle', $container->getParameter('kernel.bundles'))) {
+            $config['encore_entry'] = null;
+        }
+
         $container->setParameter('devstercms.config', $config);
     }
 

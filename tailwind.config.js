@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    darkMode: 'class',
+    // darkMode: 'class',
     content: [
         "./ExampleApp/src/**/*.php",
 
@@ -12,16 +12,17 @@ module.exports = {
         "./src/**/*.php",
         "node_modules/preline/dist/*.js"
     ],
-    theme: {
-        extend: {
-            fontFamily: {
-                inter: ['Inter', 'sans-serif']
-            }
-        },
-    },
+    // theme: {
+    //     extend: {
+    //         fontFamily: {
+    //             inter: ['Inter', 'sans-serif']
+    //         }
+    //     },
+    // },
     plugins: [
-        require('@tailwindcss/forms'),
-        require('preline/plugin')
+        require('./assets/tailwind.pugin')
+        // require('@tailwindcss/forms'),
+        // require('preline/plugin')
     ],
 }
 
