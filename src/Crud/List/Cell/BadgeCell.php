@@ -19,15 +19,9 @@ class BadgeCell extends TextCell
 
     protected null|string|\Closure $color = null;
 
-    public function getRenderer(): string
-    {
-        return BadgeCellRenderer::class;
-    }
-
-
     protected function getDefaultTemplate(): string
     {
-        return '@DevsterCms/common/badge/gray.html.twig';
+        return '@DevsterCms/crud/list/cell/badge.html.twig';
     }
 
     public function setColor(null|string|\Closure $color): static
@@ -42,22 +36,27 @@ class BadgeCell extends TextCell
         return $this->color;
     }
 
-    public function getTemplate(mixed $data = null): ?string
+    public function getViewVars(mixed $data): array
     {
-        if(!$this->color && !$data) {
-            return $this->getDefaultTemplate();
-        }
-
-        if(!$this->color instanceof \Closure) {
-            return sprintf(
+        if ($this->color instanceof \Closure) {
+            $template = sprintf(
+                "@DevsterCms/common/badge/%s.html.twig",
+                ($this->color)($data)
+            );
+        }elseif($this->color) {
+            $template = sprintf(
                 "@DevsterCms/common/badge/%s.html.twig",
                 $this->color
             );
+        }else {
+            $template = '@DevsterCms/common/badge/gray.html.twig';
         }
 
-        return sprintf(
-            "@DevsterCms/common/badge/%s.html.twig",
-            ($this->color)($data)
-        );
+        return [
+            ...parent::getViewVars($data),
+            'template' => $template
+        ];
     }
+
+
 }
