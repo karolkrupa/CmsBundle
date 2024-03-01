@@ -19,9 +19,14 @@ abstract class AbstractCellRenderer implements CellRendererInterface, ServiceSub
         return $this->renderTemplate(
             $cell,
             $data,
-            $cell->getTemplate(),
+            $this->getTemplate($cell, $data, $context),
             $context
         );
+    }
+
+    protected function getTemplate(CellInterface $cell, mixed $data, PageViewContextInterface $context): string
+    {
+        return $cell->getTemplate();
     }
 
     protected function renderTemplate(CellInterface $cell, mixed $data, string $template, PageViewContextInterface $context): Markup
