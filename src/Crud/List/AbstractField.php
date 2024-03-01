@@ -11,6 +11,7 @@ abstract class AbstractField
     protected bool $fit = false;
     protected bool $sortable = false;
     protected ?string $sortField = null;
+    protected ?\Closure $dataTransformer = null;
 
     public function __construct(
         protected readonly string $property
@@ -109,6 +110,19 @@ abstract class AbstractField
     }
 
     /**
+     * Transformer that allows transform row data before passing to cell
+     *
+     * @param \Closure|null $dataTransformer
+     * @return $this
+     */
+    public function setDataTransformer(?\Closure $dataTransformer): AbstractField
+    {
+        $this->dataTransformer = $dataTransformer;
+
+        return $this;
+    }
+
+    /**
      * Getters
      * -------
      */
@@ -130,5 +144,10 @@ abstract class AbstractField
     public function getSortField(): ?string
     {
         return $this->sortField;
+    }
+
+    public function getDataTransformer(): ?\Closure
+    {
+        return $this->dataTransformer;
     }
 }

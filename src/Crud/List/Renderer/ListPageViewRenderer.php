@@ -107,15 +107,19 @@ class ListPageViewRenderer extends TemplatePageViewRenderer
                 /** @var CellRendererInterface $renderer */
                 $renderer = $this->cellRendererLocator->get($field->getCell()->getRenderer());
 
+                $cellData = $rowData;
+                if($field->getDataTransformer() instanceof \Closure) {
+                    $cellData = $field->getDataTransformer()($rowData);
+                }
+
                 $cellTitle = '';
                 if ($field->getCell() instanceof TitledCellInterface) {
                     $cellTitle = $field->getCell()->getTitle();
 
                     if ($cellTitle instanceof \Closure) {
-                        $cellTitle = $cellTitle($rowData);
+                        $cellTitle = $cellTitle($cellData);
                     }
                 }
-
 
                 $html = $this->twig()->render(
                     '@DevsterCms/crud/list/cell/cell.html.twig',
@@ -123,7 +127,7 @@ class ListPageViewRenderer extends TemplatePageViewRenderer
                         'field' => $field,
                         'cell' => $field->getCell(),
                         'title' => $cellTitle,
-                        'cellHtml' => $renderer->render($field->getCell(), $rowData, $context)
+                        'cellHtml' => $renderer->render($field->getCell(), $cellData, $context)
                     ]
                 );
 
