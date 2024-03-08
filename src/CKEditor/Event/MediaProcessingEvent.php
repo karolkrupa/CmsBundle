@@ -8,7 +8,8 @@ class MediaProcessingEvent extends Event
 {
     public function __construct(
         private mixed $mediaId,
-        private mixed $src
+        private mixed $src,
+        private array $options = []
     )
     {
     }
@@ -31,5 +32,10 @@ class MediaProcessingEvent extends Event
     public function setSrc(mixed $src): void
     {
         $this->src = $src;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }

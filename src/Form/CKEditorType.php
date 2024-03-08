@@ -25,8 +25,8 @@ class CKEditorType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($options) {
-            $sourceContent = $event->getData() ?? '';
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $formEvent) use ($options) {
+            $sourceContent = $formEvent->getData() ?? '';
 
             if (!$sourceContent) {
                 return;
@@ -42,7 +42,8 @@ class CKEditorType extends AbstractType
 
                 $event = new MediaProcessingEvent(
                     $mediaId,
-                    $src
+                    $src,
+                    $options['media_handler_options']
                 );
                 $this->eventDispatcher->dispatch($event, MediaProcessingEvent::class);
 
@@ -53,7 +54,7 @@ class CKEditorType extends AbstractType
                 }
             }
 
-            $event->setData($crawler->html());
+            $formEvent->setData($crawler->html());
         });
     }
 
@@ -67,7 +68,8 @@ class CKEditorType extends AbstractType
     {
         $resolver->setDefaults([
             'required' => false,
-            'route' => $this->fileUploadRoute
+            'route' => $this->fileUploadRoute,
+            'media_handler_options' => []
         ]);
     }
 
