@@ -2,15 +2,20 @@
 
 namespace Devster\CmsBundle\Crud\Edit;
 
-use Devster\CmsBundle\Crud\Common\View\PageViewContextInterface;
 use Symfony\Component\Form\FormInterface;
 
-class EditViewContext implements PageViewContextInterface
+class EditPageEvent
 {
     public function __construct(
+        private readonly mixed $data,
         private readonly FormInterface $form
     )
     {
+    }
+
+    public function getData(): mixed
+    {
+        return $this->data;
     }
 
     public function getForm(): FormInterface

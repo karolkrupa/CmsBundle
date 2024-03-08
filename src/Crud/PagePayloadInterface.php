@@ -1,12 +1,11 @@
 <?php
 
-namespace Devster\CmsBundle\Crud\Common\View;
+namespace Devster\CmsBundle\Crud;
 
 /**
- * @deprecated
  * Interface for page view payload objects
  */
-interface PageViewPayloadInterface
+interface PagePayloadInterface
 {
     /**
      * Returns the payload for the view

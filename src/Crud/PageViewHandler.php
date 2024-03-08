@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\Attribute\TaggedLocator;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\HttpFoundation\Response;
 
+/** @deprecated  */
 class PageViewHandler
 {
     public function __construct(

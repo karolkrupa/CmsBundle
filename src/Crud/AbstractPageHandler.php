@@ -1,6 +1,6 @@
 <?php
 
-namespace Devster\CmsBundle\Crud\Common\View\Handler;
+namespace Devster\CmsBundle\Crud;
 
 use Devster\CmsBundle\Crud\Common\View\Renderer\PageViewRendererInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -9,8 +9,7 @@ use Symfony\Contracts\Service\Attribute\SubscribedService;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Symfony\Contracts\Service\ServiceSubscriberTrait;
 
-/** @deprecated  */
-abstract class AbstractPageViewHandler implements PageViewHandlerInterface, ServiceSubscriberInterface
+abstract class AbstractPageHandler implements PageHandlerInterface, ServiceSubscriberInterface
 {
     use ServiceSubscriberTrait;
 

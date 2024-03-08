@@ -7,6 +7,8 @@ use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * @deprecated
+ *
  * Interface for page view handlers
  */
 interface PageViewHandlerInterface

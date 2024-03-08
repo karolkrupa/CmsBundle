@@ -2,15 +2,14 @@
 
 namespace Devster\CmsBundle\Crud\List;
 
-use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
-use Devster\CmsBundle\Crud\Common\View\Handler\PageViewHandlerInterface;
-use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;
+use Devster\CmsBundle\Crud\AbstractPageHandler;
 use Devster\CmsBundle\Crud\List\FilterForm\FilterFormHandler;
 use Devster\CmsBundle\Crud\List\Renderer\ListPageViewRenderer;
+use Devster\CmsBundle\Crud\PageInterface;
+use Devster\CmsBundle\Crud\PagePayloadInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-/** @deprecated  */
-class ListPageViewHandler implements PageViewHandlerInterface
+class ListPageHandler extends AbstractPageHandler
 {
     public function __construct(
         private readonly FilterFormHandler $filterFormHandler,
@@ -19,16 +18,17 @@ class ListPageViewHandler implements PageViewHandlerInterface
     {
     }
 
-    public function handle(PageViewInterface $view, PageViewPayloadInterface $payload): Response
+    public function handle(PageInterface $page, PagePayloadInterface $payload): Response
     {
-        if(!$view instanceof ListPageView) {
+        if(!$page instanceof ListPage) {
             throw new \RuntimeException('Nieobsługiwany typ widoku. przekazany: '. get_class($view));
         }
 
-        if(!$payload instanceof ListPageViewPayload) {
+        if(!$payload instanceof ListPagePayload) {
             throw new \RuntimeException('Nieobsługiwany typ paylad. przekazany: '. get_class($payload));
         }
 
+        $view = $page->getPageConfig()->getView();
         $rootAlias = $payload->rootAlias;
         if (!$rootAlias && !empty($payload->qb->getRootAliases())) {
             $rootAlias = $payload->qb->getRootAliases()[0];

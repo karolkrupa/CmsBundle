@@ -2,11 +2,10 @@
 
 namespace Devster\CmsBundle\Crud\List;
 
-use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;
+use Devster\CmsBundle\Crud\PagePayloadInterface;
 use Doctrine\ORM\QueryBuilder;
 
-/** @deprecated  */
-class ListPageViewPayload implements PageViewPayloadInterface
+class ListPagePayload implements PagePayloadInterface
 {
     public function __construct(
         public readonly QueryBuilder $qb,

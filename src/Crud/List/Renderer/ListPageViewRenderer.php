@@ -12,9 +12,11 @@ use Devster\CmsBundle\Crud\List\Action\Renderer\ActionRenderInterface;
 use Devster\CmsBundle\Crud\List\Cell\Renderer\CellRendererInterface;
 use Devster\CmsBundle\Crud\List\Cell\TitledCellInterface;
 use Devster\CmsBundle\Crud\List\FilterForm\Renderer\FilterFormRenderer;
+use Devster\CmsBundle\Crud\List\ListPagePayload;
 use Devster\CmsBundle\Crud\List\ListPageView;
 use Devster\CmsBundle\Crud\List\ListPageViewPayload;
 use Devster\CmsBundle\Crud\List\Pagination\PaginationSettings;
+use Devster\CmsBundle\Crud\PagePayloadInterface;
 use Devster\CmsBundle\KnpPager\Event\Subscriber\SortableSubscriber;
 use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\ArgumentAccess\RequestArgumentAccess;
@@ -42,13 +44,13 @@ class ListPageViewRenderer extends TemplatePageViewRenderer
     {
     }
 
-    public function render(PageViewInterface $view, PageViewPayloadInterface $payload, PageViewContextInterface $context): string
+    public function render(PageViewInterface $view, PagePayloadInterface $payload, PageViewContextInterface $context): string
     {
         if (!$view instanceof EditView) {
             throw new \LogicException('Oczekiwany typ: ' . ListPageView::class);
         }
 
-        if (!$payload instanceof ListPageViewPayload) {
+        if (!$payload instanceof ListPagePayload) {
             throw new \LogicException('Oczekiwany typ: ' . ListPageView::class);
         }
 

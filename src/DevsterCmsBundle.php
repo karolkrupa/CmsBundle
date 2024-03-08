@@ -7,6 +7,7 @@ use Devster\CmsBundle\Crud\Common\View\Handler\PageViewHandlerInterface;
 use Devster\CmsBundle\Crud\List\Action\Renderer\ActionRenderInterface;
 use Devster\CmsBundle\Crud\List\Cell\Renderer\CellRendererInterface;
 use Devster\CmsBundle\Crud\List\Heading\Renderer\HeadingRendererInterface;
+use Devster\CmsBundle\Crud\PageHandlerInterface;
 use Devster\CmsBundle\DependencyInjection\CrudPass;
 use Devster\CmsBundle\DependencyInjection\DevsterCmsExtension;
 use Devster\CmsBundle\DependencyInjection\TwigPass;
@@ -40,6 +41,9 @@ class DevsterCmsBundle extends AbstractBundle
 
         $container->registerForAutoconfiguration(PageViewHandlerInterface::class)
             ->addTag('devster.cms.view.handler');
+
+        $container->registerForAutoconfiguration(PageHandlerInterface::class)
+            ->addTag('devster.cms.page.handler');
 
 
 //        $container->register('devster_cms.crud.list.field.renderer_locator', ServiceLocator::class)

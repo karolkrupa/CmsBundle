@@ -3,10 +3,10 @@
 namespace Devster\CmsBundle\Crud\Edit;
 
 use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;
+use Devster\CmsBundle\Crud\PagePayloadInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-/** @deprecated  */
-class EditViewPayload implements PageViewPayloadInterface
+class EditPagePayload implements PagePayloadInterface
 {
     public function __construct(
         public readonly Request $request,
