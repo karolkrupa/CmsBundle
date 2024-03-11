@@ -14,6 +14,7 @@ class AbstractCrudController extends AbstractController
             ...parent::getSubscribedServices(),
             ...[
                 NotificationService::class,
+                PageFactory::class
             ]
         ];
     }
