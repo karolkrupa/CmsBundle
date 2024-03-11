@@ -15,6 +15,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('encore_entry')->defaultNull()->end()
                 ->scalarNode('encore_entrypoint')->defaultNull()->end()
+                ->scalarNode('form_theme')->defaultValue('@DevsterCms/form/tailwind_theme.html.twig')->end()
                 ->arrayNode('dashboard')
                     ->children()
                         ->scalarNode('title')->defaultValue('Dashboard')->end()
