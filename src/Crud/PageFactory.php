@@ -2,6 +2,8 @@
 
 namespace Devster\CmsBundle\Crud;
 
+use Devster\CmsBundle\Crud\Common\TemplatePage\TemplatePageConfig;
+use Devster\CmsBundle\Crud\Common\TemplatePage\TemplatePageHandler;
 use Devster\CmsBundle\Crud\Delete\DeletePageConfig;
 use Devster\CmsBundle\Crud\Delete\DeletePageHandler;
 use Devster\CmsBundle\Crud\Edit\EditPageConfig;
@@ -34,10 +36,17 @@ class PageFactory
         );
     }
 
-    public function creteDeletePageBuilder(): DeletePageConfig
+    public function createDeletePageBuilder(): DeletePageConfig
     {
         return new DeletePageConfig(
             $this->handlers->get(DeletePageHandler::class)
+        );
+    }
+
+    public function createTemplatePageBuilder(): TemplatePageConfig
+    {
+        return new TemplatePageConfig(
+            $this->handlers->get(TemplatePageHandler::class)
         );
     }
 }
