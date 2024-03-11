@@ -8,7 +8,8 @@ class EditPageEvent
 {
     public function __construct(
         private readonly mixed $data,
-        private readonly FormInterface $form
+        private readonly FormInterface $form,
+        private readonly EditPage $page
     )
     {
     }
@@ -21,5 +22,10 @@ class EditPageEvent
     public function getForm(): FormInterface
     {
         return $this->form;
+    }
+
+    public function getPage(): EditPage
+    {
+        return $this->page;
     }
 }

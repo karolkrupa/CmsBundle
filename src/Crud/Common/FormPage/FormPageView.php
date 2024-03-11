@@ -8,7 +8,6 @@ use Symfony\Component\Form\FormInterface;
 
 class FormPageView extends TemplatePageView
 {
-    protected ?string $successRoute = null;
     protected ?FormInterface $form = null;
     protected ?string $formTemplate = null;
 
@@ -22,30 +21,18 @@ class FormPageView extends TemplatePageView
         return FormPageViewRenderer::class;
     }
 
-    public function form(FormInterface $form): static
+    public function setForm(FormInterface $form): static
     {
         $this->form = $form;
 
         return $this;
     }
 
-    public function successRoute(?string $route): static
-    {
-        $this->successRoute = $route;
-
-        return $this;
-    }
-
-    public function formTemplate(?string $template): static
+    public function setFormTemplate(?string $template): static
     {
         $this->formTemplate = $template;
 
         return $this;
-    }
-
-    public function getSuccessRoute(): ?string
-    {
-        return $this->successRoute;
     }
 
     public function getForm(): ?FormInterface

@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "0f1d092011669872",
+        "id": "8ed1cda4e734bec6",
         "type": "tabs",
         "children": [
           {
-            "id": "0b38a02eaeb748f7",
+            "id": "16b586d1fbd0391a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "forms/CKEditor.md",
+                "file": "Crud/List/EditPage.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "forms/CKEditor.md",
+                "file": "Crud/List/EditPage.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "forms/CKEditor.md",
+                "file": "Crud/List/EditPage.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "forms/CKEditor.md"
+                "file": "Crud/List/EditPage.md"
               }
             }
           }
@@ -146,10 +146,18 @@
       "command-palette:Otwórz paletę poleceń": false
     }
   },
-  "active": "0b38a02eaeb748f7",
+  "active": "16b586d1fbd0391a",
   "lastOpenFiles": [
-    "index.md",
+    "Crud/List/ListPage.md",
+    "Crud/List/EditPage.md",
+    "Crud/pages.md",
+    "[.md",
+    "Crud/List",
+    "images/list_page.png",
+    "images",
     "forms/CKEditor.md",
+    "Crud",
+    "index.md",
     "forms"
   ]
 }

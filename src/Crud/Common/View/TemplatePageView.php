@@ -20,6 +20,10 @@ class TemplatePageView implements PageViewInterface
         return TemplatePageViewRenderer::class;
     }
 
+    /**
+     * @deprecated
+     * @return string
+     */
     public function getHandler(): string
     {
         return TemplatePageViewHandler::class;
