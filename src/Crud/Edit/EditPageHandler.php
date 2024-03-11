@@ -62,15 +62,15 @@ class EditPageHandler extends AbstractPageHandler
 
                 $this->dispatchEvent($dispatcher, EditPageEvents::AFTER_FLUSH, $data, $form, $page);
 
-                if($page->getPageConfig()->getSuccessMessage()) {
+                if ($page->getPageConfig()->getSuccessMessage()) {
                     $this->container->get(NotificationService::class)->success('', $page->getPageConfig()->getSuccessMessage());
                 }
 
-                if($page->getPageConfig()->getSuccessRoute()) {
-                    return new RedirectResponse(
-                        $this->container->get(UrlGeneratorInterface::class)->generate(
-                            $page->getPageConfig()->getSuccessRoute()
-                        )
+                if ($page->getPageConfig()->getSuccessHandler()) {
+                    return $page->getPageConfig()->getSuccessHandler()->handle(
+                        $this->container->get(UrlGeneratorInterface::class),
+                        $page,
+                        $data
                     );
                 }
 

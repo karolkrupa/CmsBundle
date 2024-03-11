@@ -2,6 +2,7 @@
 
 namespace Devster\CmsBundle\Crud\Edit;
 
+use Devster\CmsBundle\Crud\Common\Page\PageResultHandlerInterface;
 use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
 use Devster\CmsBundle\Crud\PageConfigInterface;
 use Devster\CmsBundle\Crud\PageHandlerInterface;
@@ -12,7 +13,7 @@ class EditPageConfig implements PageConfigInterface
 {
     protected EventDispatcher $dispatcher;
     protected ?PageViewInterface $editView = null;
-    protected ?string $successRoute = null;
+    protected ?PageResultHandlerInterface $successHandler = null;
     protected ?string $successMessage = null;
     protected ?string $errorMessage = null;
 
@@ -37,16 +38,16 @@ class EditPageConfig implements PageConfigInterface
         return $this;
     }
 
-    public function setSuccessRoute(string $routeName): static
+    public function setSuccessHandler(?PageResultHandlerInterface $handler): static
     {
-        $this->successRoute = $routeName;
+        $this->successHandler = $handler;
 
         return $this;
     }
 
-    public function getSuccessRoute(): ?string
+    public function getSuccessHandler(): ?PageResultHandlerInterface
     {
-        return $this->successRoute;
+        return $this->successHandler;
     }
 
     public function setSuccessMessage(string $successMessage): static
