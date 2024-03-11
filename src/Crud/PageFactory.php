@@ -2,6 +2,7 @@
 
 namespace Devster\CmsBundle\Crud;
 
+use Devster\CmsBundle\Crud\Delete\DeletePageConfig;
 use Devster\CmsBundle\Crud\Edit\EditPageConfig;
 use Devster\CmsBundle\Crud\Edit\EditPageHandler;
 use Devster\CmsBundle\Crud\List\ListPageConfig;
@@ -29,6 +30,13 @@ class PageFactory
     {
         return new EditPageConfig(
             $this->handlers->get(EditPageHandler::class)
+        );
+    }
+
+    public function creteDeletePageBuilder(): DeletePageConfig
+    {
+        return new DeletePageConfig(
+            $this->handlers->get(DeletePageConfig::class)
         );
     }
 }
