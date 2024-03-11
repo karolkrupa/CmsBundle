@@ -14,6 +14,7 @@ class Configuration implements ConfigurationInterface
         $treeBuilder->getRootNode()
             ->children()
                 ->scalarNode('encore_entry')->defaultNull()->end()
+                ->scalarNode('encore_entrypoint')->defaultNull()->end()
                 ->arrayNode('dashboard')
                     ->children()
                         ->scalarNode('title')->defaultValue('Dashboard')->end()

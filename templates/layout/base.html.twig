@@ -5,38 +5,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{{ devstercms.dashboard.title }}{% endblock %}</title>
-    <link rel="icon" href="{{ asset('favicon-casting.ico') }}">
-    {#    {% block stylesheets %} #}
-    {#        {{ encore_entry_link_tags('app', null, 'backend') }} #}
-    {#    {% endblock %} #}
+    {% block head %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{{ devstercms.dashboard.title }}{% endblock %}</title>
+        <link rel="icon" href="{{ asset('favicon.ico') }}">
 
-    {#    {% block javascripts %} #}
-    {#        {{ encore_entry_script_tags('app', null, 'backend') }} #}
-    {#    {% endblock %} #}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+              rel="stylesheet">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
-          rel="stylesheet">
+        {% block head_base_stylesheet %}
+            {% if devstercms.encore_entry %}
+                {{ encore_entry_link_tags(devstercms.encore_entry, null, devstercms.encore_entrypoint|default('_default')) }}
+            {% endif %}
+        {% endblock %}
 
-
-
-    {% if devstercms.encore_entry %}
-        {{ encore_entry_link_tags(devstercms.encore_entry) }}
-    {% endif %}
-
-    {#    <script src="{{ asset('bundles/devstercms/build/runtime.js') }}"></script> #}
-    {#    <script src="{{ asset('bundles/devstercms/build/vendors-node_modules_core-js_modules_es_array-buffer_constructor_js-node_modules_core-js_modu-7eab96.js') }}"></script> #}
-    {#    <script src="{{ asset('bundles/devstercms/build/vendors-node_modules_preline_overlay_index_js-node_modules_choices_js_public_assets_scripts_c-f8d1de.js') }}"></script> #}
-    {#    <script src="{{ asset('bundles/devstercms/build/assets_ckeditor5-40_1_0_build_ckeditor_js.js') }}"></script> #}
-    {#    <script src="{{ asset('bundles/devstercms/build/app.js') }}"></script> #}
-
-    {#    <link rel="stylesheet" href="{{ asset('bundles/devstercms/build/vendors-node_modules_preline_overlay_index_js-node_modules_choices_js_public_assets_scripts_c-f8d1de.css') }}"> #}
-    {#    <link rel="stylesheet" href="{{ asset('bundles/devstercms/build/app.css') }}"> #}
-
+        {% block head_base_javascripts %}{% endblock %}
+    {% endblock %}
 </head>
 
 <body class="bg-slate-50 dark:bg-slate-900 font-inter text-stone-600">
@@ -46,8 +33,8 @@
     {% for type, notificationGroup in get_dashboard_notifications() %}
         {% for notification in notificationGroup %}
             <d-notification type="{{ type }}"
-                          :auto-close="{{ notification.autoClose|json_encode }}"
-                          :auto-close-delay="{{ notification.autoCloseDelay|default(5000) }}"
+                            :auto-close="{{ notification.autoClose|json_encode }}"
+                            :auto-close-delay="{{ notification.autoCloseDelay|default(5000) }}"
             >
                 <template v-slot:title>
                     {{ notification.title }}
@@ -83,9 +70,11 @@
 
 {% block modals %}{% endblock %}
 
-{% if devstercms.encore_entry %}
-    {{ encore_entry_script_tags(devstercms.encore_entry) }}
-{% endif %}
+{% block footer_base_javascripts %}
+    {% if devstercms.encore_entry %}
+        {{ encore_entry_script_tags(devstercms.encore_entry, null, devstercms.encore_entrypoint|default('_default')) }}
+    {% endif %}
+{% endblock %}
 </body>
 
 </html>
