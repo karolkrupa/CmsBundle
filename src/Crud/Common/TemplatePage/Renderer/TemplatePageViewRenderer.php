@@ -1,12 +1,10 @@
 <?php
 
-namespace Devster\CmsBundle\Crud\Common\View\Renderer;
+namespace Devster\CmsBundle\Crud\Common\TemplatePage\Renderer;
 
-use Devster\CmsBundle\Crud\Common\View\Renderer\PageViewRendererInterface;
-use Devster\CmsBundle\Crud\Common\View\TemplatePageViewPayload;
+use Devster\CmsBundle\Crud\Common\TemplatePage\TemplatePagePayload;
 use Devster\CmsBundle\Crud\Common\View\PageViewContextInterface;
 use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
-use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;
 use Devster\CmsBundle\Crud\PagePayloadInterface;
 use Symfony\Contracts\Service\Attribute\SubscribedService;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
@@ -19,7 +17,7 @@ class TemplatePageViewRenderer implements PageViewRendererInterface, ServiceSubs
 
     public function render(PageViewInterface $view, PagePayloadInterface $payload, PageViewContextInterface $context): string
     {
-        if(!$payload instanceof TemplatePageViewPayload) {
+        if(!$payload instanceof TemplatePagePayload) {
             throw new \RuntimeException('Niepoprawy typ payloudu');
         }
 

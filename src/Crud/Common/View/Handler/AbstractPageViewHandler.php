@@ -2,7 +2,7 @@
 
 namespace Devster\CmsBundle\Crud\Common\View\Handler;
 
-use Devster\CmsBundle\Crud\Common\View\Renderer\PageViewRendererInterface;
+use Devster\CmsBundle\Crud\Common\TemplatePage\Renderer\PageViewRendererInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Contracts\Service\Attribute\SubscribedService;

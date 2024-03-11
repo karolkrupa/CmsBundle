@@ -3,7 +3,7 @@
 namespace Devster\CmsBundle\Crud\Common\FormPage;
 
 use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
-use Devster\CmsBundle\Crud\Common\View\TemplatePageView;
+use Devster\CmsBundle\Crud\Common\TemplatePage\TemplatePageView;
 use Symfony\Component\Form\FormInterface;
 
 class FormPageView extends TemplatePageView

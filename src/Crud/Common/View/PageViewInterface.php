@@ -11,6 +11,7 @@ use Devster\CmsBundle\Crud\Common\TemplateableInterface;
 interface PageViewInterface extends TemplateableInterface, RenderableInterface
 {
     /**
+     * @deprecated
      * Handler that should handle this page view
      *
      * @return string - handler class FQN

@@ -3,7 +3,7 @@
 namespace Devster\CmsBundle\Crud\Common\TemplatePage;
 
 use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
-use Devster\CmsBundle\Crud\Common\View\TemplatePageView;
+use Devster\CmsBundle\Crud\Common\TemplatePage\TemplatePageView;
 use Devster\CmsBundle\Crud\PageConfigInterface;
 use Devster\CmsBundle\Crud\PageHandlerInterface;
 use Devster\CmsBundle\Crud\PageInterface;

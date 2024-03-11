@@ -4,10 +4,11 @@ namespace Devster\CmsBundle\Crud\Common\View\Handler;
 
 use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
 use Devster\CmsBundle\Crud\Common\View\PageViewPayloadInterface;
-use Devster\CmsBundle\Crud\Common\View\TemplatePageViewContext;
+use Devster\CmsBundle\Crud\Common\TemplatePage\TemplatePageViewContext;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * @deprecated
  * Handler form template page view
  */
 class TemplatePageViewHandler extends AbstractPageViewHandler

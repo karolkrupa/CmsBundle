@@ -3,7 +3,7 @@
 namespace Devster\CmsBundle\Crud\Common\TemplatePage;
 
 use Devster\CmsBundle\Crud\AbstractPageHandler;
-use Devster\CmsBundle\Crud\Common\View\TemplatePageViewContext;
+use Devster\CmsBundle\Crud\Common\TemplatePage\TemplatePageViewContext;
 use Devster\CmsBundle\Crud\PageInterface;
 use Devster\CmsBundle\Crud\PagePayloadInterface;
 use Symfony\Component\HttpFoundation\Response;

@@ -2,7 +2,7 @@
 
 namespace Devster\CmsBundle\Crud\Common\FormPage;
 
-use Devster\CmsBundle\Crud\Common\View\Renderer\TemplatePageViewRenderer;
+use Devster\CmsBundle\Crud\Common\TemplatePage\Renderer\TemplatePageViewRenderer;
 use Devster\CmsBundle\Crud\Common\View\PageViewContextInterface;
 use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
 use Devster\CmsBundle\Crud\PagePayloadInterface;

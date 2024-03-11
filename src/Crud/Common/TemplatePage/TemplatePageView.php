@@ -1,9 +1,10 @@
 <?php
 
-namespace Devster\CmsBundle\Crud\Common\View;
+namespace Devster\CmsBundle\Crud\Common\TemplatePage;
 
-use Devster\CmsBundle\Crud\Common\View\Renderer\TemplatePageViewRenderer;
+use Devster\CmsBundle\Crud\Common\TemplatePage\Renderer\TemplatePageViewRenderer;
 use Devster\CmsBundle\Crud\Common\View\Handler\TemplatePageViewHandler;
+use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
 
 /**
  * Base page view, it allows to render page according to the provided custom twig template

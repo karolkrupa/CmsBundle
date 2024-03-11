@@ -2,7 +2,7 @@
 
 namespace Devster\CmsBundle\DependencyInjection;
 
-use Devster\CmsBundle\Crud\Common\View\Renderer\PageViewRendererInterface;
+use Devster\CmsBundle\Crud\Common\TemplatePage\Renderer\PageViewRendererInterface;
 use Devster\CmsBundle\Crud\Sidebar\Sidebar;
 use Devster\CmsBundle\Form\CKEditorType;
 use Symfony\Component\Config\FileLocator;

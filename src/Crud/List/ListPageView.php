@@ -3,7 +3,7 @@
 namespace Devster\CmsBundle\Crud\List;
 
 use Devster\CmsBundle\Crud\Common\View\PageViewInterface;
-use Devster\CmsBundle\Crud\Common\View\TemplatePageView;
+use Devster\CmsBundle\Crud\Common\TemplatePage\TemplatePageView;
 use Devster\CmsBundle\Crud\List\Action\ActionInterface;
 use Devster\CmsBundle\Crud\List\FilterForm\FilterForm;
 use Devster\CmsBundle\Crud\List\Pagination\PaginationSettings;
