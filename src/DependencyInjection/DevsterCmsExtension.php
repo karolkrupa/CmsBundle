@@ -55,7 +55,7 @@ class DevsterCmsExtension extends Extension
     private function processCKEditorConfig(array $config, ContainerBuilder $container): void
     {
         $container->getDefinition(CKEditorType::class)
-            ->setArgument('$fileUploadRoute', $config['ckeditor']['file_upload_route']?? null);
+            ->setArgument('$fileUploadRoute', $config['form']['ckeditor']['file_upload_route']?? null);
     }
 
     private function processImageTypeConfig(array $config, ContainerBuilder $container): void
