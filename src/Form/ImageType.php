@@ -71,7 +71,7 @@ class ImageType extends AbstractType
         ]);
 
         $resolver->setAllowedTypes('multiple', 'bool');
-        $resolver->setAllowedTypes('route', ['strong', 'null']);
+        $resolver->setAllowedTypes('route', ['string', 'null']);
 
         if(!$this->route) {
             $resolver->setRequired('route');
