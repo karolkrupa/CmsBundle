@@ -11,8 +11,14 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ImageV2Type extends AbstractType
+class ImageType extends AbstractType
 {
+    public function __construct(
+        protected ?string $route = null
+    )
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($options) {
@@ -51,10 +57,6 @@ class ImageV2Type extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setRequired([
-            'route'
-        ]);
-
         $resolver->setDefaults([
             'multiple' => false,
             'filesystem_prefix' => null,
@@ -64,10 +66,16 @@ class ImageV2Type extends AbstractType
             'error_bubbling' => false,
             'compound' => false,
             'max_size' => '10M',
-            'data_class' => null
+            'data_class' => null,
+            'route' => $this->route
         ]);
 
         $resolver->setAllowedTypes('multiple', 'bool');
+        $resolver->setAllowedTypes('route', ['strong', 'null']);
+
+        if(!$this->route) {
+            $resolver->setRequired('route');
+        }
     }
 
     public function getBlockPrefix(): string

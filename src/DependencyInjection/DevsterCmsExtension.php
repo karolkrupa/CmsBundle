@@ -5,11 +5,11 @@ namespace Devster\CmsBundle\DependencyInjection;
 use Devster\CmsBundle\Crud\Common\TemplatePage\Renderer\PageViewRendererInterface;
 use Devster\CmsBundle\Crud\Sidebar\Sidebar;
 use Devster\CmsBundle\Form\CKEditorType;
+use Devster\CmsBundle\Form\ImageType;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Twig\Environment;
 
 class DevsterCmsExtension extends Extension
 {
@@ -43,6 +43,7 @@ class DevsterCmsExtension extends Extension
 //            ->addTag('devster_cms.crud.list.field.renderer');
 
         $this->processCKEditorConfig($config, $container);
+        $this->processImageTypeConfig($config, $container);
 
         if(!in_array('Symfony\WebpackEncoreBundle\WebpackEncoreBundle', $container->getParameter('kernel.bundles'))) {
             $config['encore_entry'] = null;
@@ -51,11 +52,15 @@ class DevsterCmsExtension extends Extension
         $container->setParameter('devstercms.config', $config);
     }
 
-
-
     private function processCKEditorConfig(array $config, ContainerBuilder $container): void
     {
         $container->getDefinition(CKEditorType::class)
             ->setArgument('$fileUploadRoute', $config['ckeditor']['file_upload_route']?? null);
+    }
+
+    private function processImageTypeConfig(array $config, ContainerBuilder $container): void
+    {
+        $container->getDefinition(ImageType::class)
+            ->setArgument('$route', $config['form']['image']['route']?? null);
     }
 }
