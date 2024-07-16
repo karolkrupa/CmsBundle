@@ -1,0 +1,12 @@
+{% block remote_choice_widget %}
+    <div class="vue-container">
+        <d-remote-select
+                name="{{ full_name }}"
+                remote-url="{{ path('backend.api.remote_choice') }}"
+                :init-options="{{ choices|json_encode }}"
+                :pagination="{{ pagination|json_encode }}"
+                :value="{{ value|json_encode }}"
+                :invalid="{% if valid %} false {% else %} true {% endif %}"
+        ></d-remote-select>
+    </div>
+{% endblock %}

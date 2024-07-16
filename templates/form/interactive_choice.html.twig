@@ -1,0 +1,12 @@
+{% block interactive_choice_widget %}
+    <div class="vue-container">
+        <d-select
+                placeholder="{{ placeholder }}"
+                :invalid="{% if valid %} false {% else %} true {% endif %}"
+                :required="{{ required|json_encode }}"
+                value="{{ value }}"
+                name="{{ full_name }}"
+                :init-options="{{ json_choices|json_encode }}"
+        ></d-select>
+    </div>
+{% endblock %}

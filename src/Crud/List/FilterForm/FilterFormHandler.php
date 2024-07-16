@@ -22,9 +22,9 @@ class FilterFormHandler
     {
         $form = $filterForm->getForm($this->formFactory);
 
-        $serachFields = $filterForm->getSearchFields();
+        $searachFields = $filterForm->getSearchFields();
         $searchAdded = false;
-        if (!empty($serachFields) && !$form->has('search')) {
+        if (!empty($searachFields) && !$form->has('search')) {
             $form->add('search', TextType::class, [
                 'label' => 'Wyszukaj',
                 'required' => false
@@ -39,7 +39,7 @@ class FilterFormHandler
         if ($searchAdded && isset($filterData['search'])) {
             $where = '';
 
-            foreach ($serachFields as $fieldName) {
+            foreach ($searachFields as $fieldName) {
                 $aliasedFileName = $this->getQbFieldName($rootAlias, $fieldName);
 
                 if ($where) {
@@ -53,14 +53,16 @@ class FilterFormHandler
                 ->setParameter('search', '%' . $filterData['search'] . '%');
         }
 
-        foreach ($filterData as $fieldName => $fieldValue) {
+        foreach (array_keys($form->all()) as $fieldName) {
             if ($fieldName == 'search') continue;
+            
+            $fieldConfig = $this->getFieldConfig($filterForm, $fieldName, $rootAlias);
+            $fieldValue = $filterData[$fieldName] ?? null;
 
-            if ($fieldValue === null) {
+            if (!$fieldConfig->isApplyWhenNotSubmitted() && $fieldValue === null) {
                 continue;
             }
 
-            $fieldConfig = $this->getFieldConfig($filterForm, $fieldName, $rootAlias);
             $qbValueName = sprintf("%s_value", $fieldName);
 
             if ($handler = $fieldConfig->getHandler()) {

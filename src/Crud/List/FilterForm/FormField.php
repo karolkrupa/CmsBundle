@@ -10,6 +10,7 @@ class FormField
     protected ?\Closure $handler = null;
     protected ?string $mapping = null;
     protected ?string $parameterType = null;
+    protected bool $applyWhenNotSubmitted = false;
 
     /**
      * Pole do automatycznego bindowania wartości dla query buildera. Np. "u.firstName"
@@ -63,6 +64,13 @@ class FormField
         return $this;
     }
 
+    public function setApplyWhenNotSubmitted(bool $applyWhenNotSubmieted = true): static
+    {
+        $this->applyWhenNotSubmitted = $applyWhenNotSubmieted;
+        
+        return $this;
+    }
+
     public function getProperty(): ?string
     {
         return $this->property;
@@ -81,5 +89,10 @@ class FormField
     public function getParameterType(): ?string
     {
         return $this->parameterType;
+    }
+
+    public function isApplyWhenNotSubmitted(): bool
+    {
+        return $this->applyWhenNotSubmitted;
     }
 }

@@ -2,21 +2,16 @@
 
 namespace Devster\CmsBundle;
 
-use Devster\CmsBundle\Crud\Common\TemplatePage\Renderer\PageViewRendererInterface;
+use Devster\CmsBundle\Controller\CrudPass;
 use Devster\CmsBundle\Crud\Common\View\Handler\PageViewHandlerInterface;
 use Devster\CmsBundle\Crud\List\Action\Renderer\ActionRenderInterface;
 use Devster\CmsBundle\Crud\List\Cell\Renderer\CellRendererInterface;
 use Devster\CmsBundle\Crud\List\Heading\Renderer\HeadingRendererInterface;
 use Devster\CmsBundle\Crud\PageHandlerInterface;
-use Devster\CmsBundle\DependencyInjection\CrudPass;
 use Devster\CmsBundle\DependencyInjection\DevsterCmsExtension;
 use Devster\CmsBundle\DependencyInjection\TwigPass;
-use Symfony\Component\DependencyInjection\Compiler\ServiceLocatorTagPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 class DevsterCmsBundle extends AbstractBundle

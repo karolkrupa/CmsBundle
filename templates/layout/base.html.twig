@@ -27,48 +27,7 @@
 </head>
 
 <body class="bg-slate-50 dark:bg-slate-900 font-inter text-stone-600">
-
-{# Notifications #}
-<div class="absolute top-8 end-8 z-[100] space-y-3 vue-container">
-    {% for type, notificationGroup in get_dashboard_notifications() %}
-        {% for notification in notificationGroup %}
-            <d-notification type="{{ type }}"
-                            :auto-close="{{ notification.autoClose|json_encode }}"
-                            :auto-close-delay="{{ notification.autoCloseDelay|default(5000) }}"
-            >
-                <template v-slot:title>
-                    {{ notification.title }}
-                </template>
-
-                <template v-slot:content>
-                    {{ notification.content }}
-                </template>
-            </d-notification>
-        {% endfor %}
-    {% endfor %}
-</div>
-
-
-{% include '@DevsterCms/layout/base/topbar.html.twig' %}
-
-<div id="application-sidebar"
-     class="z-20 hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 w-64 bg-white border-e border-gray-200 pt-2.5 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
-    <div class="px-6 mb-2.5 h-9 flex items-center">
-        <a class="flex-none text-xl font-semibold dark:text-white" href="#" aria-label="casting.pl">
-            {{ devstercms.dashboard.title }}
-        </a>
-    </div>
-
-    {{ render(controller('Devster\\CmsBundle\\Controller\\TemplateController::sidebar')) }}
-</div>
-
-<div class="w-ful lg:ps-64">
-    <div class="p-5">
-        {% block content %}{% endblock %}
-    </div>
-</div>
-
-{% block modals %}{% endblock %}
+{% block body %}{% endblock %}
 
 {% block footer_base_javascripts %}
     {% if devstercms.encore_entry %}
@@ -76,7 +35,6 @@
     {% endif %}
 {% endblock %}
 </body>
-
 </html>
 
 

@@ -26,7 +26,7 @@ abstract class AbstractImageTypeController extends AbstractController
      */
     abstract protected function fetch(string $id): array;
 
-    #[Route(name: '.upload')]
+    #[Route('', name: '.upload')]
     public function uploadAction(Request $request): Response
     {
         $form = $this->createFormBuilder(null, [

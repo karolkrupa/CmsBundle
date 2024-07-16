@@ -4,7 +4,9 @@ namespace Devster\CmsBundle\Controller;
 
 use Devster\CmsBundle\Crud\PageFactory;
 use Devster\CmsBundle\Dashboard\Notification\NotificationService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class AbstractCrudController extends AbstractController
 {
@@ -14,7 +16,9 @@ class AbstractCrudController extends AbstractController
             ...parent::getSubscribedServices(),
             ...[
                 NotificationService::class,
-                PageFactory::class
+                PageFactory::class,
+                RequestStack::class,
+                EntityManagerInterface::class
             ]
         ];
     }

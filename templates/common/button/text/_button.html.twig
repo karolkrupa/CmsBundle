@@ -17,7 +17,7 @@
 
 {% if attr is defined %}
     {% for name, val in attr %}
-        {{ name }}="{{ val }}"
+        {{ name }}="{{ val|raw }}"
     {% endfor %}
 {% endif %}
 >

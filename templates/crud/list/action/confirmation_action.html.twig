@@ -1,36 +1,27 @@
 <div class="vue-container inline-block">
-        <confirmation-modal success-url="{{ href }}">
-            <template v-slot:activator="{ open }">
-                {% include buttonTemplate with {
-                    text: buttonText,
-                    tag: 'button',
-                    href: null,
-                    class: 'w-full',
-                    attr: {
-                        '@click': 'open'
-                    }
-                } %}
-            </template>
+    <confirmation-modal
+            success-url="{{ href }}"
+            confirm-text="{{ modalArguments.acceptText }}"
+            reject-text="{{ modalArguments.rejectText }}"
+    >
+        <template v-slot:activator="{ open }">
+            {% include buttonTemplate with {
+                text: buttonText,
+                tag: 'button',
+                href: null,
+                class: 'w-full',
+                attr: {
+                    '@click': "open"
+                }
+            } %}
+        </template>
 
-            <template v-slot:title>
-                {{ modalArguments.title|raw }}
-            </template>
+        <template v-slot:title>
+            {{ modalArguments.title|raw }}
+        </template>
 
-            <template v-slot:text>
-                {{ modalArguments.text|raw }}
-            </template>
-
-            <template v-slot:buttons="{ close, confirm }">
-                <button @click="confirm" type="button"
-                        class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
-                    {{ modalArguments.acceptText }}
-                </button>
-
-                <button @click="close" type="button"
-                        class="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
-                    {{ modalArguments.rejectText }}
-                </button>
-            </template>
-        </confirmation-modal>
+        <template v-slot:text>
+            {{ modalArguments.text|raw }}
+        </template>
+    </confirmation-modal>
 </div>
-

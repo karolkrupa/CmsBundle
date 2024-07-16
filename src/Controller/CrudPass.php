@@ -1,6 +1,6 @@
 <?php
 
-namespace Devster\CmsBundle\DependencyInjection;
+namespace Devster\CmsBundle\Controller;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

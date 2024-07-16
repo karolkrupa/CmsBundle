@@ -2,19 +2,25 @@
 
 namespace Devster\CmsBundle\Form;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\ChoiceList\IdReader;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class ImageType extends AbstractType
 {
     public function __construct(
-        protected ?string $route = null
+        protected EntityManagerInterface   $em,
+        protected EventDispatcherInterface $eventDispatcher,
+        protected ?string                  $route = null
     )
     {
     }
@@ -26,13 +32,28 @@ class ImageType extends AbstractType
             $targetData = null;
 
             if (is_array($data)) {
-                $targetData = array_column($data, 0);
+                $targetData = [];
+
+                foreach ($data as $fileId) {
+                    $targetData[] = $this->em->getRepository($options['data_class'])->find($fileId);
+                }
             } else if ($data) {
-                $targetData = $data;
+
+                $targetData = $this->em->getRepository($options['data_class'])->find($data);
             }
 
             $event->setData($targetData);
-        }, 99999);
+        });
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+            if($media = $event->getData()) {
+                $event = new ImageSubmittedEvent(
+                    $media->getId(),
+                    $options['media_handler_options']
+                );
+                $this->eventDispatcher->dispatch($event, ImageSubmittedEvent::class);
+            }
+        });
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options): void
@@ -43,6 +64,7 @@ class ImageType extends AbstractType
         ];
 
         $view->vars['route'] = $options['route'];
+        $view->vars['multiple'] = $options['multiple'];
 
         if ($options['multiple']) {
             $view->vars['full_name'] .= '[]';
@@ -53,6 +75,18 @@ class ImageType extends AbstractType
             ['MB', 'KB', 'MB', 'KB'],
             $options['max_size'] ?? ini_get('upload_max_filesize')
         );
+
+
+        if (is_array($view->vars['value'])) {
+            $viewValue = [];
+            foreach ($view->vars['value'] as $value) {
+                $viewValue[] = $value->getId();
+            }
+        } elseif ($view->vars['value']) {
+            $view->vars['value'] = $view->vars['value']->getId();
+        }else {
+            $view->vars['value'] = [];
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -67,14 +101,15 @@ class ImageType extends AbstractType
             'compound' => false,
             'max_size' => '10M',
             'data_class' => null,
-            'route' => $this->route
+            'route' => $this->route,
+            'media_handler_options' => []
         ]);
 
         $resolver->setAllowedTypes('multiple', 'bool');
         $resolver->setAllowedTypes('route', ['string', 'null']);
 
-        if(!$this->route) {
-            $resolver->setRequired('route');
+        if (!$this->route) {
+            $resolver->setRequired('route', 'data_class');
         }
     }
 
@@ -83,8 +118,8 @@ class ImageType extends AbstractType
         return 'image';
     }
 
-    public function getParent(): string
+    public function getParent(): ?string
     {
-        return EntityType::class;
+        return FormType::class;
     }
 }

@@ -34,10 +34,14 @@ class ConfirmationActionRenderer extends AnchorActionRenderer
     {
         if ($title = $action->getModalTitle() instanceof \Closure) {
             $title = $action->getModalTitle()($data);
+        } elseif (is_string($action->getModalTitle())) {
+            $title = $action->getModalTitle();
         }
 
         if ($text = $action->getModalText() instanceof \Closure) {
             $text = $action->getModalText()($data);
+        } elseif (is_string($action->getModalText())) {
+            $text = $action->getModalText();
         }
 
         return [

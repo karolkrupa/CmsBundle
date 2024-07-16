@@ -6,6 +6,7 @@ use Devster\CmsBundle\Crud\Common\TemplatePage\Renderer\PageViewRendererInterfac
 use Devster\CmsBundle\Crud\Sidebar\Sidebar;
 use Devster\CmsBundle\Form\CKEditorType;
 use Devster\CmsBundle\Form\ImageType;
+use Devster\CmsBundle\Form\RemoteChoiceType\RemoteChoiceType;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -44,6 +45,7 @@ class DevsterCmsExtension extends Extension
 
         $this->processCKEditorConfig($config, $container);
         $this->processImageTypeConfig($config, $container);
+        $this->processChoiceRemoteTypeConfig($config, $container);
 
         if(!in_array('Symfony\WebpackEncoreBundle\WebpackEncoreBundle', $container->getParameter('kernel.bundles'))) {
             $config['encore_entry'] = null;
@@ -62,5 +64,11 @@ class DevsterCmsExtension extends Extension
     {
         $container->getDefinition(ImageType::class)
             ->setArgument('$route', $config['form']['image']['route']?? null);
+    }
+
+    private function processChoiceRemoteTypeConfig(array $config, ContainerBuilder $container): void
+    {
+        $container->getDefinition(RemoteChoiceType::class)
+            ->setArgument('$route', $config['form']['remote_choice']['route']?? null);
     }
 }

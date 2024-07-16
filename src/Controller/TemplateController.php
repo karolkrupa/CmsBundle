@@ -21,7 +21,7 @@ class TemplateController extends AbstractController
     {
         $menuConfig = $this->getConfig();
 
-        return $this->render('@DevsterCms/layout/base/sidebar.html.twig', [
+        return $this->render('@DevsterCms/layout/dashboard/sidebar.html.twig', [
             'config' => $menuConfig['sidebar'],
             'activeTree' => $this->getCurrentRouteData($requestStack)['activeIds'],
         ]);

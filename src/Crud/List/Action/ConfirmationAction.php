@@ -14,7 +14,7 @@ class ConfirmationAction extends AnchorAction
     const TYPE_BUTTON = 'button';
     const TYPE_TEXT_BUTTON = 'text_button';
 
-    protected string $activatorType = self::TYPE_ANCHOR;
+    protected string $activatorType = self::TYPE_TEXT_BUTTON;
     protected null|string|\Closure $modalTitle = null;
     protected null|string|\Closure $modalText = '';
     protected string $acceptText = 'Tak';

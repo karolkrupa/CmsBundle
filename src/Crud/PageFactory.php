@@ -35,13 +35,7 @@ class PageFactory
             $this->handlers->get(EditPageHandler::class)
         );
     }
-
-    public function createDeletePageBuilder(): DeletePageConfig
-    {
-        return new DeletePageConfig(
-            $this->handlers->get(DeletePageHandler::class)
-        );
-    }
+    
 
     public function createTemplatePageBuilder(): TemplatePageConfig
     {
