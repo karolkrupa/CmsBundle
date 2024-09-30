@@ -30,10 +30,6 @@ class ValueExtractor
             }
         }
 
-        if (!$throwException) {
-            return null;
-        }
-
-        throw new \RuntimeException('Brak gettera dla pola: ' . $getter);
+        return $getter;
     }
 }
