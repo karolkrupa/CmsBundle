@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Crud/List/EditPage.md",
+                "file": "Crud/navigation.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Crud/List/EditPage.md",
+                "file": "Crud/navigation.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Crud/List/EditPage.md",
+                "file": "Crud/navigation.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Crud/List/EditPage.md"
+                "file": "Crud/navigation.md"
               }
             }
           }
@@ -148,16 +148,24 @@
   },
   "active": "16b586d1fbd0391a",
   "lastOpenFiles": [
-    "Crud/List/ListPage.md",
-    "Crud/List/EditPage.md",
     "Crud/pages.md",
+    "images/navbar.png",
+    "Crud/navigation.md",
+    "Crud/List/ListPage.md",
+    "Pasted image 20241014130543.png",
+    "Pasted image 20241014130555.png",
+    "Pasted image 20241014130546.png",
+    "Crud/Page/TemplatePage.md",
+    "Crud/List/EditPage.md",
+    "Crud/Page",
+    "Crud/TemplatePage",
+    "index.md",
     "[.md",
     "Crud/List",
     "images/list_page.png",
     "images",
     "forms/CKEditor.md",
     "Crud",
-    "index.md",
     "forms"
   ]
 }

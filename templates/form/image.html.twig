@@ -26,9 +26,17 @@
                 {% endfor %}
                 {% else %}
                 {
-                    source: '{{ value }}',
+                    source: '{{ value.id }}',
                     options: {
-                        type: 'local'
+                        type: 'local',
+                        file: {
+                            name: '{{ value.name|default('Brak nazwy') }}',
+                            size: {{ value.size|default(0) }},
+                            type: '{{ value.mime|default('image/jpeg') }}'
+                        },
+                        metadata: {
+                            poster: '{{ path(route ~ '.fetch', {id: 'fileid'})|replace({'fileid': value.id}) }}',
+                        },
                     }
                 }
                 {% endif %}

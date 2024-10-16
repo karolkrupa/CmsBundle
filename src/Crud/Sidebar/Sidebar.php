@@ -2,6 +2,7 @@
 
 namespace Devster\CmsBundle\Crud\Sidebar;
 
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Resource\FileResource;
@@ -16,7 +17,8 @@ class Sidebar
     public function __construct(
         private readonly string                $sidebarConfigFile,
         private readonly ParameterBagInterface $parameters,
-        private readonly UrlGeneratorInterface $urlGenerator
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly Security              $security
     )
     {
     }
@@ -57,47 +59,81 @@ class Sidebar
     {
         $treeBuilder = new TreeBuilder('sidebar');
 
+        // @formatter:off
         $treeBuilder->getRootNode()
             ->arrayPrototype()
             ->children()
             ->scalarNode('name')->end()
-            ->booleanNode('hidden')->defaultFalse()->end()
-            ->arrayNode('elements')->arrayPrototype()
+            ->booleanNode('label_hidden')->defaultFalse()->end()
+            ->arrayNode('elements')
+            ->arrayPrototype()
             ->children()
             ->scalarNode('name')->isRequired()->end()
             ->scalarNode('icon')->end()
             ->scalarNode('route')->end()
-            ->arrayNode('elements')->arrayPrototype()
+            ->arrayNode('roles')
+            ->scalarPrototype()->end()
+            ->end()
+            ->arrayNode('elements')
+            ->arrayPrototype()
             ->children()
             ->scalarNode('name')->isRequired()->end()
             ->scalarNode('route')->isRequired()->end()
+            ->arrayNode('roles')
+            ->scalarPrototype()->end()
+            ->end()
             ->end()
             ->end()
             ->end()
             ->end()
             ->end()
             ->end();
+        // @formatter:off
 
         return $treeBuilder;
     }
 
     private function parseConfig(array $elements, $prefix = null): array
     {
-        foreach ($elements as $idx => &$element) {
-            $element['id'] = $prefix !== null ? $prefix . '_' . $idx : $idx;
-            $element['slug'] = md5($element['id']);
-            $element['roles'] = $element['roles'] ?? [];
+        $parsedConfig = [];
 
-            if (isset($element['route'])) {
-                $element['path'] = $this->urlGenerator->generate($element['route']);
+        foreach ($elements as $idx => $element) {
+            $elementId = $prefix !== null ? $prefix . '_' . $idx : $idx;
+
+            $elementConfig = [
+                'id' => $elementId,
+                'name' => $element['name'],
+                'route' => isset($element['route'])? $element['route'] : null,
+                'slug' => md5($elementId),
+                'roles' => $element['roles'] ?? []
+            ];
+
+            if(isset($element['label_hidden'])) {
+                $elementConfig['label_hidden'] = $element['label_hidden'];
             }
 
-            if (!empty($element['elements']) && is_array($element['elements'])) {
-                $element['elements'] = $this->parseConfig($element['elements'], $element['id']);
+            $isAllowed = empty($elementConfig['roles']);
+            foreach($elementConfig['roles'] as $role) {
+                if($this->security->isGranted($role)) {
+                    $isAllowed = true;
+                    break;
+                }
             }
+
+            if(!$isAllowed) {
+                continue;
+            }
+
+            if(!empty($element['route'])) {
+                $elementConfig['path'] = $this->urlGenerator->generate($element['route']);
+            }elseif(!empty($element['elements']) && is_array($element['elements'])) {
+                $elementConfig['elements'] = $this->parseConfig($element['elements'], $elementConfig['id']);
+            }
+
+            $parsedConfig[] = $elementConfig;
         }
 
-        return $elements;
+        return $parsedConfig;
     }
 
     private function generateRouteMap($sidebarData): array

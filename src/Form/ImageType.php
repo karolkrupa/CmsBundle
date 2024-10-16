@@ -2,10 +2,13 @@
 
 namespace Devster\CmsBundle\Form;
 
+use Devster\CmsBundle\Form\Dto\ImageDto;
+use Devster\CmsBundle\Util\ValueExtractor;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\ChoiceList\IdReader;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -28,6 +31,8 @@ class ImageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($options) {
+            // Konwersja z ID na encje
+
             $data = $event->getData();
             $targetData = null;
 
@@ -46,7 +51,8 @@ class ImageType extends AbstractType
         });
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
-            if($media = $event->getData()) {
+            $media = $event->getData();
+            if ($media) {
                 $event = new ImageSubmittedEvent(
                     $media->getId(),
                     $options['media_handler_options']
@@ -76,17 +82,19 @@ class ImageType extends AbstractType
             $options['max_size'] ?? ini_get('upload_max_filesize')
         );
 
-
+        $viewValue = null;
         if (is_array($view->vars['value'])) {
             $viewValue = [];
             foreach ($view->vars['value'] as $value) {
-                $viewValue[] = $value->getId();
+                $viewValue[] = $this->convertObjectToDto($value, $options);
             }
         } elseif ($view->vars['value']) {
-            $view->vars['value'] = $view->vars['value']->getId();
-        }else {
-            $view->vars['value'] = [];
+            $viewValue = $this->convertObjectToDto($view->vars['value'], $options);
+        } else {
+            $viewValue = [];
         }
+
+        $view->vars['value'] = $viewValue;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -102,7 +110,11 @@ class ImageType extends AbstractType
             'max_size' => '10M',
             'data_class' => null,
             'route' => $this->route,
-            'media_handler_options' => []
+            'media_handler_options' => [],
+            'id_field' => 'id',
+            'size_field' => 'size',
+            'mime_field' => 'mimeType',
+            'filename_field' => 'filename',
         ]);
 
         $resolver->setAllowedTypes('multiple', 'bool');
@@ -121,5 +133,53 @@ class ImageType extends AbstractType
     public function getParent(): ?string
     {
         return FormType::class;
+    }
+
+    private function convertObjectToDto($object, array $options): ?ImageDto
+    {
+        if (!$object) {
+            return null;
+        }
+
+        $id = $this->extractValue($object, $options['id_field']);
+        if (!$id) {
+            throw new \RuntimeException('Nie można przekształcić obiektu do ImageDto');
+        }
+
+        $name = $this->extractValue($object, $options['filename_field']);
+        $size = $this->extractValue($object, $options['size_field']);
+        $mime = $this->extractValue($object, $options['mime_field']);
+
+        return new ImageDto($id, $name, $size?: 0, $mime);
+
+    }
+
+    private function extractValue($data, $getter)
+    {
+        if ($getter instanceof \Closure) {
+            return $getter($data);
+        }
+
+        if (is_array($data)) {
+            if (!isset($data[$getter])) {
+                return null;
+            }
+
+            return $data[$getter];
+        }
+
+        $getterName = ucfirst($getter);
+        $getters = [
+            "get{$getterName}",
+            "is{$getterName}"
+        ];
+
+        foreach ($getters as $possibleGetter) {
+            if (method_exists($data, $possibleGetter)) {
+                return $data->$possibleGetter();
+            }
+        }
+
+        return null;
     }
 }
