@@ -1,10 +1,10 @@
 <nav class="hs-accordion-group p-5 pt-0 w-full flex flex-col flex-wrap" data-hs-accordion-always-open>
     <ul class="space-y-1.5">
         {% for section in config %}
-            {% if not section.hidden %}
-                {#                <li class="nav-item mt-3"> #}
-                {#                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">{{ section.name }}</h6> #}
-                {#                </li> #}
+            {% if not section.label_hidden|default(false) %}
+                <li class="nav-item mt-3">
+                    <h6 class="ms-3 text-xs opacity-6 text-stone-500">{{ section.name }}</h6>
+                </li>
             {% endif %}
 
             {% for element in section.elements %}
