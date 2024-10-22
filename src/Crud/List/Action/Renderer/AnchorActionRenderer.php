@@ -3,9 +3,9 @@
 namespace Devster\CmsBundle\Crud\List\Action\Renderer;
 
 use Devster\CmsBundle\Crud\List\Action\ActionInterface;
+use Devster\CmsBundle\Crud\List\Action\AnchorAction;
 use Devster\CmsBundle\Util\ValueExtractor;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Twig\Markup;
 
 class AnchorActionRenderer extends ActionRenderer
 {
@@ -17,35 +17,41 @@ class AnchorActionRenderer extends ActionRenderer
         ];
     }
 
-    public function render(ActionInterface $action, mixed $data): Markup
+    protected function getViewData(ActionInterface $action, mixed $data): array
     {
+        if (!$action instanceof AnchorAction) {
+            throw new \RuntimeException('Nieobsługiwany typ akcji');
+        }
+
         $href = $this->getActionUrl($action, $data);
 
-        $template = $action->getTemplate() ?? '@DevsterCms/common/anchor/default.html.twig';
-
-        $html = $this->twig()->render($template, [
-            ...$this->getViewData($action, $data),
+        return [
+            ...parent::getViewData($action, $data),
             'href' => $href
-        ]);
-
-        return new Markup($html, 'UTF-8');
+        ];
     }
 
     protected function getActionUrl(ActionInterface $action, mixed $data = null): ?string
     {
         $url = null;
         if ($action->getRoute()) {
-            $url = $this->urlGenerator()->generate($action->getRoute(), $this->parseRouteParams($action, $data));
+            $url = $this->getUrl($action->getRoute(), $action->getRouteParams(), $data);
         }
 
         return $url;
     }
 
-    protected function parseRouteParams(ActionInterface $action, mixed $data): array
+    protected function getUrl(string $route, array|\Closure $routeParams = [], mixed $routeParamsContextData = null, array $strictRouteParams = []): ?string
     {
-        $params = $action->getRouteParams();
+        return $this->urlGenerator()->generate(
+            $route,
+            [...$this->parseRouteParams($routeParams, $routeParamsContextData), ...$strictRouteParams]
+        );
+    }
 
-        if (!$data) {
+    protected function parseRouteParams(array|\Closure $params, mixed $contextData): array
+    {
+        if (!$contextData) {
             if ($params && !is_array($params)) {
                 throw new \LogicException('Akcje globalne obsługują jedynie tablicę parametrów');
             }
@@ -54,9 +60,9 @@ class AnchorActionRenderer extends ActionRenderer
         }
 
         if (is_array($params)) {
-            $params = $this->getDataParams($params, $data);
+            $params = $this->getDataParams($params, $contextData);
         } elseif ($params instanceof \Closure) {
-            $params = $params($data);
+            $params = $params($contextData);
         }
 
         return $params;

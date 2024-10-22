@@ -1,5 +1,5 @@
 {%- block ckeditor_widget -%}
-    <div class="ckeditor-widget flex {% if not valid %} invalid {% endif %}" {% if attr.rows is defined %} style="min-height: {{ attr.rows * 25 + 50 }}px" {% endif %}>
+    <div class="ckeditor-widget [&>.ck-editor]:max-w-full flex {% if not valid %} invalid {% endif %} " {% if attr.rows is defined %} style="min-height: {{ attr.rows * 25 + 50 }}px" {% endif %}>
         {{ block('textarea_widget') }}
     </div>
 

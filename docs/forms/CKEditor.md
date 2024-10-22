@@ -53,8 +53,9 @@ Aby CKEditor mógł korzystać z tego kontrolera należy ustawić route w konfig
 ```yml
 # config/packages/devster_cms.yaml
 devster_cms:
-    ckeditor:
-        file_upload_route: 'api.ckeditor'
+    form:
+        ckeditor:
+            file_upload_route: 'api.ckeditor'
 ```
 
 Możliwe jest także ustawienie routingu dla każdego pola indywidualnie:
@@ -72,13 +73,13 @@ $builder->add('text', CKEditorType::class, [
 
 Czasem wymagana jest zmiana adresu URL pliku w wynikowym HTML po wysłaniu formularza. Przykładowo: pliki przesyłane przez CKEditor są plikami tymczasowymi bądź zależy nam na umieszczeniu adresów do miniaturek w wynikowym tekście.
 
-Po wysłaniu formularza z polem CKEditor, w przypadku kiedy zostały przesłane jakieś nowe pliki, odpalany jest event `Devster\CmsBundle\CKEditor\Event\MediaProcessingEvent` który to zawiera identyfikator pliku (zwrócony przy przesyłaniu pliku) oraz adres URL pliku (src). Zmiana adresu pliku umieszczonego w wynikowym HTML odbywa się poprzez użycie metody `MediaProcessingEvent::setSrc(string $newSource)` 
+Po wysłaniu formularza z polem CKEditor, w przypadku kiedy zostały przesłane nowe pliki, odpalany jest event `Devster\CmsBundle\CKEditor\Event\MediaProcessingEvent`, który zawiera identyfikator pliku (zwrócony przy przesyłaniu pliku) oraz adres URL pliku (src). Zmiana adresu pliku umieszczonego w wynikowym HTML odbywa się poprzez przypisanie nowego adresu do eventu za pomocą metody `MediaProcessingEvent::setSrc(string $newSource)` 
 
 #### Przekazywanie własnych opcji
 
-Możliwe jest przekazanie własnym opcji do handlera eventu `MediaProcessingEvent` takich jak np: nazwa docelowego systemu plików.
+Możliwe jest przekazanie własnym opcji do handlera eventu `MediaProcessingEvent`, np: nazwa docelowego systemu plików, docelowy katalog itp.
 
-Aby przekazać opcje do handlera należy skorzystać z opcji `media_handler_options` dla typu formularza `CKEditorType`.
+Aby przekazać opcje do handlera, należy skorzystać z opcji `media_handler_options` typu formularza `CKEditorType`.
 
 ```php
 # FormBuilder

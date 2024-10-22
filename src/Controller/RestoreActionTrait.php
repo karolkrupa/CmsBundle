@@ -2,11 +2,8 @@
 
 namespace Devster\CmsBundle\Controller;
 
-use App\Event\Backend\Crud\EntityRemovedEvent;
-use App\Security\Permission;
 use Devster\CmsBundle\Dashboard\Notification\NotificationService;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +16,7 @@ trait RestoreActionTrait
      *
      * @param object $entity
      * @param string $message
-     * @return JsonResponse
+     * @return RedirectResponse
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
