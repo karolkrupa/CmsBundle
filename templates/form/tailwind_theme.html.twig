@@ -29,6 +29,11 @@
         {% set defaultClasses = 'block text-sm mb-1 dark:text-white' %}
     {% endif %}
 
+    {% if compound and choices is not defined %}
+        {# Pogrubienie dla złożonych typów poza entity type expanded #}
+        {% set defaultClasses = defaultClasses ~ ' font-bold mt-4' %}
+    {% endif %}
+
     {%- set label_attr = label_attr|merge({ class: label_attr.class|default(label_class|default(defaultClasses)) }) -%}
     {{- parent() -}}
 {%- endblock form_label -%}
@@ -90,6 +95,7 @@
 {%- endblock form_widget_simple -%}
 
 {%- block form_widget_compound -%}
+    {% set attr = attr|merge({ class: attr.class|default('space-y-6') }) %}
     <div {{ block('widget_container_attributes') }}>
         {%- if form is rootform -%}
             {{ form_errors(form) }}
@@ -221,3 +227,4 @@
 {% use '@DevsterCms/form/time.html.twig' %}
 {% use '@DevsterCms/form/password.html.twig' %}
 {% use '@DevsterCms/form/date_range.html.twig' %}
+{% use '@DevsterCms/form/filepond.html.twig' %}

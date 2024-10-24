@@ -2,6 +2,9 @@
 
 namespace Devster\CmsBundle\Form\Dto;
 
+/**
+ * @deprecated
+ */
 class ImageDto
 {
     public function __toString(): string

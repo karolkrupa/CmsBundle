@@ -1,0 +1,29 @@
+{% block file_pond_widget %}
+    {% if multiple %}
+        {% set defaultClasses = 'min-w-60 multiple' %}
+    {% else %}
+        {% set defaultClasses = 'w-60' %}
+    {% endif %}
+
+    {%- set attr = attr|merge({ class: attr.class|default(defaultClasses) ~ (errors|length ? ' ' ~ widget_errors_class|default('border-red-700')) }) -%}
+
+{#    <input type="file" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value|join(',') }}" {% endif %}/>#}
+    <input style="display: none" type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ input_value }}" {% endif %}/>
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            // Get a reference to the file input element
+            const inputElement = document.getElementById('{{ form.vars.id }}');
+
+            let files = {{ filepond_files|json_encode|raw }};
+
+            createFilePond(
+                inputElement,
+                    {% if multiple %} true {% else %} false {% endif %},
+                files,
+                '{{ path(route ~ '.upload') }}',
+                '{{ path(route ~ '.fetch', {id: 'fileid'})|replace({'fileid': ''}) }}'
+        )
+        });
+    </script>
+{% endblock file_pond_widget %}

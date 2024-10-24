@@ -3,6 +3,7 @@
 namespace Devster\CmsBundle\Form;
 
 use Devster\CmsBundle\Form\Dto\ImageDto;
+use Devster\CmsBundle\Form\FilePond\FilePondType;
 use Devster\CmsBundle\Util\ValueExtractor;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\ChoiceList\IdReader;
@@ -18,6 +19,11 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * @deprecated
+ *
+ * @see FilePondType
+ */
 class ImageType extends AbstractType
 {
     public function __construct(

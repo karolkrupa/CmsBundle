@@ -5,6 +5,7 @@ namespace Devster\CmsBundle\DependencyInjection;
 use Devster\CmsBundle\Crud\Common\TemplatePage\Renderer\PageViewRendererInterface;
 use Devster\CmsBundle\Crud\Sidebar\Sidebar;
 use Devster\CmsBundle\Form\CKEditorType;
+use Devster\CmsBundle\Form\FilePond\FilePondType;
 use Devster\CmsBundle\Form\ImageType;
 use Devster\CmsBundle\Form\RemoteChoiceType\RemoteChoiceType;
 use Symfony\Component\Config\FileLocator;
@@ -45,6 +46,7 @@ class DevsterCmsExtension extends Extension
 
         $this->processCKEditorConfig($config, $container);
         $this->processImageTypeConfig($config, $container);
+        $this->processFilePondTypeConfig($config, $container);
         $this->processChoiceRemoteTypeConfig($config, $container);
 
         if(!in_array('Symfony\WebpackEncoreBundle\WebpackEncoreBundle', $container->getParameter('kernel.bundles'))) {
@@ -60,10 +62,19 @@ class DevsterCmsExtension extends Extension
             ->setArgument('$fileUploadRoute', $config['form']['ckeditor']['file_upload_route']?? null);
     }
 
+    /**
+     * @deprecated
+     */
     private function processImageTypeConfig(array $config, ContainerBuilder $container): void
     {
         $container->getDefinition(ImageType::class)
             ->setArgument('$route', $config['form']['image']['route']?? null);
+    }
+
+    private function processFilePondTypeConfig(array $config, ContainerBuilder $container): void
+    {
+        $container->getDefinition(FilePondType::class)
+            ->setArgument('$uploadRoute', $config['form']['filepond']['route']?? null);
     }
 
     private function processChoiceRemoteTypeConfig(array $config, ContainerBuilder $container): void

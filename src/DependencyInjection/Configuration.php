@@ -11,6 +11,7 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder('devster_cms');
 
+        // @formatter:off
         $treeBuilder->getRootNode()
             ->children()
                 ->scalarNode('encore_entry')->defaultNull()->end()
@@ -19,7 +20,12 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('form')
                     ->children()
                         ->scalarNode('theme')->defaultValue('@DevsterCms/form/tailwind_theme.html.twig')->end()
-                        ->arrayNode('image')
+                        ->arrayNode('image')->setDeprecated('cms-bundle', 'v0.1', 'Use filepond key instead')
+                            ->children()
+                                ->scalarNode('route')->defaultNull()->end()
+                            ->end()->addDefaultsIfNotSet()
+                        ->end()
+                        ->arrayNode('filepond')
                             ->children()
                                 ->scalarNode('route')->defaultNull()->end()
                             ->end()->addDefaultsIfNotSet()
@@ -51,6 +57,7 @@ class Configuration implements ConfigurationInterface
 //                ->end()
             ->end()->addDefaultsIfNotSet()
         ;
+        // @formatter:on
 
         return $treeBuilder;
     }
