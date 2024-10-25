@@ -77,3 +77,22 @@ $qb = /* query builder */;
 
 $response = $pageBuilder->getPage()->response(new ListPagePayload($qb));
 ```
+
+## Metody `ListPageView`
+
+##### `addField($field)`
+
+Metoda pozwala na dodanie "pola" do tabeli. Pole reprezentuje wartość renderowanego obiektu.
+Pole służy do konfiguracji kolumny (nagłówka) tabeli oraz pojedynczego pola wiersza tabeli.
+
+##### `addAction($action)`
+
+Metoda pozwala na dodawanie globalnych akcji do strony. Przykładowo akcji utworzenia nowej encji.
+
+##### `configureCell(\Closure $configurator)`
+
+Metoda pozwala na konfiguracje komórki tabeli poprzez callback. Callback przyjmuje obiekt wybranego typu komórki.
+
+##### `configurePagination(\Closure $callback)`
+
+##### `setFilterForm(FilterForm $form)`
