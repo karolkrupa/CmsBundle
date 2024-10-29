@@ -28,7 +28,7 @@ abstract class AbstractFilePondViewTransformer implements DataTransformerInterfa
                 return [];
             }
 
-            if (!is_array($value)) {
+            if (!is_iterable($value)) {
                 return [$value];
             }
 
@@ -59,7 +59,7 @@ abstract class AbstractFilePondViewTransformer implements DataTransformerInterfa
             }
 
             return array_map(function ($id) {
-                $this->reverseTransformSingle($id);
+                return $this->reverseTransformSingle($id);
             }, $value);
         } else {
             if (is_iterable($value)) {

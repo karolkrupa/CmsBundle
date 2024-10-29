@@ -19,10 +19,14 @@
 
             createFilePond(
                 inputElement,
-                    {% if multiple %} true {% else %} false {% endif %},
-                files,
-                '{{ path(route ~ '.upload') }}',
-                '{{ path(route ~ '.fetch', {id: 'fileid'})|replace({'fileid': ''}) }}'
+                {
+                    postUrl: '{{ path(route ~ '.upload') }}',
+                    loadUrl: '{{ path(route ~ '.fetch', {id: 'fileid'})|replace({'fileid': ''}) }}',
+                    files: {{ filepond_files|json_encode|raw }},
+                    multiple: {{ multiple|json_encode }},
+                    allowReorder: {{ allow_reorder|json_encode }},
+                    allowRemove: {{ allow_delete|json_encode }},
+                }
         )
         });
     </script>

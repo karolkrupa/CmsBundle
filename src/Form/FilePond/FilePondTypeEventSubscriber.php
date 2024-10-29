@@ -11,12 +11,16 @@ use Symfony\Component\Form\FormEvents;
 #[Exclude]
 class FilePondTypeEventSubscriber implements EventSubscriberInterface
 {
-    private array $fileToDelete = [];
+    // Obiekty modelu do usunięcia
+    private array $filesToDelete = [];
+
+    // Identyfikatory nowych plików
+    private array $newFileIds = [];
 
     public static function getSubscribedEvents(): array
     {
         return [
-            FormEvents::PRE_SUBMIT => 'onSubmit',
+            FormEvents::PRE_SUBMIT => 'onPreSubmit',
             FormEvents::POST_SUBMIT => 'onPostSubmit'
         ];
     }
@@ -27,22 +31,46 @@ class FilePondTypeEventSubscriber implements EventSubscriberInterface
     {
     }
 
-    public function onSubmit(FormEvent $event): void
+    public function onPreSubmit(FormEvent $event): void
     {
+        // Nowe dane, lista identyfikatorów lub pojedynczy identyfikator
         $newData = $event->getData();
-        $oldData = $event->getForm()->getData();
+
+        // Stare dane modelu
+        $oldModelData = $event->getForm()->getData();
+
+        // Stare dane znormalizowane do DTO
+        $oldData = $event->getForm()->getNormData();
 
         if ($this->options['multiple']) {
-            foreach ($oldData as $media) {
-                if (!in_array($media, $newData)) {
-                    $this->fileToDelete[] = $media;
-                }
+            // Stare dane modelu indeksowane po id pliku
+            $oldModelDataIndexed = [];
+            foreach ($oldData as $idx => $fileDto) {
+                $oldModelDataIndexed[$fileDto->id] = $oldModelData[$idx];
             }
-        } elseif ($oldData && !$newData) {
-            $this->fileToDelete[] = $oldData;
+
+            $newFileIds = $newData;
+
+            // Identyfikatory usuniętych plików
+            foreach (array_diff(array_keys($oldModelDataIndexed), $newFileIds) as $id) {
+                $this->filesToDelete[] = $oldModelDataIndexed[$id];
+            }
+
+            // Identyfikatory nowych plików
+            $this->newFileIds = array_diff($newFileIds, array_keys($oldModelDataIndexed));
+        } else {
+            // Plik został usunięty
+            if (!$newData && $oldData) {
+                $this->filesToDelete[] = $oldModelData;
+            }
+
+            // Plik został zmieniony, stary usuwamy
+            if ($oldData && $newData != $oldData->id) {
+                $this->filesToDelete[] = $oldModelData;
+            }
         }
 
-        if (!empty($this->fileToDelete) && !$this->options['allow_delete']) {
+        if (!empty($this->filesToDelete) && !$this->options['allow_delete']) {
             $event->getForm()->addError(new FormError('Usuwanie nie jest dozwolone'));
             if ($oldNormData = $event->getForm()->getNormData()) {
                 $event->setData($oldNormData);
@@ -54,13 +82,19 @@ class FilePondTypeEventSubscriber implements EventSubscriberInterface
     {
         $formData = $event->getForm()->getData();
 
-        if ($formData && $event->getForm()->isValid()) {
-            if (!is_array($formData)) {
-                $formData = [$formData];
-            }
+        $newModelsIndexed = [];
+        foreach ($event->getData() as $idx => $fileDto) {
+            $newModelsIndexed[$fileDto->id] = $event->getForm()->getData()[$idx];
+        }
 
+        $newFileModels = [];
+        foreach ($this->newFileIds as $id) {
+            $newFileModels[] = $newModelsIndexed[$id];
+        }
+
+        if ($event->getForm()->isValid()) {
             if (is_callable($this->options['new_file_callback'])) {
-                foreach ($formData as $media) {
+                foreach ($newFileModels as $media) {
                     $this->options['new_file_callback']($media);
                 }
             }
@@ -68,7 +102,7 @@ class FilePondTypeEventSubscriber implements EventSubscriberInterface
 
         if ($event->getForm()->isValid()) {
             if (is_callable($this->options['delete_file_callback'])) {
-                foreach ($this->fileToDelete as $media) {
+                foreach ($this->filesToDelete as $media) {
                     $this->options['delete_file_callback']($media);
                 }
             }
