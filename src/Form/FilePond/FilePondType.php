@@ -86,7 +86,7 @@ class FilePondType extends AbstractType
             ];
 
             if ($file->previewUrl) {
-                $fileData['metadata']['poster'] = $file->previewUrl;
+                $fileData['options']['metadata']['poster'] = $file->previewUrl;
             }
 
             $filepondFiles[] = $fileData;
