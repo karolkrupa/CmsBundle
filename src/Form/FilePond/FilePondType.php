@@ -133,11 +133,11 @@ class FilePondType extends AbstractType
             'allow_replace' => true, // Tylko dla multiple = false
             'delete_button_show' => function (Options $options) {
                 if ($options['multiple']) {
-                    return false;
+                    return $options['allow_delete'];
                 }
 
                 // Dla pojedynczych domyślnie pokazujemy przycisk aby dało się podmienić plik
-                return $options['allow_replace'];
+                return $options['allow_replace'] || $options['allow_delete'];
             },
             'allow_reorder' => false,
             'new_file_callback' => null,
