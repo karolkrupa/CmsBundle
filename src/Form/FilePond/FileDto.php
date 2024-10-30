@@ -12,6 +12,5 @@ class FileDto
         public ?string $previewUrl = null
     )
     {
-        parent::__construct($id);
     }
 }
