@@ -4,27 +4,28 @@ namespace Devster\CmsBundle\Form\FilePond;
 
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-class FilePondViewTransformer extends AbstractFilePondViewTransformer
+class FilePondViewTransformer extends AbstractFilePondDataTransformer
 {
     public function __construct(
-        protected array $options = ['multiple' => false],
+        protected array                           $options = ['multiple' => false],
+        protected ?FilePondEntityModelTransformer $modelTransformer = null
     )
     {
         parent::__construct($options);
     }
 
-    public function transformSingle($value): ?UploadedFileDto
+    public function transformSingle($value): ?FileDto
     {
-        if ($value && !$value instanceof UploadedFileDto) {
+        if ($value && !$value instanceof FileDto) {
             throw new TransformationFailedException('FilePondType obsługuje jedynie obiekty typu FileDto, przekazano: ' . get_class($value));
         }
 
         return $value;
     }
 
-    public function reverseTransformSingle($value): ?UploadedFileDto
+    public function reverseTransformSingle($value): ?FileDto
     {
-        if ($value instanceof UploadedFileDto) {
+        if ($value instanceof FileDto) {
             return $value;
         }
 
@@ -32,6 +33,21 @@ class FilePondViewTransformer extends AbstractFilePondViewTransformer
             throw new TransformationFailedException('FilePondType obsługuje jedynie typ numeryczny lub string jako dane wejściowe');
         }
 
-        return new UploadedFileDto($value);
+        if (!is_callable($this->options['reverse_file_dto_transformer'])) {
+            throw new \LogicException('FilePondType: Brak implementacji transformera id -> FileDto. Sprawdź opcję: reverse_file_dto_transformer');
+        }
+
+        $reverseTransformed = $this->options['reverse_file_dto_transformer']($value);
+
+        if (!$this->modelTransformer && !$reverseTransformed instanceof FileDto) {
+            throw new \LogicException('FilePondType: Transformer "reverse_file_dto_transformer" musi zwracać wartosć typu FileDto w przypadku braku konfiguracji model transformera');
+        }
+
+
+        if (!$reverseTransformed instanceof FileDto) {
+            return $this->modelTransformer->transformSingle($reverseTransformed);
+        }
+
+        return $reverseTransformed;
     }
 }

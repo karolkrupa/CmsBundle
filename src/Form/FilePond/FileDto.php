@@ -2,7 +2,7 @@
 
 namespace Devster\CmsBundle\Form\FilePond;
 
-class FileDto extends UploadedFileDto
+class FileDto
 {
     public function __construct(
         public string $id,

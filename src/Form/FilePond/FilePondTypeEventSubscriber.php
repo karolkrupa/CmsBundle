@@ -21,6 +21,7 @@ class FilePondTypeEventSubscriber implements EventSubscriberInterface
     {
         return [
             FormEvents::PRE_SUBMIT => 'onPreSubmit',
+            FormEvents::SUBMIT => 'onSubmit',
             FormEvents::POST_SUBMIT => 'onPostSubmit'
         ];
     }
@@ -73,24 +74,40 @@ class FilePondTypeEventSubscriber implements EventSubscriberInterface
                 $this->newFileIds = [$newData];
             }
         }
+    }
 
-        if (!empty($this->filesToDelete) && !$this->options['allow_delete']) {
-            $event->getForm()->addError(new FormError('Usuwanie nie jest dozwolone'));
-            if ($oldNormData = $event->getForm()->getNormData()) {
-                $event->setData($oldNormData);
+    public function onSubmit(FormEvent $event): void
+    {
+        $oldNormData = $event->getForm()->getNormData();
+
+        if (!empty($this->filesToDelete)) {
+            if (count($this->filesToDelete) > count($this->newFileIds) && !$this->options['allow_delete']) {
+                $event->getForm()->addError(new FormError('Usuwanie nie jest dozwolone'));
+                if ($oldNormData) {
+                    $event->setData($oldNormData);
+                }
+            } else if (count($this->filesToDelete) == count($this->newFileIds) && !$this->options['allow_replace']) {
+                $event->getForm()->addError(new FormError('Podmiana pliku nie jest dozwolona'));
+                if ($oldNormData) {
+                    $event->setData($oldNormData);
+                }
             }
         }
     }
 
     public function onPostSubmit(FormEvent $event): void
     {
+        if (!$event->getForm()->isValid()) {
+            return;
+        }
+
         $newModelsIndexed = [];
         if ($this->options['multiple']) {
             $newModelsIndexed = [];
             foreach ($event->getData() as $idx => $fileDto) {
                 $newModelsIndexed[$fileDto->id] = $event->getForm()->getData()[$idx];
             }
-        } else {
+        } else if ($event->getData()) {
             $newModelsIndexed[$event->getData()->id] = $event->getForm()->getData();
         }
 
@@ -99,17 +116,15 @@ class FilePondTypeEventSubscriber implements EventSubscriberInterface
             $newFileModels[] = $newModelsIndexed[$id];
         }
 
-        if ($event->getForm()->isValid()) {
-            if (is_callable($this->options['new_file_callback'])) {
-                foreach ($newFileModels as $media) {
-                    $this->options['new_file_callback']($media);
-                }
+        if (is_callable($this->options['new_file_callback'])) {
+            foreach ($newFileModels as $media) {
+                $this->options['new_file_callback']($media);
             }
+        }
 
-            if (is_callable($this->options['delete_file_callback'])) {
-                foreach ($this->filesToDelete as $media) {
-                    $this->options['delete_file_callback']($media);
-                }
+        if (is_callable($this->options['delete_file_callback'])) {
+            foreach ($this->filesToDelete as $media) {
+                $this->options['delete_file_callback']($media);
             }
         }
     }

@@ -6,7 +6,7 @@ use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-class FilePondEntityModelTransformer extends AbstractFilePondViewTransformer
+class FilePondEntityModelTransformer extends AbstractFilePondDataTransformer
 {
     private array $transformerOptions = [
         'class' => null,
@@ -30,7 +30,7 @@ class FilePondEntityModelTransformer extends AbstractFilePondViewTransformer
         );
     }
 
-    public function transformSingle($value): ?UploadedFileDto
+    public function transformSingle($value): ?FileDto
     {
         if ($value && !$value instanceof $this->transformerOptions['class']) {
             throw new TransformationFailedException(sprintf(
@@ -45,8 +45,8 @@ class FilePondEntityModelTransformer extends AbstractFilePondViewTransformer
 
     public function reverseTransformSingle($value): mixed
     {
-        if (!$value instanceof UploadedFileDto) {
-            throw new TransformationFailedException('FilePondType obsługuje jedynie typ UploadedFileDto jako dane wejściowe');
+        if (!$value instanceof FileDto) {
+            throw new TransformationFailedException('FilePondType obsługuje jedynie typ FileDto jako dane wejściowe');
         }
 
         return $this->reverseTransformEntity($value);
@@ -106,7 +106,7 @@ class FilePondEntityModelTransformer extends AbstractFilePondViewTransformer
         return null;
     }
 
-    private function reverseTransformEntity(UploadedFileDto $value): mixed
+    private function reverseTransformEntity(FileDto $value): mixed
     {
         $repository = $this->em->getRepository($this->transformerOptions['class']);
 

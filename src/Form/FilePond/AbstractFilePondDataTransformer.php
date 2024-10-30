@@ -5,20 +5,14 @@ namespace Devster\CmsBundle\Form\FilePond;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-abstract class AbstractFilePondViewTransformer implements DataTransformerInterface
+abstract class AbstractFilePondDataTransformer implements DataTransformerInterface
 {
     public function __construct(protected array $options = ['multiple' => false])
     {
     }
 
-    /**
-     * @return array<UploadedFileDto>|UploadedFileDto
-     */
     abstract public function transformSingle($value): mixed;
 
-    /**
-     * @return array<UploadedFileDto>|UploadedFileDto
-     */
     abstract public function reverseTransformSingle($value): mixed;
 
     public function transform(mixed $value)
@@ -29,7 +23,7 @@ abstract class AbstractFilePondViewTransformer implements DataTransformerInterfa
             }
 
             if (!is_iterable($value)) {
-                return [$value];
+                return [$this->transformSingle($value)];
             }
 
             $transformed = [];
