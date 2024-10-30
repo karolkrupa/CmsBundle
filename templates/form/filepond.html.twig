@@ -25,7 +25,7 @@
                     files: {{ filepond_files|json_encode|raw }},
                     multiple: {{ multiple|json_encode }},
                     allowReorder: {{ allow_reorder|json_encode }},
-                    allowRemove: {{ allow_delete|json_encode }},
+                    allowRemove: {{ delete_button_show|json_encode }},
                 }
         )
         });

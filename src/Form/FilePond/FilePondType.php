@@ -45,6 +45,7 @@ class FilePondType extends AbstractType
         $view->vars['multiple'] = $options['multiple'];
         $view->vars['allow_reorder'] = $options['allow_reorder'];
         $view->vars['allow_delete'] = $options['allow_delete'];
+        $view->vars['delete_button_show'] = $options['delete_button_show'];
 
         if ($options['multiple']) {
             $view->vars['full_name'] .= '[]';
@@ -116,7 +117,8 @@ class FilePondType extends AbstractType
                 'preview_url' => null
             ],
             'multiple' => false,
-            'allow_delete' => false,
+            'allow_delete' => true,
+            'delete_button_show' => true,
             'allow_reorder' => false,
             'new_file_callback' => null,
             'delete_file_callback' => null
@@ -142,6 +144,7 @@ class FilePondType extends AbstractType
 
         $resolver->setAllowedTypes('multiple', 'bool');
         $resolver->setAllowedTypes('allow_delete', 'bool');
+        $resolver->setAllowedTypes('delete_button_show', 'bool');
         $resolver->setAllowedTypes('allow_reorder', 'bool');
         $resolver->setAllowedTypes('route', ['string']);
         $resolver->setAllowedTypes('new_file_callback', ['callable', 'null']);

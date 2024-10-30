@@ -59,14 +59,18 @@ class FilePondTypeEventSubscriber implements EventSubscriberInterface
             // Identyfikatory nowych plików
             $this->newFileIds = array_diff($newFileIds, array_keys($oldModelDataIndexed));
         } else {
-            // Plik został usunięty
             if (!$newData && $oldData) {
-                $this->filesToDelete[] = $oldModelData;
-            }
+                // Plik został usunięty
+                $this->filesToDelete = [$oldModelData];
+            } else if ($newData && !$oldData) {
+                // Nowy plik
+                $this->newFileIds = [$newData];
+            } else if ($oldData && $newData && $newData != $oldData->id) {
+                // Plik został zmieniony, stary usuwamy
+                $this->filesToDelete = [$oldModelData];
 
-            // Plik został zmieniony, stary usuwamy
-            if ($oldData && $newData != $oldData->id) {
-                $this->filesToDelete[] = $oldModelData;
+                // Nowy jest nowym plikiem
+                $this->newFileIds = [$newData];
             }
         }
 
@@ -80,11 +84,14 @@ class FilePondTypeEventSubscriber implements EventSubscriberInterface
 
     public function onPostSubmit(FormEvent $event): void
     {
-        $formData = $event->getForm()->getData();
-
         $newModelsIndexed = [];
-        foreach ($event->getData() as $idx => $fileDto) {
-            $newModelsIndexed[$fileDto->id] = $event->getForm()->getData()[$idx];
+        if ($this->options['multiple']) {
+            $newModelsIndexed = [];
+            foreach ($event->getData() as $idx => $fileDto) {
+                $newModelsIndexed[$fileDto->id] = $event->getForm()->getData()[$idx];
+            }
+        } else {
+            $newModelsIndexed[$event->getData()->id] = $event->getForm()->getData();
         }
 
         $newFileModels = [];
@@ -98,9 +105,7 @@ class FilePondTypeEventSubscriber implements EventSubscriberInterface
                     $this->options['new_file_callback']($media);
                 }
             }
-        }
 
-        if ($event->getForm()->isValid()) {
             if (is_callable($this->options['delete_file_callback'])) {
                 foreach ($this->filesToDelete as $media) {
                     $this->options['delete_file_callback']($media);
