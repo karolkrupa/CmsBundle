@@ -12,13 +12,13 @@
                     {# Dropdown #}
                     <li>
                         <d-sidebar-dropdown
-                            is-open="{% if element.id not in activeTree %}false{% else %}true{% endif %}"
+                            :is-open="{% if element.id not in activeTree %}false{% else %}true{% endif %}"
                             v-slot:default="{ isOpen, toggle, contentClass }"
                         >
                             <button
                                 @click="toggle"
                                 type="button"
-                                class="w-full text-start flex items-center gap-x-2 py-2 px-3 text-sm text-slate-700 rounded-lg hover:bg-gray-100"
+                                class="w-full text-start flex items-center gap-x-2 py-2 px-3 text-sm text-slate-700 rounded-lg hover:bg-gray-100 {% if element.id in activeTree %} bg-gray-100 {% endif %}"
                             >
                                 {% if element.icon is defined %}
                                     <span class="size-4 flex">
