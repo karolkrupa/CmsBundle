@@ -25,16 +25,21 @@
 
         {% include '@DevsterCms/layout/dashboard/topbar.html.twig' %}
 
-        <div id="application-sidebar"
-             class="z-20 hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 w-64 bg-white border-e border-gray-200 pt-2.5 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
-            <div class="px-6 mb-2.5 h-9 flex items-center">
-                <a class="flex-none text-xl font-semibold dark:text-white" href="#" aria-label="casting.pl">
-                    {{ devstercms.dashboard.title }}
-                </a>
-            </div>
+        <div class="vue-container">
+            <d-sidebar
+                activator-id="sidebar-toggle"
+                class="z-[150] lg:z-10 -translate-x-full lg:translate-x-0 transition-all duration-300 transform hidden lg:block fixed top-0 start-0 bottom-0 w-64 bg-white border-e border-gray-200 pt-2.5 pb-10 overflow-y-auto lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300"
+            >
+                <div class="px-6 mb-2.5 h-9 flex items-center">
+                    <span class="flex-none text-xl font-semibold dark:text-white">
+                        {{ devstercms.dashboard.title }}
+                    </span>
+                </div>
 
-            {{ render(controller('Devster\\CmsBundle\\Controller\\TemplateController::sidebar')) }}
+                {{ render(controller('Devster\\CmsBundle\\Controller\\TemplateController::sidebar')) }}
+            </d-sidebar>
         </div>
+
 
         <div class="w-ful lg:ps-64">
             <div class="p-5">

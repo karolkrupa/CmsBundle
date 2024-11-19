@@ -1,24 +1,29 @@
 {% if cell.isDropdown %}
     <div class="vue-container">
         <d-dropdown>
-            <template v-slot:activator>
+            <button
+                class="flex justify-center items-center size-7 text-sm font-semibold rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+            >
                 <svg class="size-4 text-gray-600" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                      fill="currentColor"
                      viewBox="0 0 16 16">
                     <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>
                 </svg>
-            </template>
+            </button>
 
-            <template v-slot>
-                {% for action in actions %}
-                    <div
+            <template v-slot:content>
+                <div
+                    class="bg-white shadow-md rounded-lg p-2 mt-2 flex flex-col"
+                >
+                    {% for action in actions %}
+                        <div
                             class="flex items-center py-2 px-3 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 w-full"
-                    >
-                        {{ action }}
-                    </div>
-                {% endfor %}
+                        >
+                            {{ action }}
+                        </div>
+                    {% endfor %}
+                </div>
             </template>
-
         </d-dropdown>
     </div>
 

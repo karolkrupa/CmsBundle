@@ -1,4 +1,4 @@
-<nav class="hs-accordion-group p-5 pt-0 w-full flex flex-col flex-wrap" data-hs-accordion-always-open>
+<nav class="p-5 pt-0 w-full flex flex-col flex-wrap z-[200]">
     <ul class="space-y-1.5">
         {% for section in config %}
             {% if not section.label_hidden|default(false) %}
@@ -10,69 +10,63 @@
             {% for element in section.elements %}
                 {% if element.elements is defined %}
                     {# Dropdown #}
-                    <li
-                            class="hs-accordion {% if element.id in activeTree %} active {% endif %}"
-                            id="{{ element.slug }}"
-                    >
-                        <button
-                                type="button"
-                                class="hs-accordion-toggle w-full text-start flex items-center gap-x-2 py-2 px-3 hs-accordion-active:text-blue-600 text-sm text-slate-700 rounded-lg hover:bg-gray-100 hs-accordion-active:bg-gray-100"
+                    <li>
+                        <d-sidebar-dropdown
+                            is-open="{% if element.id not in activeTree %}false{% else %}true{% endif %}"
+                            v-slot:default="{ isOpen, toggle, contentClass }"
                         >
-                            {% if element.icon is defined %}
-                                <span class="size-4 flex">
+                            <button
+                                @click="toggle"
+                                type="button"
+                                class="w-full text-start flex items-center gap-x-2 py-2 px-3 text-sm text-slate-700 rounded-lg hover:bg-gray-100"
+                            >
+                                {% if element.icon is defined %}
+                                    <span class="size-4 flex">
                                     {% include element.icon %}
                                 </span>
-                            {% endif %}
-                            {{ element.name }}
+                                {% endif %}
+                                {{ element.name }}
 
-                            <svg class="hs-accordion-active:block ms-auto hidden w-4 h-4"
-                                 xmlns="http://www.w3.org/2000/svg"
-                                 width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                 stroke-width="2"
-                                 stroke-linecap="round" stroke-linejoin="round">
-                                <path d="m18 15-6-6-6 6"></path>
-                            </svg>
+                                <svg class="ms-auto w-4 h-4"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m6 9 6 6 6-6"></path>
+                                </svg>
+                            </button>
 
-                            <svg class="hs-accordion-active:hidden ms-auto block w-4 h-4"
-                                 xmlns="http://www.w3.org/2000/svg"
-                                 width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                 stroke-width="2"
-                                 stroke-linecap="round" stroke-linejoin="round">
-                                <path d="m6 9 6 6 6-6"></path>
-                            </svg>
-                        </button>
-
-                        <div
-                                id="{{ element.slug }}-sub"
-                                class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 {% if element.id not in activeTree %} hidden {% endif %}"
-                        >
-                            <ul class="hs-accordion-group ps-3 pt-2" data-hs-accordion-always-open>
-                                {% for innerElement in element.elements %}
-                                    {% set shouldView = true %}
-                                    {% for role in innerElement.roles %}
-                                        {% if not is_granted(role) %}
-                                            {% set shouldView = false %}
-                                        {% endif %}
-                                    {% endfor %}
-                                    {% if shouldView %}
-                                        <li>
-                                            <a
+                            <div
+                                class="dropdown-content w-full overflow-hidden transition-[height] duration-300 {% if element.id not in activeTree %} hidden {% endif %}"
+                            >
+                                <ul class="ps-3 pt-2">
+                                    {% for innerElement in element.elements %}
+                                        {% set shouldView = true %}
+                                        {% for role in innerElement.roles %}
+                                            {% if not is_granted(role) %}
+                                                {% set shouldView = false %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if shouldView %}
+                                            <li>
+                                                <a
                                                     class="flex items-center gap-x-2 py-2 px-3 text-sm rounded-lg hover:bg-gray-100 {% if innerElement.id not in activeTree %} text-slate-700 {% else %} text-blue-600 {% endif %}"
                                                     href="{{ url(innerElement.route) }}"
-                                            >
-                                                {% if innerElement.icon is defined %}
-                                                    <span class="size-4 flex">
+                                                >
+                                                    {% if innerElement.icon is defined %}
+                                                        <span class="size-4 flex">
                                                     {% include innerElement.icon %}
                                                 </span>
-                                                {% endif %}
+                                                    {% endif %}
 
-                                                {{ innerElement.name }}
-                                            </a>
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        </div>
+                                                    {{ innerElement.name }}
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </d-sidebar-dropdown>
                     </li>
                 {% else %}
                     {% set shouldView = true %}
@@ -100,76 +94,3 @@
         {% endfor %}
     </ul>
 </nav>
-
-{# <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " #}
-{#       id="sidenav-main"> #}
-{#    #}{#    <div class="sidenav-header"> #}
-{#    #}{#        <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" #}
-{#    #}{#           aria-hidden="true" id="iconSidenav"></i> #}
-{#    #}{#        <a class="navbar-brand m-0" href="https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html" #}
-{#    #}{#           target="_blank"> #}
-{#    #}{#            <img src="../../assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo"> #}
-{#    #}{#            <span class="ms-1 font-weight-bold">Soft UI Dashboard</span> #}
-{#    #}{#        </a> #}
-{#    #}{#    </div> #}
-{#    #}{#    <hr class="horizontal dark mt-0"> #}
-{#    <div class="collapse navbar-collapse w-auto mt-4" style="height: auto" id="sidenav-collapse-main"> #}
-{#        <ul class="navbar-nav"> #}
-{#            {% for section in config %} #}
-{#                {% if not section.hidden %} #}
-{#                    <li class="nav-item mt-3"> #}
-{#                        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">{{ section.name }}</h6> #}
-{#                    </li> #}
-{#                {% endif %} #}
-
-{#                {% for element in section.elements %} #}
-{#                    {% if element.elements is defined %} #}
-{#                        <li class="nav-item"> #}
-{#                            <a data-bs-toggle="collapse" href="#{{ element.slug }}" #}
-{#                               class="nav-link {% if element.slug in activeTree %} active {% endif %}"> #}
-{#                                {% if element.icon is defined %} #}
-{#                                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2"> #}
-{#                                        <i #}
-{#                                                class="{{ element.icon }}" #}
-{#                                        ></i> #}
-{#                                    </div> #}
-{#                                {% endif %} #}
-{#                                <span class="nav-link-text ms-1">{{ element.name }}</span> #}
-{#                            </a> #}
-{#                            <div class="collapse {% if element.slug in activeTree %} show {% endif %}" #}
-{#                                 id="{{ element.slug }}" style=""> #}
-{#                                <ul class="nav ms-4 ps-3"> #}
-{#                                    {% for innerElement in element.elements %} #}
-{#                                        <li class="nav-item  "> #}
-{#                                            <a class="nav-link {% if innerElement.slug in activeTree %} active {% endif %}" #}
-{#                                               href="{{ url(innerElement.route) }}"> #}
-{#                                                #}{#                                                <span class="sidenav-mini-icon"> K </span> #}
-{#                                                <span class="sidenav-normal"> {{ innerElement.name }} </span> #}
-{#                                            </a> #}
-{#                                        </li> #}
-{#                                    {% endfor %} #}
-{#                                </ul> #}
-{#                            </div> #}
-{#                        </li> #}
-{#                    {% else %} #}
-{#                        <li class="nav-item"> #}
-{#                            <a class="nav-link {% if element.slug in activeTree %} active {% endif %}" #}
-{#                               href="{{ url(element.route) }}"> #}
-{#                                {% if element.icon is defined %} #}
-{#                                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"> #}
-{#                                        <i class="{{ element.icon }}"></i> #}
-{#                                    </div> #}
-{#                                {% endif %} #}
-{#                                <span class="nav-link-text ms-1"> #}
-{#                            {{ element.name }} #}
-{#                        </span> #}
-{#                            </a> #}
-{#                        </li> #}
-{#                    {% endif %} #}
-
-{#                {% endfor %} #}
-{#            {% endfor %} #}
-{#        </ul> #}
-{#    </div> #}
-
-{# </aside> #}

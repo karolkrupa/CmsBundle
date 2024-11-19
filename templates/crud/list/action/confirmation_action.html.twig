@@ -1,20 +1,15 @@
 <div class="vue-container inline-block">
-    <confirmation-modal
-            success-url="{{ href }}"
-            confirm-text="{{ modalArguments.acceptText }}"
-            reject-text="{{ modalArguments.rejectText }}"
+    <d-confirmation-modal
+        success-url="{{ href }}"
+        confirm-text="{{ modalArguments.acceptText }}"
+        reject-text="{{ modalArguments.rejectText }}"
     >
-        <template v-slot:activator="{ open }">
-            {% include buttonTemplate with {
-                text: buttonText,
-                tag: 'button',
-                href: null,
-                class: 'w-full',
-                attr: {
-                    '@click': "open"
-                }
-            } %}
-        </template>
+        {% include buttonTemplate with {
+            text: buttonText,
+            tag: 'button',
+            href: null,
+            class: 'w-full'
+        } %}
 
         <template v-slot:title>
             {{ modalArguments.title|raw }}
@@ -23,5 +18,5 @@
         <template v-slot:text>
             {{ modalArguments.text|raw }}
         </template>
-    </confirmation-modal>
+    </d-confirmation-modal>
 </div>

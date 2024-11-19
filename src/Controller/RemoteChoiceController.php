@@ -25,7 +25,7 @@ class RemoteChoiceController extends AbstractController
     public function resultsAction(Request $request): JsonResponse
     {
         /** @var ChoiceProviderInterface $provider */
-        $provider = $this->container->get(ChoiceProviderMap::class)->get('member');
+        $provider = $this->container->get(ChoiceProviderMap::class)->get($request->query->get('provider'));
 
         $choiceList = $provider->getChoices(
             $request->query->getInt('page', 1),

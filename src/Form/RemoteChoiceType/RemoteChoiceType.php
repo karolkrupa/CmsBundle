@@ -53,6 +53,8 @@ class RemoteChoiceType extends AbstractType
 
         $choiceList = $choiceProvider->getChoices(1);
 
+        $view->vars['route'] = $options['route'];
+        $view->vars['provider_name'] = $options['choice_provider'];
         $view->vars['expanded'] = false;
         $view->vars['multiple'] = false;
         $view->vars['preferred_choices'] = [];
