@@ -18,15 +18,17 @@ class ValueExtractor
             return $data[$getter];
         }
 
-        $getterName = ucfirst($getter);
-        $getters = [
-            "get{$getterName}",
-            "is{$getterName}"
-        ];
+        if (is_object($data)) {
+            $getterName = ucfirst($getter);
+            $getters = [
+                "get{$getterName}",
+                "is{$getterName}"
+            ];
 
-        foreach ($getters as $possibleGetter) {
-            if (method_exists($data, $possibleGetter)) {
-                return $data->$possibleGetter();
+            foreach ($getters as $possibleGetter) {
+                if (method_exists($data, $possibleGetter)) {
+                    return $data->$possibleGetter();
+                }
             }
         }
 
