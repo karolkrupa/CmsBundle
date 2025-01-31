@@ -1,0 +1,17 @@
+.filepond--panel.filepond--panel-root {
+  border-style: dashed !important;
+  border-width: 1px !important;
+  @apply border-gray-400 !important;
+}
+
+.filepond--panel-root {
+  background-color: transparent;
+}
+
+
+.filepond--root.multiple {
+  .filepond--item {
+    width: calc(25% - 1em);
+    margin: 0.5rem !important;
+  }
+}

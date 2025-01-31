@@ -1,0 +1,75 @@
+/*// Tailwind fix for vue-select*/
+.vs--single {
+  .vs {
+    &__dropdown-toggle {
+      //padding: 0;
+    }
+
+    &__selected {
+      //margin: 0;
+      border: none;
+    }
+
+    &__search {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      line-height: var(--vs-line-height);
+      font-size: var(--vs-font-size);
+      padding: 0 7px;
+      //border: 1px solid transparent;
+      border: none;
+
+      &:focus {
+        box-shadow: none;
+        outline: none;
+        //border: 1px solid transparent;
+        //border: none;
+        //border-left: none;
+      }
+    }
+  }
+}
+
+/*// Vue-select custom styles*/
+:root,
+:host {
+  --vs-font-size: inherit;
+  --vs-line-height: inherit;
+}
+
+.vs--single {
+  @apply text-sm;
+
+  .vs__dropdown-menu {
+    @apply border-gray-200;
+  }
+
+  .vs__dropdown-toggle {
+    @apply pb-2 border-gray-200 focus-within:ring-2 ring-blue-500;
+
+    .vs__selected, .vs__search {
+      @apply px-3 mt-2;
+
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .vs__actions {
+      @apply pt-2;
+
+      .vs__spinner {
+        @apply size-4;
+
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  &:focus-within {
+    .vs__dropdown-menu {
+      @apply border-blue-500;
+    }
+  }
+}
+

@@ -1,0 +1,65 @@
+@layer utilities {
+  .flex {
+    &-grid {
+      @apply flex flex-wrap;
+      width: auto;
+
+      &-gap-4 {
+        margin-left: calc(0px - theme('spacing.2'));
+        margin-right: calc(0px - theme('spacing.2'));
+
+        & > * {
+          @apply p-2;
+        }
+      }
+    }
+
+    &-grid-col-1 {
+      @apply 1/12;
+    }
+
+    &-grid-col-2 {
+      @apply w-2/12;
+    }
+
+    &-grid-col-3 {
+      @apply w-3/12;
+    }
+
+    &-grid-col-4 {
+      @apply w-4/12;
+    }
+
+    &-grid-col-5 {
+      @apply w-5/12;
+    }
+
+    &-grid-col-6 {
+      @apply w-6/12;
+    }
+
+    &-grid-col-7 {
+      @apply w-7/12;
+    }
+
+    &-grid-col-8 {
+      @apply w-8/12;
+    }
+
+    &-grid-col-9 {
+      @apply w-11/12;
+    }
+
+    &-grid-col-10 {
+      @apply w-11/12;
+    }
+
+    &-grid-col-11 {
+      @apply w-11/12;
+    }
+
+    &-grid-col-12 {
+      @apply w-full;
+    }
+  }
+}

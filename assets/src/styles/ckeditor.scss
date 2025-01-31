@@ -1,0 +1,54 @@
+.ckeditor-widget {
+
+}
+
+.ckeditor-widget {
+  /*// Toolbar*/
+  .ck-rounded-corners .ck.ck-editor__top .ck-toolbar {
+    @apply rounded border-gray-200 #{!important};
+    border-bottom-right-radius: 0 #{!important};
+    border-bottom-left-radius: 0 #{!important};
+  }
+
+  &.invalid {
+    /*// Invalid toolbar*/
+    .ck-rounded-corners .ck.ck-editor__top .ck-toolbar {
+      @apply border-red-500 focus:border-red-500 focus:ring-red-500  #{!important};
+      @apply border-b-gray-200 #{!important};
+      border-bottom-right-radius: 0 #{!important};
+      border-bottom-left-radius: 0 #{!important};
+    }
+  }
+
+  /*// Content*/
+  .ck-rounded-corners .ck.ck-editor__main > .ck-content {
+    @apply rounded border-gray-200 text-sm;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+
+  &.invalid {
+    /*// Invalid content*/
+    .ck-rounded-corners .ck.ck-editor__main > .ck-content {
+      @apply border-red-500 focus:border-red-500 focus:ring-red-500;
+      @apply border-t-gray-200;
+      border-top-right-radius: 0;
+      border-top-left-radius: 0;
+    }
+  }
+}
+
+
+.ck-editor {
+  display: flex;
+  flex-flow: column;
+  min-height: 150px;
+}
+
+.ck-editor__main {
+  flex: 1;
+}
+
+.ck-editor__editable_inline {
+  min-height: 100%;
+}
