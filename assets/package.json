@@ -1,5 +1,5 @@
 {
-  "name": "karolkrupa/cms-bundle",
+  "name": "@karolkrupa/cms-bundle",
   "version": "0.0.1",
   "description": "",
   "main": "entrypoint.js",
