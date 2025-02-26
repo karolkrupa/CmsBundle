@@ -1,7 +1,7 @@
 let buttons = document.querySelectorAll('[data-collection-button-add]')
+import CmsBundle from '../../bundle'
 
 function executeScriptElements(containerElement) {
-    console.log(containerElement)
     const scriptElements = containerElement.querySelectorAll("script");
 
     Array.from(scriptElements).forEach((scriptElement) => {
@@ -15,6 +15,8 @@ function executeScriptElements(containerElement) {
 
         scriptElement.parentNode.replaceChild(clonedElement, scriptElement);
     });
+
+    CmsBundle.initVue(containerElement)
 }
 
 for (let button of buttons) {

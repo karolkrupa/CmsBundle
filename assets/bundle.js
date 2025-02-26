@@ -16,8 +16,10 @@ class CmsBundle {
         require('./src/js')
     }
 
-    initVue() {
-        let containers = document.querySelectorAll(':not(.vue-container) .vue-container')
+    initVue(rootElement = null) {
+        rootElement = rootElement || document
+
+        let containers = rootElement.querySelectorAll(':not(.vue-container) .vue-container')
 
         for (let container of containers) {
             this.makeVueContainer(container)
@@ -29,6 +31,10 @@ class CmsBundle {
     }
 
     makeVueContainer(container) {
+        if('vApp' in container.dataset) {
+            return;
+        }
+
         let parent = container.parentElement
         while (parent) {
             if (parent.classList.contains('vue-container')) {
