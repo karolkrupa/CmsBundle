@@ -23,6 +23,10 @@ const props = defineProps({
   monthPicker: {
     type: Boolean,
     default: false
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -65,6 +69,7 @@ function onModelValueUpdate(e) {
       @update:model-value="onModelValueUpdate"
       :model-type="modelFormat"
       :month-picker="monthPicker"
+      :disabled="disabled"
       locale="pl-PL"
       select-text="Wybierz"
       cancel-text="Anuluj"

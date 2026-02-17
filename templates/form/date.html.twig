@@ -5,6 +5,7 @@
                 :invalid="{% if valid %} false {% else %} true {% endif %}"
                 value="{{ value }}"
                 placeholder="{{ attr.placeholder|default('') }}"
+                :disabled="{% if disabled %} true {% else %} false {% endif %}"
         ></d-datepicker>
     </div>
 {%- endblock datepicker_widget -%}
@@ -17,6 +18,7 @@
                 :invalid="{% if valid %} false {% else %} true {% endif %}"
                 value="{{ value }}"
                 time
+                :disabled="{% if disabled %} true {% else %} false {% endif %}"
         ></d-datepicker>
     </div>
 {%- endblock datetimepicker_widget -%}
@@ -29,6 +31,7 @@
                 :invalid="{% if valid %} false {% else %} true {% endif %}"
                 value="{{ value }}"
                 month-picker
+                :disabled="{% if disabled %} true {% else %} false {% endif %}"
         ></d-datepicker>
     </div>
 {%- endblock month_widget -%}
