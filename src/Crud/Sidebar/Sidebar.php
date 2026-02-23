@@ -39,11 +39,9 @@ class Sidebar
 
             $menuConfig = $this->getConfigTreeBuilder()->buildTree()->normalize($menuConfig['sidebar']);
 
-            $config = [];
-            $config['sidebar'] = $this->parseConfig($menuConfig);
-            $config['routeMap'] = $this->generateRouteMap($config['sidebar']);
+            $sidebar = $this->parseConfig($menuConfig);
 
-            $configCache->write(serialize($config), [new FileResource($this->sidebarConfigFile)]);
+            $configCache->write(serialize($sidebar), [new FileResource($this->sidebarConfigFile)]);
 
             $this->config = null;
         }
@@ -52,7 +50,13 @@ class Sidebar
             return $this->config;
         }
 
-        return $this->config = unserialize(file_get_contents($configCache->getPath()));
+        $sidebar = unserialize(file_get_contents($configCache->getPath()));
+        $filteredSidebar = $this->filterByRoles($sidebar);
+
+        return $this->config = [
+            'sidebar' => $filteredSidebar,
+            'routeMap' => $this->generateRouteMap($filteredSidebar)
+        ];
     }
 
     private function getConfigTreeBuilder(): TreeBuilder
@@ -103,30 +107,18 @@ class Sidebar
             $elementConfig = [
                 'id' => $elementId,
                 'name' => $element['name'],
-                'route' => isset($element['route'])? $element['route'] : null,
+                'route' => isset($element['route']) ? $element['route'] : null,
                 'slug' => md5($elementId),
                 'roles' => $element['roles'] ?? []
             ];
 
-            if(isset($element['label_hidden'])) {
+            if (isset($element['label_hidden'])) {
                 $elementConfig['label_hidden'] = $element['label_hidden'];
             }
 
-            $isAllowed = empty($elementConfig['roles']);
-            foreach($elementConfig['roles'] as $role) {
-                if($this->security->isGranted($role)) {
-                    $isAllowed = true;
-                    break;
-                }
-            }
-
-            if(!$isAllowed) {
-                continue;
-            }
-
-            if(!empty($element['route'])) {
+            if (!empty($element['route'])) {
                 $elementConfig['path'] = $this->urlGenerator->generate($element['route']);
-            }elseif(!empty($element['elements']) && is_array($element['elements'])) {
+            } elseif (!empty($element['elements']) && is_array($element['elements'])) {
                 $elementConfig['elements'] = $this->parseConfig($element['elements'], $elementConfig['id']);
             }
 
@@ -134,6 +126,33 @@ class Sidebar
         }
 
         return $parsedConfig;
+    }
+
+    private function filterByRoles(array $elements): array
+    {
+        $filtered = [];
+
+        foreach ($elements as $element) {
+            $isAllowed = empty($element['roles']);
+            foreach ($element['roles'] as $role) {
+                if ($this->security->isGranted($role)) {
+                    $isAllowed = true;
+                    break;
+                }
+            }
+
+            if (!$isAllowed) {
+                continue;
+            }
+
+            if (!empty($element['elements'])) {
+                $element['elements'] = $this->filterByRoles($element['elements']);
+            }
+
+            $filtered[] = $element;
+        }
+
+        return $filtered;
     }
 
     private function generateRouteMap($sidebarData): array
