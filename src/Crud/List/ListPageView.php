@@ -19,6 +19,7 @@ class ListPageView extends TemplatePageView
     protected ?FilterForm $filterForm = null;
     protected ?PaginationSettings $pagination = null;
     protected ?string $template = '@DevsterCms/crud/list/view.html.twig';
+    protected ?\Closure $rowClass = null;
 
     public function getRenderer(): string
     {
@@ -110,5 +111,17 @@ class ListPageView extends TemplatePageView
     public function getPagination(): ?PaginationSettings
     {
         return $this->pagination;
+    }
+
+    public function setRowClass(\Closure $fn): static
+    {
+        $this->rowClass = $fn;
+
+        return $this;
+    }
+
+    public function getRowClass(): ?\Closure
+    {
+        return $this->rowClass;
     }
 }

@@ -56,9 +56,8 @@
         {% endblock %}
 
         {% block content %}
-            {% for row in rows %}
-                <tr class="odd:bg-white even:bg-gray-50 hover:bg-gray-100">
-{#                <tr class="hover:bg-gray-100">#}
+            {% for key, row in rows %}
+                <tr class="odd:bg-white even:bg-gray-50 hover:bg-gray-100 {{ rowClasses[key]|default('') }}">
                     {% for cell in row %}
                         {{ cell }}
                     {% endfor %}

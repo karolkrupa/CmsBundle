@@ -103,6 +103,9 @@ class ListPageViewRenderer extends TemplatePageViewRenderer
             $headings[] = new Markup($html, 'UTF-8');
         }
 
+        $rowClassFn = $view->getRowClass();
+        $rowClasses = [];
+
         foreach ($data as $rowData) {
             $rowCells = [];
             foreach ($view->getFields() as $field) {
@@ -136,6 +139,7 @@ class ListPageViewRenderer extends TemplatePageViewRenderer
                 $rowCells[] = new Markup($html, 'UTF-8');
             }
 
+            $rowClasses[] = $rowClassFn ? $rowClassFn($rowData) : '';
             $rows[] = $rowCells;
         }
 
@@ -157,6 +161,7 @@ class ListPageViewRenderer extends TemplatePageViewRenderer
             'pageTitle' => $view->getTitle(),
             'headings' => $headings,
             'rows' => $rows,
+            'rowClasses' => $rowClasses,
             'pagination' => $pagination,
             'filterFormView' => $filterFormView['form']?: null,
             'filterFormControlsView' => $filterFormView['controls']?: null,
